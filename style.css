@@ -1,14 +1,13 @@
-
-
 html {
     font-family: 'IBM Plex Sans', 'Arial', sans-serif;
     font-size: 1.2rem;
 }
 
 body {
-    margin: 0 10% 20% 10%;
+    margin: 0% 10% 10% 10%;
 }
 
+/*main page*/
 .intro {
     /*background-color: lightblue;*/
     height: 100vh;
@@ -17,17 +16,8 @@ body {
     align-items: center;
 }
 
-.intro-text {
-    font-size: 1.25rem;
-}
-
-.profile-picture {
-    margin-left: 11%;
-}
-
-
-.links {
-    padding: 0px;
+.intro p {
+    font-size: 1.3rem;
 }
 
 .links a {
@@ -37,4 +27,46 @@ body {
 
 .links a:hover {
     text-decoration: underline;
+}
+
+.profile-picture {
+    margin-left: 10%;
+    width: 50%;
+}
+
+/*skills section*/
+.skills h2 {
+    font-size: 1.7rem;
+    text-align: center;
+}
+
+
+
+
+/* Tablet portrait and smaller */
+@media only screen
+and (max-device-width: 900px) {
+
+    body {
+        margin-top: 10%;
+    }
+
+    .intro {
+        flex-direction: column-reverse;
+        justify-content: center;
+        height: auto;
+    }
+
+    .profile-picture {
+        width: 40%;
+        margin-bottom: 3rem;
+    }
+
+    .intro p {
+        text-align: center;
+    }
+
+    .links {
+        text-align: center;
+    }
 }
