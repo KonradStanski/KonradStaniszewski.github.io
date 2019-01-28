@@ -34,8 +34,8 @@ body {
 }
 
 .profile-picture {
-    margin-left: 10%;
-    width: 50vh;
+    margin-left: 5%;
+    width: 55vh;
     border-radius: 50%;
 }
 
@@ -54,14 +54,10 @@ body {
     overflow-wrap: break-word;
 }
 
-.projects-section a {
-    margin-bottom: 100px;
-}
-
 
 /*Skills Section*/
 .skills-section {
-    height: 80vh;
+    height: 100vh;
 }
 
 .skills-section h2 {
@@ -75,14 +71,14 @@ body {
 .skills {
     display: flex;
     justify-content: space-between;
-    margin-right: 5%;
-    margin-left: 5%;
+    margin-right: 0%;
+    margin-left: 0%;
 }
 
 
 /*Travel Section*/
 .travel-section {
-    height: 80vh;
+    height: 100vh;
 }
 
 .travel-section h3 {
