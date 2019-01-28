@@ -1,14 +1,18 @@
 html {
     font-family: 'IBM Plex Sans', 'Arial', sans-serif;
+    /*font-family: 'IBM Plex Mono', monospace;*/
     font-size: 1.2rem;
+    scroll-behavior: smooth;
+    /*background-color: skyblue;*/
 }
 
 body {
     margin: 0% 10% 10% 10%;
 }
 
+
 /*main page*/
-.intro {
+.intro-section {
     /*background-color: lightblue;*/
     height: 100vh;
     display: flex;
@@ -16,7 +20,7 @@ body {
     align-items: center;
 }
 
-.intro p {
+.intro-section p {
     font-size: 1.3rem;
 }
 
@@ -31,13 +35,62 @@ body {
 
 .profile-picture {
     margin-left: 10%;
-    width: 50%;
+    width: 50vh;
+    border-radius: 50%;
 }
 
-/*skills section*/
-.skills h2 {
-    font-size: 1.7rem;
+
+/*Projects Section*/
+.projects-section {
+    height: 100vh;
+}
+
+.projects-section h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 1% 0 0 0;
     text-align: center;
+    font-weight: normal;
+    font-size: 3rem;
+    overflow-wrap: break-word;
+}
+
+.projects-section a {
+    margin-bottom: 100px;
+}
+
+
+/*Skills Section*/
+.skills-section {
+    height: 80vh;
+}
+
+.skills-section h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 0 0 10% 0;
+    text-align: center;
+    font-weight: normal;
+    font-size: 3rem;
+}
+
+.skills {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+
+/*Travel Section*/
+.travel-section {
+    height: 80vh;
+}
+
+.travel-section h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 0 0 10% 0;
+    text-align: center;
+    font-weight: normal;
+    font-size: 3rem;
 }
 
 
@@ -47,26 +100,27 @@ body {
 @media only screen
 and (max-device-width: 900px) {
 
-    body {
-        margin-top: 10%;
-    }
+body {
+    margin-top: 10%;
+}
 
-    .intro {
-        flex-direction: column-reverse;
-        justify-content: center;
-        height: auto;
-    }
+.intro-section {
+    flex-direction: column-reverse;
+    justify-content: center;
+    height: auto;
+}
 
-    .profile-picture {
-        width: 40%;
-        margin-bottom: 3rem;
-    }
+.profile-picture {
+    margin: 0px 0px 0px 0px ;
+    width: 50%;
+    margin-bottom: 3rem;
+}
 
-    .intro p {
-        text-align: center;
-    }
+.intro-section p {
+    text-align: center;
+}
 
-    .links {
-        text-align: center;
-    }
+.links {
+    text-align: center;
+}
 }
