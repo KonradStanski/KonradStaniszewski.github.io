@@ -1,6 +1,5 @@
 html {
     font-family: 'IBM Plex Sans', 'Arial', sans-serif;
-    /*font-family: 'IBM Plex Mono', monospace;*/
     font-size: 1.2rem;
     scroll-behavior: smooth;
     /*background-color: skyblue;*/
@@ -10,10 +9,8 @@ body {
     margin: 0% 10% 10% 10%;
 }
 
-
 /*main page*/
 .intro-section {
-    /*background-color: lightblue;*/
     height: 100vh;
     display: flex;
     flex-direction: row;
@@ -34,8 +31,8 @@ body {
 }
 
 .profile-picture {
-    margin-left: 5%;
-    width: 55vh;
+    margin-left: 9%;
+    width: 45vh;
     border-radius: 50%;
 }
 
@@ -71,8 +68,8 @@ body {
 .skills {
     display: flex;
     justify-content: space-between;
-    margin-right: 0%;
-    margin-left: 0%;
+    margin-right: 10%;
+    margin-left: 10%;
 }
 
 
@@ -119,4 +116,12 @@ body {
 .links {
     text-align: center;
 }
+
+.projects-section {
+    margin-top: 15%;
+    height: 58vh;
+}
+
+.skills-section {
+    height: 42vh;
 }
