@@ -55,7 +55,7 @@ body {
 
 /*Skills Section*/
 .skills-section {
-    height: 100vh;
+    margin-bottom: 5em;
 }
 
 .skills-section h2 {
@@ -72,21 +72,6 @@ body {
     margin-right: 10%;
     margin-left: 10%;
 }
-
-
-/*Travel Section*/
-.travel-section {
-    height: 100vh;
-}
-
-.travel-section h3 {
-    font-family: 'IBM Plex Mono', monospace;
-    margin: 0 0 10% 0;
-    text-align: center;
-    font-weight: normal;
-    font-size: 3rem;
-}
-
 
 
 
