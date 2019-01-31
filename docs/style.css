@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    margin: 0% 10% 10% 10%;
+    margin: 0% 10% 0% 10%;
 }
 
 /*main page*/
@@ -21,13 +21,37 @@ body {
     font-size: 1.3rem;
 }
 
-.links a {
+.links {
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+.links-text a {
     padding-right: 15px;
     text-decoration: none;
+    color: black;
+    font-size: 1.3rem;
 }
+
+.links-button {
+    display: flex;
+    flex-direction: row;
+}
+
+.links-button a {
+    color: black;
+    margin-right: 15px;
+}
+
 
 .links a:hover {
     text-decoration: underline;
+    color:  grey;
+}
+
+#linkedin {
+    margin-left: 20%;
 }
 
 .profile-picture {
@@ -55,7 +79,7 @@ body {
 
 /*Skills Section*/
 .skills-section {
-    margin-bottom: 5em;
+    height: 100vh;
 }
 
 .skills-section h2 {
@@ -73,7 +97,10 @@ body {
     margin-left: 10%;
 }
 
-
+.gif {
+    display: flex;
+    justify-content: center;
+}
 
 /* Tablet portrait and smaller */
 @media only screen
@@ -106,8 +133,16 @@ body {
 .projects-section {
     margin-top: 15%;
     margin-bottom: 5em;
+    font-size: 0.5rem;
 }
 
 .skills-section {
-    /*margin-top: 0em;*/
+    margin-bottom: 5%;
+    height: 40em;
+}
+
+.gif {
+    margin: 5% 0 5% 0;
+    display: flex;
+    justify-content: center;
 }

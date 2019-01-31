@@ -6,6 +6,7 @@
     <link rel="icon" href="img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i|IBM+Plex+Sans:400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
 <!-- This is used for livereload not necessary for github remove when done -->
@@ -23,14 +24,18 @@
             </p>
             <!-- LINKS TO SOCIAL MEDIA -->
             <div class="links">
-                <a href="#projects-ref">Projects</a>
-                <a href="#skills-ref">Skills</a>
-                <a href="https://www.linkedin.com/in/konradstanski" target="_blank">LinkedIn</a>
-                <a href="https://github.com/KonradStanski" target="_blank">Github</a>
-                <a href="mailto:kstanisz@ualberta.ca?">Email</a>
+                <div class="links-text">
+                    <a href="#projects-ref">Projects</a>
+                    <a href="#skills-ref">Skills</a>
+                </div>
+                <div class="links-button">
+                    <a id="linkedin" href="https://www.linkedin.com/in/konradstanski" target="_blank"><i class="fab fa-linkedin-in fa-2x"></i></a>
+                    <a href="https://github.com/KonradStanski" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+                    <a href="mailto:kstanisz@ualberta.ca?"><i class="far fa-envelope fa-2x"></i></a>
+                </div>
             </div>
         </div>
-        <img class="profile-picture" src="img/headshot3.png" width="300"/>
+        <img src="img/headshot3.png" width="300"/>
     </div>
 
     <!-- Projects Section -->
@@ -69,7 +74,9 @@
                     <li>Created visual representation of complex data showing the relationship of quantum cooper pairs in XY grid.</li>
                     <li><a href="https://github.com/KonradStanski/superConductor" target="_blank">Project Github</a></li>
                 </ul>
-                <iframe src="https://giphy.com/embed/3HDVhjja0SrESlrY6U" width="470" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                <div class="gif">
+                    <img src="img/supercond.gif" width="380" height="380" />
+                </div>
             </div>
             <!-- Robotics Club -->
             <div class="robotclub">
@@ -145,9 +152,6 @@
         </div>
 
     </div>
-
-
-
 
 </body>
 </html>
