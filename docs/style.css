@@ -39,7 +39,8 @@ body {
 
 /*Projects Section*/
 .projects-section {
-    height: 100vh;
+    /*height: 50rem;*/
+    margin-bottom: 5em;
 }
 
 .projects-section h2 {
