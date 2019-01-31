@@ -105,9 +105,9 @@ body {
 
 .projects-section {
     margin-top: 15%;
-    height: 58vh;
+    margin-bottom: 5em;
 }
 
 .skills-section {
-    height: 42vh;
+    /*margin-top: 0em;*/
 }
