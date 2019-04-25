@@ -84,10 +84,18 @@ body {
 
 .skills-section h2 {
     font-family: 'IBM Plex Mono', monospace;
-    margin: 0 0 10% 0;
+    margin: 0 0 5% 0;
     text-align: center;
     font-weight: normal;
     font-size: 3rem;
+}
+
+.skill-icons {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right:  10%;
+    margin-bottom: 5%
 }
 
 .skills {
