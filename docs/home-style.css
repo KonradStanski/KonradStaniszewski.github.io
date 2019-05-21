@@ -9,9 +9,23 @@ body {
     margin: 0% 10% 0% 10%;
 }
 
+.nav-bar {
+    height: 10vh;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav-bar a {
+    font-size: 1.0rem;
+    padding-right: 40px;
+    padding-top: 14px;
+    text-decoration: none;
+    color: black;
+}
+
 /*main page*/
 .intro-section {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     flex-direction: row;
     align-items: center;

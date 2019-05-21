@@ -1,0 +1,24 @@
+html {
+    font-family: 'IBM Plex Sans', 'Arial', sans-serif;
+    font-size: 1.2rem;
+    scroll-behavior: smooth;
+    /*background-color: skyblue;*/
+}
+
+body {
+    margin: 0% 10% 0% 10%;
+}
+
+.nav-bar {
+    height: 10vh;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav-bar a {
+    font-size: 1.0rem;
+    padding-right: 40px;
+    padding-top: 16px;
+    text-decoration: none;
+    color: black;
+}
