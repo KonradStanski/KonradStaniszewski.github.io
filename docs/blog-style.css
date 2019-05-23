@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    margin: 0% 10% 0% 10%;
+    margin: 0% 20% 0% 20%;
 }
 
 .nav-bar {
@@ -21,4 +21,13 @@ body {
     padding-top: 16px;
     text-decoration: none;
     color: black;
+}
+
+.title {
+    display: flex;
+    justify-content:space-between;
+}
+
+.title h5 {
+    color: gray;
 }
