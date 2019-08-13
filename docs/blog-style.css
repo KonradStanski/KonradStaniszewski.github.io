@@ -31,3 +31,8 @@ body {
 .title h5 {
     color: gray;
 }
+
+.text-img {
+    display: flex;
+    flex-direction: row;
+}

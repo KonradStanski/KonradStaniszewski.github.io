@@ -40,25 +40,32 @@
     </div>
     <hr>
     <p>
-        Only 3 months into my first internship, I have to face the fact that in less than a month I will be attending anohter difficult and strenous semester of university.
+        Only 3 months into my first internship, I have to face the fact that in less than a month I will be attending another difficult and strenous semester of university.
         Reflecting on the frantic job search that landed me the job I currently have, I realized that one of my major pitfalls was not having an efficient resume/ application managment system in place.
-        The other major delaying factor was having a poorly made resume. In my last job search, I had sent a very poorly formated resume the first 30 places I applied to. Unsuprisingly, I did not get any interest.
+        The other major delaying factor was having a poorly made resume. In my most recent job search, I initialy sent a very poorly formated resume to 30 positions. Unsuprisingly, I did not get any replies.
         It was only after I had created a moderately better resume that I got selected for a couple of interviews.
 
     </p>
     <p>
-        I needed a better system for managing the non trivial task of organizing my files and efforts during a job search.
+        This made me realize: I needed a better system for managing the non trivial task of organizing my files and efforts during a job search.
         I am a firm believer that keeping your digital space clean and organized is paramount to working effiently and frustration free.
-        I looked around online at available options for resume creation and managment, and to be quite frank, none of the existing popularly available tools impressed me.
+        I looked around online at the available options for resume creation and managment, and to be quite frank, none of the existing popularly available tools impressed me.
         It is for this reason that I decided to compile my resume to pdf from LaTex source.
         My reasoning is that if I compiled my resume from source, that I would be able to use a <a href="https://en.wikipedia.org/wiki/Version_control">version control system</a> such as Git to keep track of the versions of my resume, aswell as make branches for the different "flavours" tailored to each company I was applying to.
     </p>
     <p>
-        After looking over a number of resume templates I found online, I settled on <a href="https://github.com/liantze/AltaCV">AltaCV</a>. I found the 2 column layout with the bold Header, and organized framing of the template very attractive. It allows me to put a fair bit of information about myself onto a single sheet of paper. With this new template in mind, I went ot work on populating it with my achievements and info. Pictured below, is the difference between my new resume and my previous one.
+
     </p>
-    <p>
-        While being able to compile my resume was all good fun, I needed some workflow improvments. For one, I became very frustrated with having to manualy recompile whenever I made changes to the LaTeX source. This of course is a service that is provided by many LaTeX editors online, but what I was going for was something that could work with git and text editors alone. So for this reason, I created a script to monitor automatically if the source file has changed, proceeding to automatically recompile and refresh my PDF view of what I am working on. It also cleans the folder from a mess of extra files created during compilation.
-    </p>
+    <div class="text-img">
+        <p>
+            After looking over a number of resume templates I found online, I settled on <a href="https://github.com/liantze/AltaCV">AltaCV</a>. I found the 2 column layout with the bold Header, and organized framing of the template very attractive. It allows me to put a fair bit of information about myself onto a single sheet of paper. With this new template in mind, I went ot work on populating it with my achievements and info. Pictured below, is the difference between my new resume and my previous one.<br>
+            <br>
+            While being able to compile my resume was all good fun, I needed some workflow improvments. For one, I became very frustrated with having to manualy recompile whenever I made changes to the LaTeX source. This of course is a service that is provided by many LaTeX editors online, but what I was going for was something that could work with git and text editors alone. So for this reason, I created a script to monitor automatically if the source file has changed, proceeding to automatically recompile and refresh my PDF view of what I am working on. It also cleans the folder from a mess of extra files created during compilation.<br>
+            <br>
+            If you are interested in taking a look at the code yourself, I am hosting it on GitHub <a href="https://github.com/KonradStanski/latexResume">HERE</a>. In this repo I have provided a sample resume that you can edit to fill in your own info.
+        </p>
+        <img src="img/latexResume.png" width="430" height="550"/>
+    </div>
 </div>
 
 
