@@ -36,3 +36,8 @@ body {
     display: flex;
     flex-direction: row;
 }
+
+img{
+    width:30%;
+    object-fit:contain;
+}
