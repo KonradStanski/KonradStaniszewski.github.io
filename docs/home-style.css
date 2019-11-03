@@ -124,6 +124,12 @@ body {
     justify-content: center;
 }
 
+.superconductorp5 {
+    display: flex;
+    justify-content: center;
+    padding-left: 15    %;
+}
+
 /* Tablet portrait and smaller */
 @media only screen
 and (max-device-width: 900px) {
