@@ -77,7 +77,6 @@ body {
 
 /*Projects Section*/
 .projects-section {
-    /*height: 50rem;*/
     margin-bottom: 5em;
 }
 
@@ -88,6 +87,12 @@ body {
     font-weight: normal;
     font-size: 3rem;
     overflow-wrap: break-word;
+}
+
+#submarine-img {
+    display: flex;
+    justify-content: center;
+    /* padding-right: px; */
 }
 
 
@@ -119,15 +124,9 @@ body {
     margin-left: 10%;
 }
 
-.gif {
-    display: flex;
-    justify-content: center;
-}
-
 .superconductorp5 {
     display: flex;
     justify-content: center;
-    padding-left: 15    %;
 }
 
 /* Tablet portrait and smaller */
@@ -172,9 +171,4 @@ body {
 .skills {
     font-size: 1.4rem;
 }
-
-.gif {
-    margin: 5% 0 5% 0;
-    display: flex;
-    justify-content: center;
 }
