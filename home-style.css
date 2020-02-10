@@ -1,0 +1,174 @@
+html {
+    font-family: 'IBM Plex Sans', 'Arial', sans-serif;
+    font-size: 1.2rem;
+    scroll-behavior: smooth;
+    /*background-color: skyblue;*/
+}
+
+body {
+    margin: 0% 10% 0% 10%;
+}
+
+.nav-bar {
+    height: 10vh;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav-bar a {
+    font-size: 1.0rem;
+    padding-right: 40px;
+    padding-top: 14px;
+    text-decoration: none;
+    color: black;
+}
+
+/*main page*/
+.intro-section {
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.intro-section p {
+    font-size: 1.3rem;
+}
+
+.links {
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+.links-text a {
+    padding-right: 15px;
+    text-decoration: none;
+    color: black;
+    font-size: 1.3rem;
+}
+
+.links-button {
+    display: flex;
+    flex-direction: row;
+}
+
+.links-button a {
+    color: black;
+    margin-right: 15px;
+}
+
+
+.links a:hover {
+    text-decoration: underline;
+    color:  grey;
+}
+
+#linkedin {
+    margin-left: 20%;
+}
+
+.profile-picture {
+    margin-left: 9%;
+    width: 45vh;
+    border-radius: 50%;
+}
+
+
+/*Projects Section*/
+.projects-section {
+    margin-bottom: 5em;
+}
+
+.projects-section h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 1% 0 0 0;
+    text-align: center;
+    font-weight: normal;
+    font-size: 3rem;
+    overflow-wrap: break-word;
+}
+
+#submarine-img {
+    display: flex;
+    justify-content: center;
+    /* padding-right: px; */
+}
+
+
+/*Skills Section*/
+.skills-section {
+    height: 100vh;
+}
+
+.skills-section h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 0 0 5% 0;
+    text-align: center;
+    font-weight: normal;
+    font-size: 3rem;
+}
+
+.skill-icons {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right:  10%;
+    margin-bottom: 5%
+}
+
+.skills {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+.superconductorp5 {
+    display: flex;
+    justify-content: center;
+}
+
+/* Tablet portrait and smaller */
+@media only screen
+and (max-device-width: 900px) {
+
+body {
+    margin-top: 10%;
+}
+
+.intro-section {
+    flex-direction: column-reverse;
+    justify-content: center;
+    height: auto;
+}
+
+.profile-picture {
+    margin: 0px 0px 0px 0px ;
+    width: 50%;
+    margin-bottom: 3rem;
+}
+
+.intro-section p {
+    text-align: center;
+}
+
+.links {
+    text-align: center;
+}
+
+.projects-section {
+    margin-top: 15%;
+    margin-bottom: 5em;
+    font-size: 1.2rem;
+}
+
+.skills-section {
+    margin-bottom: 5%;
+    height: 40em;
+}
+
+.skills {
+    font-size: 1.4rem;
+}
+}
