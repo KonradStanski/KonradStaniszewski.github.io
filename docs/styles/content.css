@@ -116,4 +116,11 @@ html {
     justify-content: space-between;
 }
 
+.skillsColumn ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+
+
 
