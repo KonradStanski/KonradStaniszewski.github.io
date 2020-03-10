@@ -3,8 +3,8 @@
 // declaration of variables
 var slider;
 
-var xCanvas = 600
-var yCanvas = 600
+var xCanvas = 380
+var yCanvas = 380
 
 var xSize = 25;
 var ySize = 25;
@@ -98,7 +98,7 @@ function mcStep(temp) {
     var yPos = yArr[i]*(yCanvas/ySize)*0.95 + yCanvas*0.05
     var length = Math.min(xCanvas, yCanvas)/min(xSize, ySize)/2.5
     var color = 'rgb(' + Math.floor(colorArr[i]) + ', 0, 0)'
-    drawArrowCentered(xPos, yPos, length, thetaArr[i], color)
+    drawArrowCentered(xPos, yPos+3, length, thetaArr[i], color)
   }
 }
 
@@ -127,7 +127,7 @@ function setup() {
   createCanvas(xCanvas, yCanvas);
   slider = createSlider(0, 10, 5, 0.0001);
   slider.position(10, 6);
-  textSize(20);
+  textSize(15);
 }
 
 function draw() {
@@ -137,6 +137,6 @@ function draw() {
 
   // get value
   var temp = slider.value();
-  text("temp: " + temp + "K", 150, 17);
+  text("temp: " + temp + "K", 150, 12);
   mcStep(temp)
 }

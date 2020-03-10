@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134950979-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-134950979-1');
+    </script>
+    <!-- settings -->
+    <meta charset="UTF-8">
+    <title>Konrad Staniszewski</title>
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <link rel="stylesheet" type="text/css" href="styles/header.css">
+    <link rel="stylesheet" type="text/css" href="styles/content.css">
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+    <!-- imports -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="body">
+        <!-- Header -->
+        <div class="header">
+            <div class="headerContainer">
+                <div class="headerLeftColumn">
+                    <div class="headerLogo">
+                        <div class="desktopLogo">
+                            <div class="logoLink">
+                                <!-- Logo -->
+                                <div class="tooltipContainer">
+                                    <!-- <div class="avatarFrame">
+                                        <img class="avatar" src="assets/img/headshot.jpg">
+                                    </div> -->
+                                </div>
+                                <!-- Title -->
+                                <div class=logoDisplayNameContainer>
+                                    <span class=textContentFamilyspaceNameText>
+                                        Konrad Staniszewski
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="headerInnerWrapper">
+                    <div class="headerInner">
+                        <div class="link">
+                            <a class=linkButton href="https://konradstaniszewski.com">
+                                <span class="textContentFamilytext">
+                                    <span class="textContentFamily">
+                                        Website
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="link">
+                            <a class=linkButton href="https://blog.konradstaniszewski.com">
+                                <span class="textContentFamilytext">
+                                    <span class="textContentFamily">
+                                        Blog
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Intro -->
+        <div class="content">
+            <div class="intro-section">
+                <div class="intro-text">
+                    <p>Hi, I'm <b>Konrad Staniszewski</b>, a third year computer engineering student at the Univeristy of Alberta.</p>
+                    <p>I'm interested in web development, data visualization, machine learning, embedded systems, networking, quantum computing, 3D printing, physics, electronics, and many outdoor sports.</p>
+                    <!-- LINKS TO SOCIAL MEDIA -->
+                    <div class="links">
+                        <div class="links-text">
+                            <a href="#projects-ref">Projects</a>
+                            <a href="#skills-ref">Skills</a>
+                        </div>
+                        <div class="links-button">
+                            <a id="linkedin" href="https://www.linkedin.com/in/konradstanski" target="_blank"><i class="fab fa-linkedin-in fa-2x"></i></a>
+                            <a href="https://github.com/KonradStanski" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+                            <a href="mailto:kstanisz@ualberta.ca?"><i class="far fa-envelope fa-2x"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <img class="profile-picture" src="assets/img/headshot.jpg"/>
+            </div>
+        </div>
+        <div class="content">
+            <!-- Projects Section -->
+            <div class="projects-section">
+                <a name="projects-ref"></a><!-- Navigation Tag -->
+                <h2>Projects</h2>
+                <div class="projects">
+                    <!-- Android Automate -->
+                    <div class="androidautomate">
+                        <h3>Android Automate</h3>
+                        <ul>
+                            <li>Created an open source API shell around the android ADB to allow the automation of common android tasks.</li>
+                            <li>Allows for recording and replay of touch gestures, launching apps, generating random input among a plethora of other functions.</li>
+                            <li>Created a custom python module API to allow for the writing of scripts to allow for codifying android interactions.</li>
+                            <li>Provided a CLI application to ease recording and testing of recorded events.</li>
+                            <li>Created to automate the generation of network traffic for mobile applications during my 4 month NOKIA Co-op work term.</li>
+                            <li><a href="https://github.com/KonradStanski/androidAutomate" target="_blank">Project GitHub</a></li>
+                        </ul>
+                    </div>
+                    <!-- Open Air Laser Communication -->
+                    <div class="lasercomms">
+                        <h3>Open Air Laser Communication</h3>
+                        <ul>
+                            <li>Designed an open air laser communication system that allows two way communication of text.</li>
+                            <li>Writen in C++ and uses a class structure for the Laser and Sensor providing a high level API for sending and receiving messages.</li>
+                            <li>Employed a number of error correction codes such as the hamming (7,4) code, and checksums to ensure the quality of transmitted data.</li>
+                            <li>Hamming (7,4) codes allow for in place error correction which avoids having to resend erronous data.</li>
+                            <li>Used a TCP like SYNACK client-server topology for transmission of messages and making sure that they arrived correctly.</li>
+                            <li>Capable of up to 2 kb/s data transmisison speeds.</li>
+                            <li><a href="https://github.com/KonradStanski/laserComms" target="_blank">Project GitHub</a></li>
+                        </ul>
+                    </div>
+                    <!-- UAPrereqs.com -->
+                    <div class="prereq">
+                        <h3>UofA Prerequisites Website</h3>
+                        <ul>
+                            <li>A website for displaying the prerequisites to take a course.</li>
+                            <li>Utilized octoparse to crawl and scrape the UAlberta course catalogue for relevant data.</li>
+                            <li>Sanitized data with Boolean logic parsing and created custom encoder to create valid JSON file for use with D3.</li>
+                            <li>Developed a HTML5, CSS3, JS website to provide visuals as to what perquisites are necessary for a course.</li>
+                            <li>Incorporated D3.js visualization library to create a parallel tree structure corresponding to the prereq tree.</li>
+                            <li><a href="https://github.com/KonradStanski/UofAPrereqs" target="_blank">Project GitHub</a></li>
+                        </ul>
+                    </div>
+                    <!-- Pathfinding Robot -->
+                    <div class="pathfinding">
+                        <h3>Pathfinding Rover</h3>
+                        <ul>
+                            <li>Designed a high precision rover capable of navigating an automatically generated pixel maze.</li>
+                            <li>Implemented A* algorithm using deque’s and node objects to recursively find a path through the maze.</li>
+                            <li>Created movement API and custom Bluetooth data exchange protocol to send the solved maze to the rover.</li>
+                            <li><a href="https://github.com/KonradStanski/pathfindingRobot" target="_blank">Project GitHub</a></li>
+                            <div align="center">
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/gOMG96O_x_0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Superconductor Simulation -->
+                    <div class="superconductor">
+                        <h3>Superconductor Simulator</h3>
+                        <ul>
+                            <li>Researched and developed Monte Carlo XY lattice simulation of superconductors in Python3</li>
+                            <li>Created visual representation of complex data showing the relationship of quantum cooper pairs in XY grid.</li>
+                            <li><a href="https://github.com/KonradStanski/superConductor" target="_blank">Project GitHub</a></li>
+                        </ul>
+                        <div id="superconductorContainer">
+                            <iframe id="superconductor" src="scripts/superconductor.html"></iframe>
+                        </div>
+                    </div>
+                    <!-- Robotics Club -->
+                    <div class="robotclub">
+                        <h3>Robotics Club</h3>
+                        <ul>
+                            <li>Created the Archbishop MacDonald Robotics Club and secured funding.</li>
+                            <li>Organized meeting with up to 20 members and provided coaching in learning robotics around a course created especially for the club.</li>
+                            <li>Taught C and S4A to a group over the course of the school year.</li>
+                        </ul>
+                    </div>
+                    <!-- Remote Control Submarine -->
+                    <div class="submarine">
+                        <h3>Remote Control Submarine</h3>
+                        <ul>
+                            <li>Lead creation of team and organization of meetings and overall submarine design.</li>
+                            <li>Developed communications system allowing the submarine to operate at depths up to 2.5m.</li>
+                            <li>Used IC motor control chips with arduino to interface with commercial SBUS RX module.</li>
+                        </ul>
+                        <div id=submarine-img>
+                            <img src="assets/img/appega2.jpg" width="300"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="skills-section">
+                <h2>Skills</h2>
+                <div class="skills-content">
+                    <div class="skillsColumn">
+                        <div id="webDevelopment">
+                            <h3>Web Development</h3>
+                            <ul>
+                                <li>
+                                    <i class="fab fa-html5 fa-1x"></i>
+                                    HTML5
+                                </li>
+                                <li>
+                                    <i class="fab fa-css3-alt fa-1x"></i>
+                                    CSS3
+                                </li>
+                                <li>
+                                    <i class="fab fa-js-square fa-1x"></i>
+                                    JavaScript
+                                </li>
+                                <li>
+                                    <i class="fab fa-wordpress fa-1x"></i>
+                                    WordPress
+                                </li>
+                                <li>
+                                    <img src="https://img.icons8.com/ios/100/000000/ionic-filled.png" height="15" width="15">
+                                    Ionic
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="languages">
+                            <h3>Languages</h3>
+                            <ul>
+                                <li>
+                                    <img src="https://img.icons8.com/ios/96/000000/c-plus-plus-logo-filled.png" height="15" width="15">
+                                    C++
+                                </li>
+                                <li>
+                                    <i class="fab fa-python fa-1x"></i>
+                                    Python
+                                </li>
+                                <li>Java</li>
+                                <li>MATLAB</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="skillsColumn">
+                        <div id="dataScience">
+                            <h3>Data Science</h3>
+                            <ul>
+                                <!-- <li>Web Scraping: Beautiful Soup</li> -->
+                                <li>Data Sanitation: Python</li>
+                                <li>Data Visualization: D3.js</li>
+                                <li>
+                                    <img src="https://img.icons8.com/ios/100/000000/mysql-filled.png" height="15" width="15">
+                                    MySQL
+                                </li>
+                                <!-- <li>Data Analysis: Tensorflow, scikit</li> -->
+                            </ul>
+                        </div>
+                        <div id="other">
+                            <h3>Other</h3>
+                            <ul>
+                                <li>
+                                    <i class="fab fa-git-square fa-1x"></i>
+                                    Git</li>
+                                <li>
+                                    <i class="fab fa-linux fa-1x"></i>
+                                    Linux
+                                </li>
+                                <li>Scripting</li>
+                                <li>Electronics Prototyping</li>
+                                <li>3D Printing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
