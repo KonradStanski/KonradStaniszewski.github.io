@@ -1,23 +1,47 @@
-import ExtLink from './ext-link'
+import sharedStyles from "../styles/shared.module.css";
+import contactStyles from "../styles/contact.module.css";
+import ExtLink from "../components/ext-link";
+
+import GitHub from "../components/svgs/github";
+import Envelope from "../components/svgs/envelope";
+import LinkedIn from "../components/svgs/linkedin";
+
+const contacts = [
+  {
+    Comp: GitHub,
+    alt: "github icon",
+    link: "https://github.com/KonradStanski"
+  },
+  {
+    Comp: LinkedIn,
+    alt: "linkedin icon",
+    link: "https://www.linkedin.com/in/konradstanski/"
+  },
+  {
+    Comp: Envelope,
+    alt: "envelope icon",
+    link: "mailto:konrad.a.staniszewski@gmail.com?subject=Website"
+  }
+];
 
 export default () => (
   <>
     <footer>
-      <span>Deploy your own!</span>
-      <ExtLink href="https://vercel.com/import/git?s=https://github.com/ijjk/notion-blog/tree/master&env=NOTION_TOKEN,BLOG_INDEX_ID&envDescription=Required+env+values+for+deploying&envLink=https://github.com/ijjk/notion-blog%23getting-blog-index-and-token">
-        <img
-          src="https://vercel.com/button"
-          height={46}
-          width={132}
-          alt="deploy to Vercel button"
-        />
-      </ExtLink>
-      <span>
-        or{' '}
-        <ExtLink href="https://github.com/ijjk/notion-blog">
-          view source
-        </ExtLink>
-      </span>
+      <div className={sharedStyles.layout}>
+        <div className={contactStyles.name}>
+          Konrad Staniszewski - Student @ University of Alberta
+        </div>
+
+        <div className={contactStyles.links}>
+          {contacts.map(({ Comp, link, alt }) => {
+            return (
+              <ExtLink key={link} href={link} aria-label={alt}>
+                <Comp height={32} />
+              </ExtLink>
+            );
+          })}
+        </div>
+      </div>
     </footer>
   </>
-)
+);
