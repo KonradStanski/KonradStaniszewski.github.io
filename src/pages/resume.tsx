@@ -11,7 +11,13 @@ export default () => (
     <div className={sharedStyles.layout}>
       <IframeResizer
         src="/resume.pdf"
-        style={{ display: "block", margin: "auto" }}
+        style={{
+          display: "block",
+          margin: "auto",
+          overflow: "hidden",
+          width: "33em",
+          height: "49em"
+        }}
       />
     </div>
   </>
