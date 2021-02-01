@@ -23,8 +23,6 @@ export default () => (
           learning, embedded systems, networking, quantum computing, 3D
           printing, physics, electronics, and many outdoor sports.
         </p>
-
-        <p>This site is currently undergoing some improvmements</p>
       </div>
       <Skills />
     </div>

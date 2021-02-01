@@ -7,7 +7,9 @@ export default () => (
   <>
     <Header titlePre="Projects" />
     <div className={sharedStyles.layout}>
-      <h1>TEST</h1>
+      <h1>CAUTION</h1>
+      <h1>UNDERGOING CONSTRUCTION</h1>
+      <h1>CAUTION</h1>
     </div>
   </>
 );
