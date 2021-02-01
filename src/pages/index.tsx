@@ -2,7 +2,6 @@ import Link from "next/link";
 import Header from "../components/header";
 import ExtLink from "../components/ext-link";
 import Skills from "../components/skills";
-import GitHub from "../components/svgs/github";
 import sharedStyles from "../styles/shared.module.css";
 
 export default () => (
@@ -15,7 +14,7 @@ export default () => (
 
       <div className="home-text">
         <p>
-          Hi, I'm <b>Konrad Staniszewski</b>, a third year computer engineering
+          Hi, I'm <b>Konrad Staniszewski</b>, a fourth year computer engineering
           student at the Univeristy of Alberta.
         </p>
         <p>
