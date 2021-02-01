@@ -10,7 +10,13 @@ export default () => (
     <div className={sharedStyles.layout}>
       <h1>Konrad Staniszewski</h1>
       <h2>Adventures in software engineering</h2>
-      <img src="/headshot.png" height="85" width="250" alt="Headshot" />
+      <img
+        src="/headshot.jpg"
+        height="85"
+        width="250"
+        alt="Headshot"
+        style={{ borderRadius: "50%" }}
+      />
 
       <div className="home-text">
         <p>

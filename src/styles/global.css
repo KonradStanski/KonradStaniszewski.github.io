@@ -201,7 +201,8 @@ pre.dark[class*="language-"] {
 .skills {
   display: flex;
   flex-wrap: wrap;
-  margin: 4rem auto;
+  margin: var(--gap-double) auto;
+  padding: 0 2rem;
   width: 920px;
   max-width: calc(100vw - var(--gap-double));
 }
@@ -238,8 +239,9 @@ pre.dark[class*="language-"] {
   max-width: 100vw;
   padding: 0 2rem;
   background: var(--bg);
-  margin: var(--gap-half) auto;
+  margin: var(--gap-double) auto;
 }
+
 figure {
   font-size: 0.85rem;
   color: #999;

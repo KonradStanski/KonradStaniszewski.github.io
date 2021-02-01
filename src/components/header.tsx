@@ -17,9 +17,7 @@ export default ({ titlePre = "" }) => {
   return (
     <header className={styles.header}>
       <Head>
-        <title>
-          {titlePre ? `${titlePre} |` : ""} Konrad Staniszewski blog
-        </title>
+        <title>{titlePre ? `${titlePre} |` : ""} Konrad Staniszewski</title>
         <meta
           name="description"
           content="Konrad Staniszewski's personal portfolio and blog"
