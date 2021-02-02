@@ -64,6 +64,18 @@ export default ({ posts = [], preview }) => {
       )}
       <div className={`${sharedStyles.layout} ${blogStyles.blogIndex}`}>
         <h1>Konrad's Blog</h1>
+        <p
+          style={{
+            maxWidth: "600px",
+            margin: "10px auto"
+          }}
+        >
+          My name is <b>Konrad Staniszewski</b> and I'm a 4th year software
+          engineering student at the University of Alberta. I'm passionate about
+          AI/ML, web technologies, medical tech, quantum computing, physics, and
+          hardware prototyping. If any of those interest you, stick around! I'll
+          be writing some fun articles on my explorations into those subjects.
+        </p>
         {posts.length === 0 && (
           <p className={blogStyles.noPosts}>There are no posts yet</p>
         )}
