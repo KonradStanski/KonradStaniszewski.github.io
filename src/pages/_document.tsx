@@ -1,9 +1,8 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import { GA_TRACKING_ID } from "../utils/gtag";
 
 class MyDocument extends Document {
   render() {
-    const GA_TRACKING_ID = "G-1M9XX68M0R";
-    // const GA_TRACKING_ID = process.env.GTAG;
     return (
       <Html lang="en">
         <Head>
