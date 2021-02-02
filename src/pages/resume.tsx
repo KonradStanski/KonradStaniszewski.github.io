@@ -7,7 +7,7 @@ import IframeResizer from "iframe-resizer-react";
 
 export default () => (
   <>
-    <Header titlePre="Projects" />
+    <Header titlePre="Resume" />
     <div className={sharedStyles.layout}>
       <IframeResizer
         src="/resume.pdf#toolbar=0"
