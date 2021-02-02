@@ -28,6 +28,7 @@
 }
 
 .name {
+  margin-inline: 2rem;
   text-align: center;
 }
 
