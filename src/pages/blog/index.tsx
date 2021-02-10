@@ -13,6 +13,7 @@ import { textBlock } from "../../lib/notion/renderers";
 import getNotionUsers from "../../lib/notion/getNotionUsers";
 import getBlogIndex from "../../lib/notion/getBlogIndex";
 
+/* Fetch blog posts */
 export async function getStaticProps({ preview }) {
   const postsTable = await getBlogIndex();
 
@@ -82,7 +83,7 @@ export default ({ posts = [], preview }) => {
         {posts.map(post => {
           return (
             <div className={blogStyles.postPreview} key={post.Slug}>
-              <h3>
+              <h3 style={{ cursor: "pointer" }}>
                 <Link href="/blog/[slug]" as={getBlogLink(post.Slug)}>
                   <div className={blogStyles.titleContainer}>
                     {!post.Published && (
