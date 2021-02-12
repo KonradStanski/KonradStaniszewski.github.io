@@ -310,9 +310,9 @@ h2 {
 }
 
 p {
-  color: #555;
+  color: rgb(59, 59, 59);
   font-weight: 450;
-  font-size: 0.94rem;
+  font-size: 1.1rem;
   line-height: 1.7;
 }
 pre {
