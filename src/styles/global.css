@@ -378,3 +378,30 @@ footer span:nth-child(3) {
 footer span:nth-child(3) a {
   color: inherit;
 }
+
+.intro {
+  display: flex;
+  flex-direction: row;
+  margin: var(--gap-double) auto;
+  padding: 0 2rem;
+  width: 920px;
+  max-width: calc(100vw - var(--gap-double));
+}
+
+.intro-text {
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .intro-text {
+    padding: 0;
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+}
