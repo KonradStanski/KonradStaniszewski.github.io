@@ -1,9 +1,13 @@
-# Personal Website Repo: [konradStaniszewski.com](https://konradstaniszewski.com)
+# NextJS - Typescript - MDX - Blog
 
-This is a repo for hosting my personal portfolio. Please follow the above link to go check it out.
+Built with:
 
-### TODO:
+- [Typescript](https://www.typescriptlang.org/)
+- Write posts with [MDX](https://mdxjs.com/)
+- Style with [Tailwind CSS](https://tailwindcss.com/)
+- Linting with [ESLint](https://eslint.org/)
+- Formatting with [Prettier](https://prettier.io/)
+- Linting, typechecking and formatting on by default using [`husky`](https://github.com/typicode/husky) for commit hooks
+- Testing with [Jest](https://jestjs.io/) and [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro)
 
-- add projects page (make a notion list or make all on 1 page?)
-- make headshot inline with paragraph on web version
-- move resume pdf to React-Pdf
+This is **heavily** inspired by [Lee Robinson](https://github.com/leerob/leerob.io) and [Anson Lichtfuss](https://github.com/ansonlichtfuss/website).
