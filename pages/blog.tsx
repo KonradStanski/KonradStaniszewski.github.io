@@ -10,7 +10,7 @@ type IndexProps = {
   posts: PostType[];
 };
 
-export const About = ({ posts }: IndexProps): JSX.Element => {
+export const Blog = ({ posts }: IndexProps): JSX.Element => {
   return (
     <Layout
       customMeta={{
@@ -50,4 +50,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default About;
+export default Blog;
