@@ -1,7 +1,7 @@
 import fs from 'fs';
 import matter from 'gray-matter';
 import { join } from 'path';
-import { POSTS_PATH } from '../utils/mdxUtils';
+import { getPostPath } from '../utils/mdxUtils';
 
 type PostItem = {
   [key: string]: string;
@@ -11,8 +11,8 @@ type PostItem = {
  *
  * @returns List of post slugs based on given path
  */
-export function getPostSlugs(): string[] {
-  return fs.readdirSync(POSTS_PATH); // TODO: make generic
+export function getPostSlugs(postType: string): string[] {
+  return fs.readdirSync(getPostPath(postType));
 }
 
 /**
@@ -21,9 +21,13 @@ export function getPostSlugs(): string[] {
  * @param fields Required info to build post
  * @returns Single postitem corresponding to slug
  */
-export function getPostBySlug(slug: string, fields: string[] = []): PostItem {
+export function getPostBySlug(
+  slug: string,
+  fields: string[] = [],
+  postType: string
+): PostItem {
   const realSlug = slug.replace(/\.mdx$/, '');
-  const fullPath = join(POSTS_PATH, `${realSlug}.mdx`); // TODO: make generic
+  const fullPath = join(getPostPath(postType), `${realSlug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
@@ -50,10 +54,13 @@ export function getPostBySlug(slug: string, fields: string[] = []): PostItem {
  * @param fields Required info to build post
  * @returns list of post items
  */
-export function getAllPosts(fields: string[] = []): PostItem[] {
-  const slugs = getPostSlugs();
+export function getAllPosts(
+  fields: string[] = [],
+  postType: string
+): PostItem[] {
+  const slugs = getPostSlugs(postType);
   const posts = slugs
-    .map((slug) => getPostBySlug(slug, fields))
+    .map((slug) => getPostBySlug(slug, fields, postType))
     // sort posts by date in descending order
     .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
   return posts;

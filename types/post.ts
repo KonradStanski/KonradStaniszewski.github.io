@@ -5,3 +5,7 @@ export type PostType = {
   slug: string;
   title: string;
 };
+
+export type IndexProps = {
+  posts: PostType[];
+};

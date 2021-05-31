@@ -9,8 +9,6 @@ type LayoutProps = {
   customMeta?: MetaProps;
 };
 
-export const WEBSITE_HOST_URL = 'https://konradstaniszewski.com';
-
 const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
   return (
     <body className="flex flex-col min-h-screen">

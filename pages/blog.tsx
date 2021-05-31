@@ -1,13 +1,9 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import { PostType } from '../types/post';
+import { IndexProps } from '../types/post';
 import { getAllPosts } from '../lib/api';
 import { GetStaticProps } from 'next';
 import PostItem from '../components/PostItem';
-
-type IndexProps = {
-  posts: PostType[];
-};
 
 export const Blog = ({ posts }: IndexProps): JSX.Element => {
   return (
@@ -18,14 +14,14 @@ export const Blog = ({ posts }: IndexProps): JSX.Element => {
     >
       <h1>Blog</h1>
       {posts.map((post) => (
-        <PostItem key={post.slug} post={post} />
+        <PostItem key={post.slug} post={post} type="blog" />
       ))}
     </Layout>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = getAllPosts(['date', 'description', 'slug', 'title']);
+  const posts = getAllPosts(['date', 'description', 'slug', 'title'], 'blog');
 
   return {
     props: { posts },

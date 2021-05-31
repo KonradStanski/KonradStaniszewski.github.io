@@ -9,7 +9,10 @@ const PostItem = (props): JSX.Element => {
         {format(parseISO(props.post.date), 'MMMM dd, yyyy')}
       </p>
       <h1 className="mb-2 text-xl">
-        <Link as={`/posts/${props.post.slug}`} href={`/posts/[slug]`}>
+        <Link
+          as={`/${props.type}/${props.post.slug}`}
+          href={`/${props.type}/[slug]`}
+        >
           <a className="text-gray-900 dark:text-white dark:hover:text-blue-400">
             {props.post.title}
           </a>
@@ -17,7 +20,10 @@ const PostItem = (props): JSX.Element => {
       </h1>
       <p className="mb-3">{props.post.description}</p>
       <p>
-        <Link as={`/posts/${props.post.slug}`} href={`/posts/[slug]`}>
+        <Link
+          as={`/${props.type}/${props.post.slug}`}
+          href={`/${props.type}/[slug]`}
+        >
           <a>Read More</a>
         </Link>
       </p>
