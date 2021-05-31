@@ -5,9 +5,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head />
-        <body className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-          {' '}
-          {/* GLOBAL THEME COLORS */}
+        <body className="global-layout-style">
           <Main />
           <NextScript />
         </body>

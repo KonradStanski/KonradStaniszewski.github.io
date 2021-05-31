@@ -17,6 +17,11 @@
   }
 }
 
+/* Custom Styles */
+.global-layout-style {
+  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-white;
+}
+
 /* Post styles */
 .prose pre {
   @apply bg-gray-50 border border-gray-200 dark:border-gray-700 dark:bg-gray-900;
