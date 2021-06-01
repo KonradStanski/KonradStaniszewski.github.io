@@ -13,9 +13,9 @@ const Navigation = (): JSX.Element => {
       <Link href="/projects">
         <a className="text-gray-900 dark:text-white pr-6 py-4">Projects</a>
       </Link>
-      <Link href="/resume">
+      <a href="./resume.pdf">
         <a className="text-gray-900 dark:text-white pr-6 py-4">Resume</a>
-      </Link>
+      </a>
     </nav>
   );
 };
