@@ -82,7 +82,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = postFilePaths('blog')
+  const paths = postFilePaths('projects')
     // Remove file extensions for page paths
     .map((path) => path.replace(/\.mdx?$/, ''))
     // Map the path into the static paths object required by Next.js
