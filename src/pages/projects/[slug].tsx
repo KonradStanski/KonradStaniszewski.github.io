@@ -33,7 +33,7 @@ type PostPageProps = {
   frontMatter: PostType;
 };
 
-const PostPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
+const ProjectsPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
   const customMeta: MetaProps = {
     title: `${frontMatter.title} - Konrad Staniszewski`,
     description: frontMatter.description,
@@ -94,4 +94,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default PostPage;
+export default ProjectsPage;
