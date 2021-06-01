@@ -1,8 +1,14 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
+import { PostType } from '../types/post';
 
-const PostItem = (props): JSX.Element => {
+type postProps = {
+  post: PostType;
+  type: string;
+};
+
+const PostItem = (props: postProps): JSX.Element => {
   return (
     <article key={props.post.slug} className="mt-12">
       <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
