@@ -1,5 +1,6 @@
 # NextJS - Typescript - MDX - Blog
 
+My personal blog.
 Built with:
 
 - [Typescript](https://www.typescriptlang.org/)
