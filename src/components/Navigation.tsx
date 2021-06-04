@@ -15,11 +15,11 @@ const Navigation = (): JSX.Element => {
                     Projects
                 </a>
             </Link>
-            <a href="./resume.pdf">
+            <Link href="/resume.pdf">
                 <a className="text-gray-900 dark:text-white pr-6 py-4">
                     Resume
                 </a>
-            </a>
+            </Link>
         </nav>
     );
 };
