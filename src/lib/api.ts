@@ -4,7 +4,7 @@ import { join } from 'path';
 import { getPostPath } from '../utils/mdxUtils';
 
 type PostItem = {
-  [key: string]: string;
+    [key: string]: string;
 };
 
 /**
@@ -12,7 +12,7 @@ type PostItem = {
  * @returns List of post slugs based on given path
  */
 export function getPostSlugs(postType: string): string[] {
-  return fs.readdirSync(getPostPath(postType));
+    return fs.readdirSync(getPostPath(postType));
 }
 
 /**
@@ -22,31 +22,31 @@ export function getPostSlugs(postType: string): string[] {
  * @returns Single postitem corresponding to slug
  */
 export function getPostBySlug(
-  slug: string,
-  fields: string[] = [],
-  postType: string
+    slug: string,
+    fields: string[] = [],
+    postType: string
 ): PostItem {
-  const realSlug = slug.replace(/\.mdx$/, '');
-  const fullPath = join(getPostPath(postType), `${realSlug}.mdx`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
-  const { data, content } = matter(fileContents);
+    const realSlug = slug.replace(/\.mdx$/, '');
+    const fullPath = join(getPostPath(postType), `${realSlug}.mdx`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
 
-  const items: PostItem = {};
+    const items: PostItem = {};
 
-  // Ensure only the minimal needed data is exposed
-  fields.forEach((field) => {
-    if (field === 'slug') {
-      items[field] = realSlug;
-    }
-    if (field === 'content') {
-      items[field] = content;
-    }
-    if (data[field]) {
-      items[field] = data[field];
-    }
-  });
+    // Ensure only the minimal needed data is exposed
+    fields.forEach((field) => {
+        if (field === 'slug') {
+            items[field] = realSlug;
+        }
+        if (field === 'content') {
+            items[field] = content;
+        }
+        if (data[field]) {
+            items[field] = data[field];
+        }
+    });
 
-  return items;
+    return items;
 }
 
 /**
@@ -55,13 +55,13 @@ export function getPostBySlug(
  * @returns list of post items
  */
 export function getAllPosts(
-  fields: string[] = [],
-  postType: string
+    fields: string[] = [],
+    postType: string
 ): PostItem[] {
-  const slugs = getPostSlugs(postType);
-  const posts = slugs
-    .map((slug) => getPostBySlug(slug, fields, postType))
-    // sort posts by date in descending order
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
-  return posts;
+    const slugs = getPostSlugs(postType);
+    const posts = slugs
+        .map((slug) => getPostBySlug(slug, fields, postType))
+        // sort posts by date in descending order
+        .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
+    return posts;
 }
