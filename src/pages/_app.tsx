@@ -4,11 +4,15 @@ import React from 'react';
 import '../styles/globals.css';
 
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
-  return (
-    <ThemeProvider attribute="class" enableSystem={false} defaultTheme="white">
-      <Component {...pageProps} />
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider
+            attribute="class"
+            enableSystem={false}
+            defaultTheme="light"
+        >
+            <Component {...pageProps} />
+        </ThemeProvider>
+    );
 };
 
 export default MyApp;
