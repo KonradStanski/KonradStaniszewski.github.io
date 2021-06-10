@@ -27,7 +27,7 @@ This tech stack, when hosted on Vercel (the creators of Next.js) allows for an i
     src={`/images/blog/blog-redesign-1-lighthouse.png`}
     width={1251}
     height={354}
-    layout='intrinsic'
+    layout="intrinsic"
 />
 
 ### Getting Set Up With Notion + Next.js Blog
@@ -43,7 +43,7 @@ To get started with a notion blog, you should take the following steps:
 3. Setting up vercel hosting:
     1. Install the vercel command line with: `npm i -g vercel`
     2. Sign up for a hosting account with [vercel](https://vercel.com/). (It's free)
-    3. In the root of the project, type  `vc` to configure the project. This should lead you to connecting your GitHub account to vercel, and setting up the repo containing the project within vercel.
+    3. In the root of the project, type `vc` to configure the project. This should lead you to connecting your GitHub account to vercel, and setting up the repo containing the project within vercel.
     4. In the vercel repo dashboard, under setting/environment-variables, add your NOTION_TOKEN and BLOG_INDEX_ID as secrets.
 4. Setting up the Notion CMS page:
     1. Run the setup script to create the table for your blog: `NOTION_TOKEN='token' BLOG_INDEX_ID='new-page-id' node scripts/create-table.js`
