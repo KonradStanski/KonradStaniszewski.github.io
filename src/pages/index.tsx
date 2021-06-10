@@ -103,11 +103,11 @@ export const Index = (): JSX.Element => {
                             electronics, and many outdoor sports.
                         </p>
                     </div>
-                    <div className="md:pl-5">
+                    <div className="md:pl-5 pt-4 md:pt-0">
                         <Image
                             className="rounded-full md:px-3"
                             alt="Headshot"
-                            src="/headshot.jpg"
+                            src="/images/headshot.jpg"
                             height="894"
                             width="894"
                             layout="intrinsic"
