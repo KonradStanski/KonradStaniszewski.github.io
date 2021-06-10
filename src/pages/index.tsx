@@ -82,7 +82,7 @@ export const Index = (): JSX.Element => {
     const { theme } = useTheme();
     return (
         <Layout>
-            <div className="m-auto px-10">
+            <div className="m-auto px-4 md:px-10">
                 <h1 className="text-center text-5xl font-bold py-10">
                     Konrad Staniszewski
                 </h1>

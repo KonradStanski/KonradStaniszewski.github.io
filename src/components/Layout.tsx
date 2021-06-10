@@ -15,7 +15,9 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
             <Head customMeta={customMeta} />
             <Header />
             <main className="flex-grow">
-                <div className="max-w-5xl px-8 py-4 mx-auto">{children}</div>
+                <div className="max-w-5xl px-1 md:px-8 py-4 md:mx-auto">
+                    {children}
+                </div>
             </main>
             <Footer />
         </body>
