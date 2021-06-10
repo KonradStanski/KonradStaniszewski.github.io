@@ -1,7 +1,7 @@
 import React from 'react';
 import { MetaProps } from '../types/layout';
 import Head from './Head';
-import Header from './Header';
+import Header from './Header/Header';
 import Footer from './Footer';
 
 type LayoutProps = {
