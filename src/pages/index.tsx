@@ -117,10 +117,10 @@ export const Index = (): JSX.Element => {
                 {/*skills section */}
                 <div
                     id="skills-section"
-                    className="grid grid-cols-4 grid-rows-3 gap-8 justify-items-center pt-8"
+                    className="grid grid-cols-3 md:grid-cols-4 gap-8 justify-items-center pt-8"
                 >
                     {skills.map(({ text, icon: Icon }) => (
-                        <div className="flex items-center " key={text}>
+                        <div className="flex items-center" key={text}>
                             {Icon && (
                                 <Icon
                                     fill={theme === 'dark' ? 'white' : 'black'}
