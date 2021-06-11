@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+    html {
+        overflow-y: overlay; /* stop scroll bar from shifting content*/
+    }
     h1 {
         @apply mb-6 text-3xl font-semibold;
     }

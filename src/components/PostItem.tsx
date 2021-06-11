@@ -3,12 +3,12 @@ import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
 import { PostType } from '../types/post';
 
-type postProps = {
+type props = {
     post: PostType;
     type: string;
 };
 
-const PostItem = (props: postProps): JSX.Element => {
+const PostItem = (props: props): JSX.Element => {
     return (
         <Link
             as={`/${props.type}/${props.post.slug}`}

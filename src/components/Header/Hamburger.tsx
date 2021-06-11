@@ -1,4 +1,11 @@
-const Hamburger = (props) => (
+import { MouseEventHandler } from 'react';
+
+type props = {
+    clickHamburger: MouseEventHandler;
+    navOpen: boolean;
+};
+
+const Hamburger = (props: props): JSX.Element => (
     <button
         aria-label="hamburger menu"
         type="button"
