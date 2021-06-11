@@ -3,6 +3,25 @@ import Link from 'next/link';
 import ThemeSwitch from './ThemeSwitch';
 import Hamburger from './Hamburger';
 
+const routes = [
+    {
+        key: 'Home',
+        route: '/',
+    },
+    {
+        key: 'Blog',
+        route: '/blog',
+    },
+    {
+        key: 'Projects',
+        route: '/projects',
+    },
+    {
+        key: 'Resume',
+        route: '/resume.pdf',
+    },
+];
+
 const Header = (): JSX.Element => {
     const [navOpen, setNavOpen] = useState(false);
 
@@ -17,7 +36,7 @@ const Header = (): JSX.Element => {
                     id="header-container"
                     className={`flex items-start justify-between py-6`}
                 >
-                    <div className="flex flex-col my-auto">
+                    <div className="flex flex-col flex-grow my-auto">
                         <Hamburger
                             navOpen={navOpen}
                             clickHamburger={clickHamburger}
@@ -25,29 +44,18 @@ const Header = (): JSX.Element => {
                         <nav
                             id="navigation"
                             className={`${
-                                navOpen ? 'flex flex-col pl-3' : 'hidden'
+                                navOpen
+                                    ? 'flex flex-col pl-3 text-center'
+                                    : 'hidden'
                             } md:block`}
                         >
-                            <Link href="/">
-                                <a className="text-gray-900 dark:text-white pr-6 py-4">
-                                    Home
-                                </a>
-                            </Link>
-                            <Link href="/blog">
-                                <a className="text-gray-900 dark:text-white pr-6 py-4">
-                                    Blog
-                                </a>
-                            </Link>
-                            <Link href="/projects">
-                                <a className="text-gray-900 dark:text-white pr-6 py-4">
-                                    Projects
-                                </a>
-                            </Link>
-                            <Link href="/resume.pdf">
-                                <a className="text-gray-900 dark:text-white pr-6 py-4">
-                                    Resume
-                                </a>
-                            </Link>
+                            {routes.map(({ key, route }) => (
+                                <Link href={route} key={key}>
+                                    <a className="text-gray-900 dark:text-white border-b-2 md:border-0 border-gray-400 mr-6 my-4">
+                                        {key}
+                                    </a>
+                                </Link>
+                            ))}
                         </nav>
                     </div>
                     <ThemeSwitch />
