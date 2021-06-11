@@ -11,7 +11,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
 
     useEffect(() => {
         const handleRouteChange = (url: URL) => {
-            gtag.pageview(url);
+            gtag.pageview(url); // calls pageView function to trigger page view event and register url visited
         };
         router.events.on('routeChangeComplete', handleRouteChange);
         return () => {
