@@ -45,7 +45,7 @@ const Header = (): JSX.Element => {
                             id="navigation"
                             className={`${
                                 navOpen
-                                    ? 'flex flex-col pl-3 text-center'
+                                    ? 'flex flex-col pl-16 md:pl-3 text-center'
                                     : 'hidden'
                             } md:block`}
                         >

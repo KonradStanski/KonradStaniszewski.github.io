@@ -83,7 +83,7 @@ export const Index = (): JSX.Element => {
     return (
         <Layout>
             <div className="m-auto px-4 md:px-10">
-                <h1 className="text-center text-5xl font-bold py-10">
+                <h1 className="text-center text-5xl font-bold pb-10 pt-0 md:pt-10">
                     Konrad Staniszewski
                 </h1>
                 <div
