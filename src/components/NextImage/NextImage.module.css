@@ -1,0 +1,21 @@
+.wrapper {
+    position: relative;
+    min-width: 300px;
+    max-width: 100%;
+    text-align: center;
+    margin: auto;
+}
+.wrapper img {
+    width: 100% !important;
+    height: auto !important;
+    min-width: unset !important;
+    min-height: unset !important;
+    max-width: unset !important;
+    max-height: unset !important;
+}
+.wrapper > div {
+    position: relative !important;
+}
+.wrapper > div > img {
+    position: relative !important;
+}
