@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const AndroidIcon = (props) => (
     <svg
         viewBox="0 0 24 24"

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const LinuxIcon = (props) => (
     <svg
         // viewBox="-5 0 120 130"

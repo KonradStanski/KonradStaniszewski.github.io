@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const CppIcon = (props) => (
     <svg
         viewBox="0 0 24 24"

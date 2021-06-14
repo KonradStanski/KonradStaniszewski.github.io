@@ -15,9 +15,9 @@
         "jsx": "preserve",
         "baseUrl": ".",
         "paths": {
-            "@app/*": ["src/*"],
+            "@app/*": ["src/*"]
         }
     },
-    "exclude": ["node_modules", ".next", "out"],
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
+    "exclude": ["node_modules", ".next", "out", "build"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"]
 }

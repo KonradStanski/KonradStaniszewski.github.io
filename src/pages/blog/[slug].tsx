@@ -7,7 +7,6 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
 import path from 'path';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -16,7 +15,7 @@ import { WEBSITE_HOST_URL } from '@app/components/Head';
 import { MetaProps } from '@app/types/layout';
 import { PostType } from '@app/types/post';
 import { postFilePaths, getPostPath } from '@app/utils/mdxUtils';
-import { Codepen, Layout } from '@app/components';
+import { Codepen, Layout, NextImage } from '@app/components';
 
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
@@ -24,7 +23,7 @@ import { Codepen, Layout } from '@app/components';
 // here.
 const components = {
     Head,
-    Image,
+    NextImage,
     Link,
     Codepen,
 };
