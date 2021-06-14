@@ -1,7 +1,7 @@
 import fs from 'fs';
 import matter from 'gray-matter';
 import { join } from 'path';
-import { getPostPath } from '../utils/mdxUtils';
+import { getPostPath } from '@app/utils/mdxUtils';
 
 type PostItem = {
     [key: string]: string;

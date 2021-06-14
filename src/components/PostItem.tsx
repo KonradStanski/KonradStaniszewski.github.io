@@ -1,7 +1,7 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
-import { PostType } from '../types/post';
+import { PostType } from '@app/types/post';
 
 type props = {
     post: PostType;

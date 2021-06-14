@@ -3,8 +3,8 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import React from 'react';
-import '../styles/globals.css';
-import * as gtag from '../utils/gtag';
+import '@app/styles/globals.css';
+import * as gtag from '@app/utils/gtag';
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
     const router = useRouter();

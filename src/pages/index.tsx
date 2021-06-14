@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
-import Layout from '../components/Layout';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
+import { Layout } from '@app/components';
 
 // import icons
 import {
@@ -18,7 +18,7 @@ import {
     SqliteIcon,
     GitIcon,
     LinuxIcon,
-} from '../components/svgs';
+} from '@app/svgs';
 
 const skills = [
     {

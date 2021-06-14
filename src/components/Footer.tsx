@@ -1,6 +1,6 @@
 import React from 'react';
-import { LinkedinIcon, EnvelopeIcon, GithubIcon } from './svgs';
 import { useTheme } from 'next-themes';
+import { LinkedinIcon, EnvelopeIcon, GithubIcon } from '@app/svgs';
 
 const contacts = [
     {

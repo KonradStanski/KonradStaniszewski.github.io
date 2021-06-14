@@ -1,7 +1,7 @@
 import NextHead from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { MetaProps } from '../types/layout';
+import { MetaProps } from '@app/types/layout';
 
 export const WEBSITE_HOST_URL = 'https://konradstaniszewski.com';
 

@@ -1,9 +1,8 @@
 import React from 'react';
-import Layout from '../components/Layout';
-import { IndexProps } from '../types/post';
-import { getAllPosts } from '../lib/api';
 import { GetStaticProps } from 'next';
-import PostItem from '../components/PostItem';
+import { IndexProps } from '@app/types/post';
+import { getAllPosts } from '@app/lib/api';
+import { Layout, PostItem } from '@app/components';
 
 export const Projects = ({ posts }: IndexProps): JSX.Element => {
     return (
