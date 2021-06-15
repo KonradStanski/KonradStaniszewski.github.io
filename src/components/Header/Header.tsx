@@ -47,7 +47,7 @@ const Header = (): JSX.Element => {
                                 navOpen
                                     ? 'flex flex-col pl-16 md:pl-3 text-center'
                                     : 'hidden'
-                            } md:block`}
+                            } md:text-left md:block`}
                         >
                             {routes.map(({ key, route }) => (
                                 <Link href={route} key={key}>
