@@ -4,7 +4,7 @@
     "license": "MIT",
     "version": "1.0.0",
     "scripts": {
-        "dev": "NODE_ENV=development next dev",
+        "dev": "next dev",
         "build": "next build",
         "start": "next start",
         "type-check": "tsc --pretty --noEmit",
