@@ -40,7 +40,6 @@
         "remark-code-titles": "^0.1.1"
     },
     "devDependencies": {
-        "@tailwindcss/jit": "0.1.18",
         "@testing-library/react": "^11.2.5",
         "@types/gtag.js": "^0.0.5",
         "@types/node": "^14.14.25",

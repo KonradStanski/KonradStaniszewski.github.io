@@ -12,44 +12,44 @@ image: '/images/blog/blog-redesign-1/lighthouse.png'
 
 ### What was wrong with the old version?
 
-In my previous version of the website redesign, I showed how to use a Next.js template that allowed me to pull data from a "Notion API". 
-I say this with quotation marks, because Notion had not yet released its official API, and that implementation was more using a backdoor, 
-than actually using the notion API. 
-Since then (more than 8 months later), Notion has released an official API, introducing some breaking changes to how data querying happened, 
-breaking my blog and projects page. Because of this, I decided to redo my personal website, 
+In my previous version of the website redesign, I showed how to use a Next.js template that allowed me to pull data from a "Notion API".
+I say this with quotation marks, because Notion had not yet released its official API, and that implementation was more using a backdoor,
+than actually using the notion API.
+Since then (more than 8 months later), Notion has released an official API, introducing some breaking changes to how data querying happened,
+breaking my blog and projects page. Because of this, I decided to redo my personal website,
 but this time use MDX to store the data for my pages instead of using the Notion API.
 
 ### Why is this solution better?
 
 You might be asking: "why don't you just change over the data layer of your blog to use the new Notion API, and keep using Notion as a CMS?"
 
-The simple answer is that I like the relative flexibility of using MDX, 
-and I foresee the Notion API undergoing any number of large breaking changes and improvements in the future. 
-The other reason is that MDX allows embedding custom components in my blog posts, and the ability to pull help in from the large MDX community 
-and see how other people solve challenges. MDX allows me to do a number of things that I simply could not do while using Notion as a CMS. 
-I do admit, using Notion would be much more convenient given its live update nature and "single source of truth", 
-and would probably make sense to use for someone looking to just host images, code, and text on their blog. Given that I want to write interactive tutorials, 
-and embed codepens in my posts (as can be seen in my [Hamburger Menu tutorial](https://konradstaniszewski.com/blog/tailwind-hamburger)), 
+The simple answer is that I like the relative flexibility of using MDX,
+and I foresee the Notion API undergoing any number of large breaking changes and improvements in the future.
+The other reason is that MDX allows embedding custom components in my blog posts, and the ability to pull help in from the large MDX community
+and see how other people solve challenges. MDX allows me to do a number of things that I simply could not do while using Notion as a CMS.
+I do admit, using Notion would be much more convenient given its live update nature and "single source of truth",
+and would probably make sense to use for someone looking to just host images, code, and text on their blog. Given that I want to write interactive tutorials,
+and embed codepens in my posts (as can be seen in my [Hamburger Menu tutorial](https://konradstaniszewski.com/blog/tailwind-hamburger)),
 MDX provides the right amount of ease of use, combined with the flexibility of being able to embed JSX in my markdown.
 
 ### How I changed over:
 
-To change over, I found a Next.js template that had Typescript, Tailwind CSS, Linting, and MDX baked in [HERE](https://github.com/ChangoMan/nextjs-typescript-mdx-blog). 
-This template also sets up Tailwind CSS to use themes and provides a gorgeous theme switch button. 
-One of Tailwind's strengths is supporting themes out of the box. Starting with this, 
-I added in a ton of functionality to allow me to split up my pages into blog posts and projects, as well as restructuring and generalizing a lot of the code. 
-You can see the source for this website [HERE](https://github.com/KonradStanski/KonradStaniszewski.github.io). 
-I built out the rest of the site around this starter template, making sure to use a mobile-first responsive design. 
-In many other respects, the blog is similar to the previous one. 
-For more details on how I did this, look at my commit history, and read the Next.js + Tailwind CSS docs. 
+To change over, I found a Next.js template that had Typescript, Tailwind CSS, Linting, and MDX baked in [HERE](https://github.com/ChangoMan/nextjs-typescript-mdx-blog).
+This template also sets up Tailwind CSS to use themes and provides a gorgeous theme switch button.
+One of Tailwind's strengths is supporting themes out of the box. Starting with this,
+I added in a ton of functionality to allow me to split up my pages into blog posts and projects, as well as restructuring and generalizing a lot of the code.
+You can see the source for this website [HERE](https://github.com/KonradStanski/KonradStaniszewski.github.io).
+I built out the rest of the site around this starter template, making sure to use a mobile-first responsive design.
+In many other respects, the blog is similar to the previous one.
+For more details on how I did this, look at my commit history, and read the Next.js + Tailwind CSS docs.
 I will admit that I learned a lot in redoing it, and created quite a mess in my commit history.
 
 ### Issues with the new version:
 
-My first issue with storing my blog posts in the GitHub repo as MDX is that I don't like the writing experience of editing raw MDX, 
-and see this as a post-processing step in the article writing pipeline. 
-I still use Notion to write my blog posts, as I like the WYSIWYG editing, 
-but run into the issue of having to correct small mistakes in both the repo version and in my Notion copy. 
-This is a good example of the issues faced by having more than one source of truth, and manual data copying. 
-I'm curious to see if there is a way of using the Notion API to source all of the text and images for an MDX blog post, 
+My first issue with storing my blog posts in the GitHub repo as MDX is that I don't like the writing experience of editing raw MDX,
+and see this as a post-processing step in the article writing pipeline.
+I still use Notion to write my blog posts, as I like the WYSIWYG editing,
+but run into the issue of having to correct small mistakes in both the repo version and in my Notion copy.
+This is a good example of the issues faced by having more than one source of truth, and manual data copying.
+I'm curious to see if there is a way of using the Notion API to source all of the text and images for an MDX blog post,
 and still be able to include custom JSX within the MDX nonetheless? If anyone knows how to do this, please contact me through any of my social media links.
