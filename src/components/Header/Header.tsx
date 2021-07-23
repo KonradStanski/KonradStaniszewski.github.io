@@ -18,7 +18,7 @@ const routes = [
     },
     {
         key: 'Resume',
-        route: '/resume.pdf',
+        route: '/Konrad_Staniszewski_Resume.pdf',
     },
 ];
 
