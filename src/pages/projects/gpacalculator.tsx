@@ -1,39 +1,16 @@
 import React, { useState } from 'react';
-import { Layout } from '@app/components';
 import Link from 'next/link';
-import { sampleTranscript } from './sampleTranscript';
-import Semester from './components/semester';
-import TranscriptChart from './components/transcriptChart';
-
-export type transcriptInfoType = {
-    semesters: Array<semesterType | any>;
-    overallGpa: number;
-};
-
-export type semesterType = {
-    name: string;
-    lines: Array<string>;
-    classes: Array<classType>;
-    valid: boolean;
-    totalGradePoints: number;
-    totalUnitsTaken: number;
-    semGpa: number;
-    cumulativeGpa: number;
-    cumulativeGradePoints: number;
-    cumulativeUnitsTaken: number;
-};
-
-export type classType = {
-    line: string;
-    course: string;
-    number: number;
-    desc: string;
-    remarkStr: string;
-    remarkNum: number;
-    unitsTaken: number;
-    gradePoints: number;
-    include: boolean;
-};
+import {
+    Layout,
+    Semester,
+    TranscriptChart,
+    SampleTranscript,
+} from '@app/components';
+import {
+    classType,
+    semesterType,
+    transcriptInfoType,
+} from '@app/types/gpacalculator';
 
 const remarks = {
     '': { value: 0, include: false },
@@ -72,7 +49,7 @@ export const Index = (): JSX.Element => {
         // set text to inputted text, or if empty fall back to default
         let inString = '';
         if (textArea.value === '') {
-            inString = sampleTranscript;
+            inString = SampleTranscript;
         } else {
             inString = textArea.value;
         }
@@ -251,7 +228,7 @@ export const Index = (): JSX.Element => {
             <form className="flex flex-col" onSubmit={submitGpaForm}>
                 <textarea
                     className="border-2 border-black rounded-md h-96 mb-2"
-                    placeholder={sampleTranscript}
+                    placeholder={SampleTranscript}
                 />
                 <button
                     type="submit"

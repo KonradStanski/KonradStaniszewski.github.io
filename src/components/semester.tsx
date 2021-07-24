@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { semesterType } from '../index';
+import { semesterType } from '@app/types/gpacalculator';
 
 type props = {
     semester: semesterType;

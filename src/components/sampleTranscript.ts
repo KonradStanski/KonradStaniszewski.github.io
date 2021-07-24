@@ -2,7 +2,7 @@ function rnn() {
     return (Math.random() * 2 + 11).toFixed(2).toString();
 }
 
-export const sampleTranscript = `Undergrad/Graduate Unofficial
+const sampleTranscript = `Undergrad/Graduate Unofficial
 Student Name:           John Doe
 (Surname last)
 ID Number:              1234567
@@ -114,3 +114,5 @@ WKEXP 904   ENGINEERING WORK EXPERIE           0.5     0.0    0.00    XXX    139
 Grades are Unofficial Until Approved by the Dean
 ------------------------------ End of Transcript ------------------------------
 `;
+
+export default sampleTranscript;

@@ -5,3 +5,6 @@ export { default as Head } from './Head';
 export { default as Layout } from './Layout';
 export { default as PostItem } from './PostItem';
 export { default as NextImage } from './NextImage/NextImage';
+export { default as Semester } from './semester';
+export { default as TranscriptChart } from './transcriptChart';
+export { default as SampleTranscript } from './sampleTranscript';

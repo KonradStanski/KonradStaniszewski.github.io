@@ -1,7 +1,7 @@
 import React from 'react';
-import { transcriptInfoType, semesterType } from '../index';
 import { Bar } from 'react-chartjs-2';
 import { useTheme } from 'next-themes';
+import { transcriptInfoType, semesterType } from '@app/types/gpacalculator';
 
 type props = {
     transcriptInfo: transcriptInfoType;
