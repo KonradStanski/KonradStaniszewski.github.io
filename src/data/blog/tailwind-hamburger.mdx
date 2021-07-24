@@ -6,15 +6,27 @@ date: '2021-06-21'
 
 ### Why use Tailwind CSS
 
-I recently decided to re-do my personal portfolio website with Next.js, MDX, and Tailwind CSS. I've really been enjoying using Tailwind, as it enables me to make CSS-in-js react components without too much boilerplate. There is some repetitiveness, but I find this to be acceptable on a small codebase such as my personal portfolio. Tailwind encourages mobile-first responsive design, so while implementing a nav menu, I quickly found myself making a hamburger menu for mobile widths. I looked around and tried to find an existing implementation using only Tailwind, but had no luck. There exist react compatible libraries that provide ready-made ones, but these lack the customization options that I was looking for to match the theme of my site. I realize that Next.js supports CSS modules out of the box, and for something custom like this, It would make sense to use any of the many existing implementations that use plain CSS. Nonetheless, I decided to continue making it using Tailwind.
+I recently decided to re-do my personal portfolio website with Next.js, MDX, and Tailwind CSS. I've really been enjoying
+using Tailwind, as it enables me to make CSS-in-js react components without too much boilerplate. There is some
+repetitiveness, but I find this to be acceptable on a small codebase such as my personal portfolio. Tailwind encourages
+mobile-first responsive design, so while implementing a nav menu, I quickly found myself making a hamburger menu for
+mobile widths. I looked around and tried to find an existing implementation using only Tailwind, but had no luck. There
+exist react compatible libraries that provide ready-made ones, but these lack the customization options that I was
+looking for to match the theme of my site. I realize that Next.js supports CSS modules out of the box, and for something
+custom like this, It would make sense to use any of the many existing implementations that use plain CSS. Nonetheless, I
+decided to continue making it using Tailwind.
 
 ### Building the menu
 
-In this walkthrough, I'm assuming a basic knowledge of React, what CSS-in-js is, as well as being able to follow along with a dummy create-react-app project where Tailwind CSS is already set up. If you don't have a project to try this in, I am providing a codepen at the end with which you can experiment.
+In this walkthrough, I'm assuming a basic knowledge of React, what CSS-in-js is, as well as being able to follow along
+with  a dummy create-react-app project where Tailwind CSS is already set up. If you don't have a project to try this in,
+I am providing a codepen at the end with which you can experiment.
 
-To create the hamburger menu, start with an empty jsx (or tsx) file in your components folder. We will need a wrapper element, and 3 elements to represent the lines within it.
+To create the hamburger menu, start with an empty jsx (or tsx) file in your components folder. We will need a wrapper
+element,  and 3 elements to represent the lines within it.
 
-To keep track of whether the hamburger menu is open or closed, we can use the useState react hook. Initialize the isOpen state to false, as we do not want the menu to be open initially.
+To keep track of whether the hamburger menu is open or closed, we can use the useState react hook. Initialize the isOpen
+state to false, as we do not want the menu to be open initially.
 
 ```jsx
 const [isOpen, setIsOpen] = useState(false);
@@ -29,19 +41,26 @@ After this, add the button element and give it the following attributes:
 ></button>
 ```
 
-The className attribute sets the tailwind classes that set the size, color, and shape of the button. flex, flex-col, justify-center, items-center allow the 3 line elements to display in a column, and to be centered within the button. The last class present here is group, which creates a group, allowing the button to set properties on the 3 elements within it upon hover.
+The className attribute sets the tailwind classes that set the size, color, and shape of the button. flex, flex-col,
+justify-center,  items-center allow the 3 line elements to display in a column, and to be centered within the button.
+The last class present here is group, which creates a group, allowing the button to set properties on the 3 elements
+within it upon hover.
 
 The onClick attribute sets a callback function to call when the button is clicked, triggering a change in state by toggling isOpen.
 
-We now move on to adding the 3 line elements within the button. To do this, we add 3 div elements. These share a number of tailwind classes, so we can extract them to a separate variable:
+We now move on to adding the 3 line elements within the button. To do this, we add 3 div elements. These share a number
+of  tailwind classes, so we can extract them to a separate variable:
 
 ```jsx
 const genericHamburgerLine = `h-1 w-6 my-1 rounded-full bg-black transition ease transform duration-300`;
 ```
 
-This variable contains the class names that set the size, color, and style of the 3 lines. It also enables transition for opacity fading, transform for the translation and rotation, ease to set the change curve, and duration-300 to set the transform and transition duration to 300ms.
+This variable contains the class names that set the size, color, and style of the 3 lines. It also enables transition
+for  opacity fading, transform for the translation and rotation, ease to set the change curve, and duration-300 to set
+the transform and transition duration to 300ms.
 
-We now need to apply this generic style to the three div elements, as well as make some conditional class applications using the isOpen state value. Using conditionals, this can be acheived like so:
+We now need to apply this generic style to the three div elements, as well as make some conditional class applications
+using  the isOpen state value. Using conditionals, this can be acheived like so:
 
 ```jsx
 const { useState } = React;
@@ -75,12 +94,21 @@ return (
 );
 ```
 
-Each div has a className attribute that is a template literal that allows for evaluating javascript to get a string. We concatenate the generic className string with a ternary dependent on the state isOpen, which either returns the classes for when the menu is open, or when it is closed. For the top bar, when the menu opens, we apply a transition, vertical translation, and rotation. The middle bar has opacity 0, and the bottom bar translates up and rotates in the opposite direction. Notice the pseudo-element group-hover, which allows for events on the button element to dictate behavior for the 3 child elements.
+Each div has a className attribute that is a template literal that allows for evaluating javascript to get a string. We
+concatenate the generic className string with a ternary dependent on the state isOpen, which either returns the classes
+for when the menu is open, or when it is closed. For the top bar, when the menu opens, we apply a transition, vertical
+translation, and rotation. The middle bar has opacity 0, and the bottom bar translates up and rotates in the opposite
+direction. Notice the pseudo-element group-hover, which allows for events on the button element to dictate behavior for
+the 3 child elements.
 
-Here is the finished codepen for you to see the end result, and play around with. The version I have on my site has a bit more, because it takes into account the theme that is being applied. Try it out if you like by turning on mobile test view in the chrome dev tools!
+Here is the finished codepen for you to see the end result, and play around with. The version I have on my site has a
+bit  more, because it takes into account the theme that is being applied. Try it out if you like by turning on mobile
+test view in the chrome dev tools!
 
 <Codepen src="https://codepen.io/kstanisz/embed/NWpeKZX" />
 
 ### Conclusion
 
-This is only one of a possibly infinite number of ways to implement this. Given how many different frameworks exist out there, and the number of different ways to apply CSS properties to them, It's easy to get lost. I'm sure there are many better ways to achieve this, but this is what worked for me.
+This is only one of a possibly infinite number of ways to implement this. Given how many different frameworks exist out
+there, and the number of different ways to apply CSS properties to them, It's easy to get lost. I'm sure there are many
+better ways to achieve this, but this is what worked for me.
