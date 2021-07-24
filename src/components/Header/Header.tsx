@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import ThemeSwitch from './ThemeSwitch';
 import Hamburger from './Hamburger';
+import { useRouter } from 'next/router';
 
 const routes = [
     {
@@ -24,6 +25,7 @@ const routes = [
 
 const Header = (): JSX.Element => {
     const [navOpen, setNavOpen] = useState(false);
+    const router = useRouter();
 
     function clickHamburger() {
         setNavOpen(!navOpen);
@@ -51,7 +53,13 @@ const Header = (): JSX.Element => {
                         >
                             {routes.map(({ key, route }) => (
                                 <Link href={route} key={key}>
-                                    <a className="text-gray-900 dark:text-white border-b-2 md:border-0 border-gray-400 mr-6 my-4">
+                                    <a
+                                        className={`${
+                                            router.asPath === route
+                                                ? 'text-blue'
+                                                : 'text-gray-900 dark:text-white'
+                                        } border-b-2 md:border-0 border-gray-400 mr-6 my-4`}
+                                    >
                                         {key}
                                     </a>
                                 </Link>

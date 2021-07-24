@@ -9,14 +9,14 @@ type LayoutProps = {
 
 const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
     return (
-        <body className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen">
             <Head customMeta={customMeta} />
             <Header />
             <main className="flex-grow">
                 <div className="max-w-5xl px-8 py-4 md:mx-auto">{children}</div>
             </main>
             <Footer />
-        </body>
+        </div>
     );
 };
 
