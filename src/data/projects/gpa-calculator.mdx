@@ -1,0 +1,55 @@
+---
+title: UofA GPA Calculator
+description: An easy to use GPA calculator for UofA students
+date: '2021-07-22'
+image: '/images/projects/resume-compilation/template-resume.png'
+---
+
+[LINK TO PROJECT](https://konradstaniszewski.com/projects/gpacalculator)
+
+[LINK TO CODE](https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/src/pages/projects/gpacalculator)
+
+### What is it?
+
+UofA GPA calculator is a small pet project of mine that allows you to copy-paste the contents of your transcript page
+into a text box, and get an analysis of your GPA as it has evolved over your university experience. This includes a
+graph of your GPA, which includes the GPA you received each semester, and a running cumulative GPA based on all of your
+previous semesters.
+
+### Why build it?
+
+2 years ago I was trying to calculate my GPA to put on my resume for my first internship job search. I was about to
+start doing it by hand when I suddenly remembered that I know how to automate things exactly like this. So I built a
+python script to scrape and analyze my transcript text and spit out a cumulative GPA for me. The code to that can be
+found [HERE](https://github.com/KonradStanski/UofAGpaCalculator). This worked well for me, and I had no incentive to
+improve it for a while. Since then, I've spent the past year learning web development technologies. This blog for
+example is built with [Next.js and React](https://konradstaniszewski.com/blog/blog-redesign-2). So as a small pet
+project to inaugurate having a new personal website, I decided to rebuild my python script with typescript and some nice
+graphs. 
+
+### How did I build it?
+
+The tech stack I used to build this project is:
+
+- TypeScript 
+- React 
+- Tailwind CSS 
+- chart.js
+
+Using React, I built out the form for providing the copied text, and simply validated it using some regex. I used regex
+to identify where semesters start and end, and then extracted individual class information from these. These then get
+processed to determine GPA, and all of this is then passed to chart.js where I plot your results.
+
+### Challenges and improvements:
+
+I can see several improvements to this project, as the way that I calculate GPA is very generic and does not encompass
+the way that graduating GPA's are calculated for most students at the University of Alberta. For example, the
+engineering graduating average (EGA) is calculated based on the semesters required to reach at least 70 credits. This is
+different compared to how ALES calculates its graduating average, where 60 credits are required, and if a semester does
+not fill those 60 credits fully, but the next one does, the average of the previous semester is used in the calculation
+with the weight of the remaining credits to reach a total of 60. Other faculties do even stranger things. I can see the
+utility in trying to go over each one and add a dropdown to let you choose which one you are, and calculate your
+graduating GPA accordingly, but this would probably be a lot of work. I might get around to it someday.
+
+One other thing I would like to provide would be the option of uploading the generated PDF transcript instead of
+copy-pasting the text contents of the page. I plan on doing this once I get a free minute from schoolwork.
