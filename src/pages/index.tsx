@@ -79,7 +79,14 @@ const skills = [
 ];
 
 export const Index = (): JSX.Element => {
+    const [mounted, setMounted] = React.useState(false);
     const { theme } = useTheme();
+    // After mounting, we have access to the theme
+    React.useEffect(() => setMounted(true), []);
+    if (!mounted) {
+        return null;
+    }
+
     return (
         <Layout>
             <div className="m-auto px-4 md:px-10">
@@ -122,11 +129,7 @@ export const Index = (): JSX.Element => {
                     {skills.map(({ text, icon: Icon }) => (
                         <div className="flex items-center" key={text}>
                             {Icon && (
-                                <Icon
-                                    fill={theme === 'dark' ? 'white' : 'black'}
-                                    height={20}
-                                    width={20}
-                                />
+                                <Icon height={20} width={20} theme={theme} />
                             )}
                             <div className="pl-2 flex">
                                 <p className="m-auto text-lg font-semibold">

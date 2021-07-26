@@ -9,6 +9,7 @@ import * as gtag from '@app/utils/gtag';
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
     const router = useRouter();
 
+    // enable gtag events when router detects route change
     useEffect(() => {
         const handleRouteChange = (url: URL) => {
             gtag.pageview(url); // calls pageView function to trigger page view event and register url visited
@@ -22,7 +23,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
     return (
         <ThemeProvider
             attribute="class"
-            enableSystem={false}
+            enableSystem={true}
             defaultTheme="light"
         >
             <Component {...pageProps} />

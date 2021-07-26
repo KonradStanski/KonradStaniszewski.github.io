@@ -1,15 +1,15 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { useTheme } from 'next-themes';
 import { transcriptInfoType, semesterType } from '@app/types/gpacalculator';
 
 type props = {
     transcriptInfo: transcriptInfoType;
+    theme: string;
 };
 
 const TranscriptChart = (props: props): JSX.Element => {
     const transcript = props.transcriptInfo;
-    const { theme } = useTheme();
+    const theme = props.theme;
 
     const data = {
         labels: transcript.semesters.map(

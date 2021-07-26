@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { GetStaticProps } from 'next';
+import { useTheme } from 'next-themes';
 import {
     Layout,
     Semester,
@@ -12,23 +14,24 @@ import {
     transcriptInfoType,
 } from '@app/types/gpacalculator';
 
+// prettier-ignore
 const remarks = {
     '': { value: 0, include: false },
     'A+': { value: 4, include: true },
-    A: { value: 4, include: true },
+    'A': { value: 4, include: true },
     'A-': { value: 3.7, include: true },
     'B+': { value: 3.3, include: true },
-    B: { value: 3, include: true },
+    'B': { value: 3, include: true },
     'B-': { value: 2.7, include: true },
     'C+': { value: 2.3, include: true },
-    C: { value: 2, include: true },
+    'C': { value: 2, include: true },
     'C-': { value: 1.7, include: true },
     'D+': { value: 1.3, include: true },
-    D: { value: 1, include: true },
-    F: { value: 0, include: true },
-    F4: { value: 0, include: true },
-    CR: { value: 0, include: false },
-    W: { value: 0, include: false },
+    'D': { value: 1, include: true },
+    'F': { value: 0, include: true },
+    'F4': { value: 0, include: true },
+    'CR': { value: 0, include: false },
+    'W': { value: 0, include: false },
 };
 
 const regex = {
@@ -36,20 +39,30 @@ const regex = {
     classLine: /^[\w\s]{1,7}\s+\d{3}\s{3}\w/,
 };
 
-export const Index = (): JSX.Element => {
+export const getStaticProps: GetStaticProps = async () => ({
+    props: {
+        sampleTranscript: SampleTranscript(),
+    },
+});
+
+type props = {
+    sampleTranscript: string;
+};
+
+export const Index = (props: props): JSX.Element => {
     const [transcriptInfo, setTranscriptInfo] = useState<transcriptInfoType>({
         semesters: [],
         overallGpa: 0.0,
     });
     const [gpaHidden, setGpaHidden] = useState(true);
-
+    const { theme } = useTheme();
     const submitGpaForm = (event) => {
         event.preventDefault(); // stop reload
         const textArea = event.target[0];
         // set text to inputted text, or if empty fall back to default
         let inString = '';
         if (textArea.value === '') {
-            inString = SampleTranscript;
+            inString = props.sampleTranscript;
         } else {
             inString = textArea.value;
         }
@@ -228,7 +241,7 @@ export const Index = (): JSX.Element => {
             <form className="flex flex-col" onSubmit={submitGpaForm}>
                 <textarea
                     className="border-2 border-black rounded-md h-96 mb-2"
-                    placeholder={SampleTranscript}
+                    placeholder={props.sampleTranscript}
                 />
                 <button
                     type="submit"
@@ -244,7 +257,10 @@ export const Index = (): JSX.Element => {
                 <h1>{`Your final GPA is: ${transcriptInfo.overallGpa.toFixed(
                     4
                 )}`}</h1>
-                <TranscriptChart transcriptInfo={transcriptInfo} />
+                <TranscriptChart
+                    transcriptInfo={transcriptInfo}
+                    theme={theme}
+                />
                 <div className="mb-6">
                     {transcriptInfo.semesters.map((semester) => {
                         return (
@@ -283,7 +299,10 @@ export const Index = (): JSX.Element => {
                     This website does not collect any user data, and makes no
                     network calls with respect to the data provided. If you want
                     to double check for yourself, you can check the requisite
-                    code for this page here: <Link href="">Github Repo</Link>
+                    code for this page here:
+                    <Link href="https://github.com/KonradStanski/KonradStaniszewski.github.io/blob/master/src/pages/projects/gpacalculator.tsx">
+                        Github Repo
+                    </Link>
                 </p>
             </div>
         </Layout>

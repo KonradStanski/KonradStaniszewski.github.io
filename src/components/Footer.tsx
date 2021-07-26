@@ -4,24 +4,33 @@ import { LinkedinIcon, EnvelopeIcon, GithubIcon } from '@app/svgs';
 
 const contacts = [
     {
-        Comp: GithubIcon,
+        Icon: GithubIcon,
         alt: 'github icon',
         link: 'https://github.com/KonradStanski',
     },
     {
-        Comp: LinkedinIcon,
+        Icon: LinkedinIcon,
         alt: 'linkedin icon',
         link: 'https://www.linkedin.com/in/konradstanski/',
     },
     {
-        Comp: EnvelopeIcon,
+        Icon: EnvelopeIcon,
         alt: 'envelope icon',
         link: 'mailto:konrad.a.staniszewski@gmail.com?subject=Website',
     },
 ];
 
 const Header = (): JSX.Element => {
+    const [mounted, setMounted] = React.useState(false);
     const { theme } = useTheme();
+
+    // After mounting, we have access to the theme
+    React.useEffect(() => setMounted(true), []);
+
+    if (!mounted) {
+        return null;
+    }
+
     return (
         <footer className="py-8 flex">
             <div className="max-w-5xl px-8 mx-auto flex flex-col justify-center md:flex-row">
@@ -32,7 +41,7 @@ const Header = (): JSX.Element => {
                     Konrad Staniszewski - Student @ University of Alberta
                 </a>
                 <div className="flex justify-center pt-4 md:pt-0">
-                    {contacts.map(({ Comp, link, alt }) => {
+                    {contacts.map(({ Icon, link, alt }) => {
                         return (
                             <a
                                 key={link}
@@ -40,10 +49,7 @@ const Header = (): JSX.Element => {
                                 aria-label={alt}
                                 className="pr-6"
                             >
-                                <Comp
-                                    fill={theme === 'dark' ? 'white' : 'black'}
-                                    height={24}
-                                />
+                                <Icon theme={theme} height={24} />
                             </a>
                         );
                     })}
