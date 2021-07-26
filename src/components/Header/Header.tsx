@@ -55,7 +55,9 @@ const Header = (): JSX.Element => {
                                 <Link href={route} key={key}>
                                     <a
                                         className={`${
-                                            router.asPath === route
+                                            router.asPath === route ||
+                                            (router.asPath.includes(route) &&
+                                                route !== '/')
                                                 ? 'text-blue'
                                                 : 'text-gray-900 dark:text-white'
                                         } border-b-2 md:border-0 border-gray-400 mr-6 my-4`}
