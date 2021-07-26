@@ -1,11 +1,11 @@
-import NextHead from 'next/head';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { MetaProps } from '@app/types/layout';
 
 export const WEBSITE_HOST_URL = 'https://konradstaniszewski.com';
 
-const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
+const Meta = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
     const router = useRouter();
     const meta: MetaProps = {
         title: 'Konrad Staniszewski',
@@ -16,7 +16,7 @@ const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
     };
 
     return (
-        <NextHead>
+        <Head>
             <title>{meta.title}</title>
             <meta content={meta.description} name="description" />
             <meta
@@ -40,8 +40,8 @@ const Head = ({ customMeta }: { customMeta?: MetaProps }): JSX.Element => {
             {meta.date && (
                 <meta property="article:published_time" content={meta.date} />
             )}
-        </NextHead>
+        </Head>
     );
 };
 
-export default Head;
+export default Meta;

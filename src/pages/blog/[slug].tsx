@@ -11,7 +11,7 @@ import Link from 'next/link';
 import path from 'path';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
-import { WEBSITE_HOST_URL } from '@app/components/Head';
+import { WEBSITE_HOST_URL } from '@app/components/Meta';
 import { MetaProps } from '@app/types/layout';
 import { PostType } from '@app/types/post';
 import { postFilePaths, getPostPath } from '@app/utils/mdxUtils';
