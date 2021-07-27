@@ -1,14 +1,14 @@
-import React from 'react';
-import { IndexProps } from '@app/types/post';
-import { getAllPosts } from '@app/lib/api';
-import { GetStaticProps } from 'next';
-import { PostItem, Layout } from '@app/components';
+import React from "react";
+import { IndexProps } from "@app/types/post";
+import { getAllPosts } from "@app/lib/api";
+import { GetStaticProps } from "next";
+import { PostItem, Layout } from "@app/components";
 
 export const Blog = ({ posts }: IndexProps): JSX.Element => {
     return (
         <Layout
             customMeta={{
-                title: 'Blog',
+                title: "Blog",
             }}
         >
             <h1>Blog</h1>
@@ -20,7 +20,7 @@ export const Blog = ({ posts }: IndexProps): JSX.Element => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const posts = getAllPosts(['date', 'description', 'slug', 'title'], 'blog');
+    const posts = getAllPosts(["date", "description", "slug", "title"], "blog");
 
     return {
         props: { posts },

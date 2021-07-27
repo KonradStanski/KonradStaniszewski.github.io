@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import { useTheme } from 'next-themes';
-import Image from 'next/image';
-import { Layout } from '@app/components';
+import React from "react";
+import { useTheme } from "next-themes";
+import Image from "next/image";
+import { Layout } from "@app/components";
 
 // import icons
 import {
@@ -18,55 +18,55 @@ import {
     SqliteIcon,
     GitIcon,
     LinuxIcon,
-} from '@app/svgs';
+} from "@app/svgs";
 
 const skills = [
     {
-        text: 'Javascript',
+        text: "Javascript",
         icon: JavascriptIcon,
     },
     {
-        text: 'HTML',
+        text: "HTML",
         icon: HtmlIcon,
     },
     {
-        text: 'CSS',
+        text: "CSS",
         icon: CssIcon,
     },
     {
-        text: 'React',
+        text: "React",
         icon: ReactIcon,
     },
     {
-        text: 'Redux',
+        text: "Redux",
         icon: ReduxIcon,
     },
     {
-        text: 'Python',
+        text: "Python",
         icon: PythonIcon,
     },
     {
-        text: 'C++',
+        text: "C++",
         icon: CppIcon,
     },
     {
-        text: 'Java',
+        text: "Java",
         icon: JavaIcon,
     },
     {
-        text: 'Android',
+        text: "Android",
         icon: AndroidIcon,
     },
     {
-        text: 'SQLite',
+        text: "SQLite",
         icon: SqliteIcon,
     },
     {
-        text: 'Git',
+        text: "Git",
         icon: GitIcon,
     },
     {
-        text: 'Linux',
+        text: "Linux",
         icon: LinuxIcon,
     },
     // typescript
@@ -90,24 +90,16 @@ export const Index = (): JSX.Element => {
     return (
         <Layout>
             <div className="m-auto px-4 md:px-10">
-                <h1 className="text-center text-5xl font-bold pb-10 pt-0 md:pt-10">
-                    Konrad Staniszewski
-                </h1>
-                <div
-                    id="intro-section"
-                    className="py-5 flex flex-col md:flex md:flex-row"
-                >
+                <h1 className="text-center text-5xl font-bold pb-10 pt-0 md:pt-10">Konrad Staniszewski</h1>
+                <div id="intro-section" className="py-5 flex flex-col md:flex md:flex-row">
                     <div className="flex flex-col text-xl justify-around">
                         <p>
-                            Hi, I'm <b>Konrad Staniszewski</b>, a fourth year
-                            Computer-Software Engineering student at the
-                            Univeristy of Alberta.
+                            Hi, I'm <b>Konrad Staniszewski</b>, a fourth year Computer-Software Engineering student at
+                            the Univeristy of Alberta.
                         </p>
                         <p>
-                            I'm interested in web development, data
-                            visualization, machine learning, embedded systems,
-                            networking, quantum computing, 3D printing, physics,
-                            electronics, and many outdoor sports.
+                            I'm interested in web development, data visualization, machine learning, embedded systems,
+                            networking, quantum computing, 3D printing, physics, electronics, and many outdoor sports.
                         </p>
                     </div>
                     <div className="md:pl-5 pt-4 md:pt-0">
@@ -122,19 +114,12 @@ export const Index = (): JSX.Element => {
                     </div>
                 </div>
                 {/*skills section */}
-                <div
-                    id="skills-section"
-                    className="grid grid-cols-3 md:grid-cols-4 gap-8 justify-items-center pt-8"
-                >
+                <div id="skills-section" className="grid grid-cols-3 md:grid-cols-4 gap-8 justify-items-center pt-8">
                     {skills.map(({ text, icon: Icon }) => (
                         <div className="flex items-center" key={text}>
-                            {Icon && (
-                                <Icon height={20} width={20} theme={theme} />
-                            )}
+                            {Icon && <Icon height={20} width={20} theme={theme} />}
                             <div className="pl-2 flex">
-                                <p className="m-auto text-lg font-semibold">
-                                    {text}
-                                </p>
+                                <p className="m-auto text-lg font-semibold">{text}</p>
                             </div>
                         </div>
                     ))}

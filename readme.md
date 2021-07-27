@@ -14,3 +14,4 @@ This is **heavily** inspired by [Lee Robinson](https://github.com/leerob/leerob.
 
 ## Notes:
 - When using useTheme() to get the theme for a component, if the rendering depends on the theme, watch out for [THIS!](https://github.com/pacocoursey/next-themes#usetheme)
+- I moved to keeping page specific components in the pages folder, look [here](https://github.com/vercel/next.js/issues/8454#issuecomment-560432659) to find out what settings im using. This means that all valid paths in the /pages folder need to have the .page.tsx or .api.ts extensions. Everything else is not a valid path.

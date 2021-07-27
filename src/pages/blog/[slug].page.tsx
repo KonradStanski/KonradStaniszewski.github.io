@@ -1,21 +1,21 @@
-import { format, parseISO } from 'date-fns';
-import fs from 'fs';
-import matter from 'gray-matter';
-import mdxPrism from 'mdx-prism';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { serialize } from 'next-mdx-remote/serialize';
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
-import Head from 'next/head';
-import Link from 'next/link';
-import path from 'path';
-import React from 'react';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeSlug from 'rehype-slug';
-import { WEBSITE_HOST_URL } from '@app/components/Meta';
-import { MetaProps } from '@app/types/layout';
-import { PostType } from '@app/types/post';
-import { postFilePaths, getPostPath } from '@app/utils/mdxUtils';
-import { Layout, NextImage } from '@app/components';
+import React from "react";
+import { format, parseISO } from "date-fns";
+import fs from "fs";
+import matter from "gray-matter";
+import mdxPrism from "mdx-prism";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import Head from "next/head";
+import Link from "next/link";
+import path from "path";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeSlug from "rehype-slug";
+import { WEBSITE_HOST_URL } from "@app/components/Meta";
+import { MetaProps } from "@app/types/layout";
+import { PostType } from "@app/types/post";
+import { postFilePaths, getPostPath } from "@app/utils/mdxUtils";
+import { Codepen, Layout, NextImage } from "@app/components";
 
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
@@ -25,6 +25,7 @@ const components = {
     Head,
     NextImage,
     Link,
+    Codepen,
 };
 
 type PostPageProps = {
@@ -32,22 +33,20 @@ type PostPageProps = {
     frontMatter: PostType;
 };
 
-const ProjectsPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
+const BlogPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
     const customMeta: MetaProps = {
         title: `${frontMatter.title} - Konrad Staniszewski`,
         description: frontMatter.description,
         image: `${WEBSITE_HOST_URL}${frontMatter.image}`,
         date: frontMatter.date,
-        type: 'article',
+        type: "article",
     };
     return (
         <Layout customMeta={customMeta}>
             <article>
-                <h1 className="mb-3 text-gray-900 dark:text-white">
-                    {frontMatter.title}
-                </h1>
+                <h1 className="mb-3 text-gray-900 dark:text-white">{frontMatter.title}</h1>
                 <p className="mb-10 text-sm text-gray-500 dark:text-gray-400">
-                    {format(parseISO(frontMatter.date), 'MMMM dd, yyyy')}
+                    {format(parseISO(frontMatter.date), "MMMM dd, yyyy")}
                 </p>
                 <div className="prose dark:prose-dark">
                     <MDXRemote {...source} components={components} />
@@ -58,10 +57,7 @@ const ProjectsPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const postFilePath = path.join(
-        getPostPath('projects'),
-        `${params.slug}.mdx`
-    );
+    const postFilePath = path.join(getPostPath("blog"), `${params.slug}.mdx`);
     const source = fs.readFileSync(postFilePath);
 
     const { content, data } = matter(source);
@@ -69,7 +65,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const mdxSource = await serialize(content, {
         // Optionally pass remark/rehype plugins
         mdxOptions: {
-            remarkPlugins: [require('remark-code-titles')],
+            remarkPlugins: [require("remark-code-titles")],
             rehypePlugins: [mdxPrism, rehypeSlug, rehypeAutolinkHeadings],
         },
         scope: data,
@@ -84,9 +80,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const paths = postFilePaths('projects')
+    const paths = postFilePaths("blog")
         // Remove file extensions for page paths
-        .map((path) => path.replace(/\.mdx?$/, ''))
+        .map((path) => path.replace(/\.mdx?$/, ""))
         // Map the path into the static paths object required by Next.js
         .map((slug) => ({ params: { slug } }));
 
@@ -96,4 +92,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
 };
 
-export default ProjectsPage;
+export default BlogPage;

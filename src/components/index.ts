@@ -1,10 +1,7 @@
-export { default as Header } from './Header/Header';
-export { default as Codepen } from './Codepen';
-export { default as Footer } from './Footer';
-export { default as Meta } from './Meta';
-export { default as Layout } from './Layout';
-export { default as PostItem } from './PostItem';
-export { default as NextImage } from './NextImage/NextImage';
-export { default as Semester } from './semester';
-export { default as TranscriptChart } from './transcriptChart';
-export { default as SampleTranscript } from './sampleTranscript';
+export { default as Header } from "./Header/Header";
+export { default as Codepen } from "./Codepen";
+export { default as Footer } from "./Footer";
+export { default as Meta } from "./Meta";
+export { default as Layout } from "./Layout";
+export { default as PostItem } from "./PostItem";
+export { default as NextImage } from "./NextImage/NextImage";
