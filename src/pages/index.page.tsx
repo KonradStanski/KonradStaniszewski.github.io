@@ -94,12 +94,13 @@ export const Index = (): JSX.Element => {
                 <div id="intro-section" className="py-5 flex flex-col md:flex md:flex-row">
                     <div className="flex flex-col text-xl justify-around">
                         <p>
-                            Hi, I'm <b>Konrad Staniszewski</b>, a fourth year Computer-Software Engineering student at
-                            the Univeristy of Alberta.
+                            Hi, I'm <b>Konrad Staniszewski</b>, a fourth year Software Engineering student at the
+                            Univeristy of Alberta.
                         </p>
                         <p>
-                            I'm interested in web development, data visualization, machine learning, embedded systems,
-                            networking, quantum computing, 3D printing, physics, electronics, and many outdoor sports.
+                            I love full-stack web development, making hybrid apps, data visualization, and enjoy
+                            learning about machine learning, embedded systems, networking, quantum computing, 3D
+                            printing, physics, and electronics.
                         </p>
                     </div>
                     <div className="md:pl-5 pt-4 md:pt-0">
