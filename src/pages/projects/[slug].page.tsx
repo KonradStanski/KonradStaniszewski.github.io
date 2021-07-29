@@ -1,3 +1,4 @@
+import { ProjectPostType } from "@app/components/ProjectPostItem";
 import { format, parseISO } from "date-fns";
 import fs from "fs";
 import matter from "gray-matter";
@@ -13,7 +14,6 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import { WEBSITE_HOST_URL } from "@app/components/Meta";
 import { MetaProps } from "@app/types/layout";
-import { PostType } from "@app/types/post";
 import { postFilePaths, getPostPath } from "@app/utils/mdxUtils";
 import { Layout, NextImage } from "@app/components";
 
@@ -29,8 +29,11 @@ const components = {
 
 type PostPageProps = {
     source: MDXRemoteSerializeResult;
-    frontMatter: PostType;
+    frontMatter: ProjectPostType;
 };
+
+const buttonStyle = `hover:shadow-md cursor-pointer mr-3 border-[3px] dark:border-gray-700 border-gray-300 
+p-2 rounded-md hover:text-blue-400`;
 
 const ProjectsPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
     const customMeta: MetaProps = {
@@ -43,10 +46,29 @@ const ProjectsPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
     return (
         <Layout customMeta={customMeta}>
             <article>
-                <h1 className="mb-3 text-gray-900 dark:text-white">{frontMatter.title}</h1>
+                <div className="flex flex-row justify-between mb-3">
+                    <h1 className="mb-3 mr-3 text-gray-900 dark:text-white">{frontMatter.title}</h1>
+                    <div className="flex flex-row">
+                        {frontMatter.demo && (
+                            <Link href={frontMatter.demo}>
+                                <div className={buttonStyle}>Demo</div>
+                            </Link>
+                        )}
+                        {frontMatter.source && (
+                            <Link href={frontMatter.source}>
+                                <div className={buttonStyle}>Source</div>
+                            </Link>
+                        )}
+                    </div>
+                </div>
                 <p className="mb-10 text-sm text-gray-500 dark:text-gray-400">
                     {format(parseISO(frontMatter.date), "MMMM dd, yyyy")}
                 </p>
+                {frontMatter.image && (
+                    <div className="mb-16 mt-10 mx-10 shadow-2xl dark:glow-gray-400-2xl">
+                        <NextImage src={frontMatter.image} alt={frontMatter.title} />
+                    </div>
+                )}
                 <div className="prose dark:prose-dark">
                     <MDXRemote {...source} components={components} />
                 </div>

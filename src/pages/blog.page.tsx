@@ -1,19 +1,23 @@
 import React from "react";
-import { IndexProps } from "@app/types/post";
 import { getAllPosts } from "@app/lib/api";
 import { GetStaticProps } from "next";
-import { PostItem, Layout } from "@app/components";
+import { BlogPostItem, Layout } from "@app/components";
+import { BlogPostType } from "@app/components/BlogPostItem";
 
-export const Blog = ({ posts }: IndexProps): JSX.Element => {
+type props = {
+    posts: BlogPostType[];
+};
+
+export const Blog = ({ posts }: props): JSX.Element => {
     return (
         <Layout
             customMeta={{
                 title: "Blog",
             }}
         >
-            <h1>Blog</h1>
+            <h1 className="text-4xl">Blog</h1>
             {posts.map((post) => (
-                <PostItem key={post.slug} post={post} type="blog" />
+                <BlogPostItem key={post.slug} post={post} type="blog" />
             ))}
         </Layout>
     );

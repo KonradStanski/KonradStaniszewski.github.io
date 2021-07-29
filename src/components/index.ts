@@ -3,5 +3,6 @@ export { default as Codepen } from "./Codepen";
 export { default as Footer } from "./Footer";
 export { default as Meta } from "./Meta";
 export { default as Layout } from "./Layout";
-export { default as PostItem } from "./PostItem";
+export { default as BlogPostItem } from "./BlogPostItem";
+export { default as ProjectPostItem } from "./ProjectPostItem";
 export { default as NextImage } from "./NextImage/NextImage";

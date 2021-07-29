@@ -1,4 +1,5 @@
 import React from "react";
+import { BlogPostType } from "@app/components/BlogPostItem";
 import { format, parseISO } from "date-fns";
 import fs from "fs";
 import matter from "gray-matter";
@@ -13,7 +14,6 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import { WEBSITE_HOST_URL } from "@app/components/Meta";
 import { MetaProps } from "@app/types/layout";
-import { PostType } from "@app/types/post";
 import { postFilePaths, getPostPath } from "@app/utils/mdxUtils";
 import { Codepen, Layout, NextImage } from "@app/components";
 
@@ -30,7 +30,7 @@ const components = {
 
 type PostPageProps = {
     source: MDXRemoteSerializeResult;
-    frontMatter: PostType;
+    frontMatter: BlogPostType;
 };
 
 const BlogPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {

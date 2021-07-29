@@ -78,5 +78,8 @@ module.exports = {
     variants: {
         typography: ['dark'],
     },
-    plugins: [require('@tailwindcss/typography')],
+    plugins: [
+        require('@tailwindcss/typography'),
+        require("tailwindcss-glow")(),
+    ],
 };
