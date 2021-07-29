@@ -28,7 +28,7 @@ const Disclaimer = (): JSX.Element => {
                 <br />
                 This website does not collect any user data, and makes no network calls with respect to the data
                 provided. If you want to double check for yourself, you can check the requisite code for this page here:{" "}
-                <Link href="https://github.com/KonradStanski/KonradStaniszewski.github.io/blob/master/src/pages/projects/gpacalculator.tsx">
+                <Link href="https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/src/pages/projects/gpacalculator">
                     Github Repo
                 </Link>
             </p>

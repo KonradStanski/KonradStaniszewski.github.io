@@ -7,6 +7,8 @@ import { Results, SampleTranscript, Disclaimer } from "./components";
 import { Layout } from "@app/components";
 import { classType, semesterType, transcriptInfoType } from "./gpaCalculatorTypes";
 
+// TODO: add per faculty graduating gpa calculation
+
 // prettier-ignore
 const remarks = {
     '': { value: 0, include: false },
@@ -47,6 +49,7 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
     const [resultsHidden, setResultsHidden] = useState(true);
     const { theme } = useTheme();
     const [pdfFile, setPdfFile] = useState<Array<File>>([]);
+    // callback function passed to dropzone to set the pdf file
     const onDrop = useCallback(
         (acceptedFiles) => {
             setPdfFile([acceptedFiles[0]]);
@@ -100,7 +103,7 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
     function processInString(inString: string, textArea, pasted: boolean) {
         let semesters = getSemesters(inString, pasted);
         if (!semesters?.length) {
-            textArea.setCustomValidity("Please enter a valid transcript");
+            textArea.setCustomValidity("Please enter a valid transcript or pdf file");
             return;
         }
         // generate relevant semester properties based on classes
