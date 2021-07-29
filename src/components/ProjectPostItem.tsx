@@ -25,7 +25,9 @@ p-2 rounded-md hover:text-blue-400`;
 const ProjectPostItem = (props: props): JSX.Element => {
     return (
         <div key={props.post.slug} className="mb-8">
-            <h1 className="mb-2 text-4xl">{props.post.title}</h1>
+            <Link as={`/${props.type}/${props.post.slug}`} href={`/${props.type}/[slug]`}>
+                <h1 className="mb-2 text-4xl cursor-pointer hover:text-gray-500">{props.post.title}</h1>
+            </Link>
             <div className="h-[3px] bg-black dark:bg-white mb-3"></div>
             <h3 className="text-xl mb-1">{props.post.description}</h3>
             <p className="text-lg mb-4 text-gray-500 dark:text-gray-400">
