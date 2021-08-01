@@ -1,9 +1,7 @@
 module.exports = {
-    distDir: 'build',
+    distDir: "build",
     pageExtensions: ["page.tsx", "api.ts"],
     images: {
-        domains: [
-            'images.unsplash.com'
-        ],
+        domains: ["images.unsplash.com"],
     },
 };

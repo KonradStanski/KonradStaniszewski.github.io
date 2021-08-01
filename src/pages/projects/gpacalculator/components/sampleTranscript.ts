@@ -106,13 +106,6 @@ HIST  115   TECHNOLOGY AND HISTORY    A        3.0     3.0   ${rnn()}    3.2    
                                       TOTALS   3.0     3.0   12.00
 Term Average:   4.0
 Grades are Unofficial Until Approved by the Dean
-Summer Term 2021                   BSc Cmptr Eng Software Co-op
-                                      Grade  Units   Units   Grade  Class  Class
-Course      Description               Remark Taken  Passed  Points    Avg   Enrl
-ENG M 401B  FINANCIAL MNGM FOR ENGIN           3.0     0.0    0.00    XXX    194
-WKEXP 904   ENGINEERING WORK EXPERIE           0.5     0.0    0.00    XXX    139
-                                      TOTALS   3.5     0.0    0.00
-Grades are Unofficial Until Approved by the Dean
 ------------------------------ End of Transcript ------------------------------
 `;
 }

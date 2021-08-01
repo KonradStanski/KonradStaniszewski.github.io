@@ -5,8 +5,8 @@ import { useDropzone } from "react-dropzone";
 import { pdfToText } from "./pdfToText";
 import { Results, SampleTranscript, Disclaimer } from "./components";
 import { Layout } from "@app/components";
-import { classType, semesterType, transcriptInfoType } from "./gpaCalculatorTypes";
-
+import { classType, semesterType, transcriptInfoType, classStatisticType } from "./gpaCalculatorTypes";
+import { Upload } from "@app/svgs";
 // TODO: add per faculty graduating gpa calculation
 
 // prettier-ignore
@@ -45,6 +45,7 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
     const [transcriptInfo, setTranscriptInfo] = useState<transcriptInfoType>({
         semesters: [],
         overallGpa: 0.0,
+        classStatistics: null,
     });
     const [resultsHidden, setResultsHidden] = useState(true);
     const { theme } = useTheme();
@@ -61,6 +62,11 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
         accept: ".pdf",
         maxFiles: 1,
     });
+    const [mounted, setMounted] = React.useState(false);
+    React.useEffect(() => setMounted(true), []);
+    if (!mounted) {
+        return null;
+    }
 
     /**
      * Handle form submit button.
@@ -110,9 +116,11 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
         semesters.map((semester) => generateSemesterProperties(semester));
         // get gpa for transcript properties
         semesters = getRunningSemesterProperties(semesters);
-        const transcriptInfo = {
+        const classStatistics = getClassStatistics(semesters);
+        const transcriptInfo: transcriptInfoType = {
             semesters: semesters,
             overallGpa: semesters[semesters.length - 1].cumulativeGpa,
+            classStatistics: classStatistics,
         };
         setTranscriptInfo(transcriptInfo);
         setResultsHidden(false);
@@ -182,7 +190,7 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
         const classObj = pasted
             ? {
                   line: classLine,
-                  course: classLine.slice(0, 6),
+                  course: classLine.slice(0, 6).trim(),
                   number: parseInt(classLine.slice(6, 9)),
                   desc: classLine.slice(12, 38),
                   remarkStr: remark,
@@ -193,7 +201,7 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
               }
             : {
                   line: classLine,
-                  course: classLine.slice(0, 6),
+                  course: classLine.slice(0, 6).trim(),
                   number: parseInt(classLine.slice(6, 9)),
                   desc: classLine.slice(14, 42),
                   remarkStr: remark,
@@ -256,6 +264,32 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
         return semesters;
     }
 
+    function getClassStatistics(semesters: semesterType[]): classStatisticType[] {
+        const classStatistics = new Map<string, classStatisticType>();
+        semesters.forEach((semester: semesterType) => {
+            semester.classes.forEach((classObj: classType) => {
+                if (classObj.include) {
+                    if (classStatistics.has(classObj.course)) {
+                        const classStat = classStatistics.get(classObj.course);
+                        classStat.unitsTaken += classObj.unitsTaken;
+                        classStat.gradePoints += classObj.gradePoints;
+                        classStatistics.set(classObj.course, classStat);
+                    } else {
+                        // add new class type to class statistic
+                        classStatistics.set(classObj.course, {
+                            name: classObj.course,
+                            unitsTaken: classObj.unitsTaken,
+                            gradePoints: classObj.gradePoints,
+                            gpa: null,
+                        });
+                    }
+                }
+            });
+        });
+        classStatistics.forEach((classObj) => (classObj.gpa = classObj.gradePoints / classObj.unitsTaken));
+        return Array.from(classStatistics).map((arrVal) => arrVal[1]);
+    }
+
     return (
         <Layout>
             <div className="m-auto px-4 md:px-10">
@@ -287,11 +321,12 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
                             })}
                         >
                             <input {...getInputProps()} />
-                            <div className="flex flex-grow flex-col jusitfy-center text-center py-1">
+                            <div className="flex flex-grow flex-col jusitfy-center items-center text-center py-1">
                                 {!pdfFile.length ? (
                                     <>
                                         <p>Click to select PDF transcript</p>
                                         <p>or drop PDF transcript here</p>
+                                        <Upload theme={theme} height="36" width="36" />
                                     </>
                                 ) : (
                                     <div>{pdfFile[0].name}</div>

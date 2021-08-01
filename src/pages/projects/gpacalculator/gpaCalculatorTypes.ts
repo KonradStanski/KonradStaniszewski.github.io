@@ -1,6 +1,7 @@
 export type transcriptInfoType = {
-    semesters: Array<semesterType | any>;
+    semesters: Array<semesterType>;
     overallGpa: number;
+    classStatistics: classStatisticType[];
 };
 
 export type semesterType = {
@@ -26,4 +27,11 @@ export type classType = {
     unitsTaken: number;
     gradePoints: number;
     include: boolean;
+};
+
+export type classStatisticType = {
+    name: string;
+    unitsTaken: number;
+    gradePoints: number;
+    gpa: number;
 };

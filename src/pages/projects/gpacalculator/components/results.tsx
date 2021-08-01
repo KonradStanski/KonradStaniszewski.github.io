@@ -1,4 +1,5 @@
 import TranscriptChart from "./transcriptChart";
+import ClassChart from "./classChart";
 import Semester from "./semester";
 import { transcriptInfoType } from "../gpaCalculatorTypes";
 
@@ -12,6 +13,8 @@ const Results = (props: {
             {/* Results Section */}
             <h1>{`Your final GPA is: ${props.transcriptInfo.overallGpa.toFixed(4)}`}</h1>
             <TranscriptChart transcriptInfo={props.transcriptInfo} theme={props.theme} />
+            {/* Class Summary Statistics */}
+            <ClassChart transcriptInfo={props.transcriptInfo} theme={props.theme} />
             <div className="mb-6">
                 {props.transcriptInfo.semesters.map((semester) => {
                     return <Semester key={semester.name} semester={semester} />;
