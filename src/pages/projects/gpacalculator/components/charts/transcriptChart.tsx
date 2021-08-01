@@ -1,11 +1,13 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { TranscriptInfoType, SemesterType } from "../gpaCalculatorTypes";
+import { TranscriptInfoType, SemesterType } from "../../gpaCalculatorTypes";
 import { clamp } from "@app/utils/utilFunc";
 
 type props = {
     transcriptInfo: TranscriptInfoType;
     theme: string;
+    setSemesterInfo: React.Dispatch<React.SetStateAction<string>>;
+    semesterInfo: string;
 };
 
 const TranscriptChart = (props: props): JSX.Element => {
@@ -81,15 +83,34 @@ const TranscriptChart = (props: props): JSX.Element => {
         }, this);
     }
 
+    const handleClick = (_event, array) => {
+        const index = array[0]?.index;
+        const label = data.labels[index];
+        if (props.semesterInfo === label) {
+            props.setSemesterInfo("");
+        } else {
+            props.setSemesterInfo(label);
+        }
+    };
+
+    const themeColor = theme === "dark" ? "white" : "black";
     const options = {
+        animation: {
+            duration: 0,
+        },
+        onClick: handleClick,
+        interaction: {
+            intersect: false,
+        },
         scales: {
             y: {
                 title: {
+                    color: themeColor,
                     display: true,
                     text: "GPA",
                 },
                 ticks: {
-                    color: theme === "dark" ? "white" : "black",
+                    color: themeColor,
                 },
                 grid: {
                     color: theme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
@@ -105,7 +126,7 @@ const TranscriptChart = (props: props): JSX.Element => {
             },
             x: {
                 ticks: {
-                    color: theme === "dark" ? "white" : "black",
+                    color: themeColor,
                 },
                 grid: {
                     display: false,
@@ -113,6 +134,15 @@ const TranscriptChart = (props: props): JSX.Element => {
             },
         },
         plugins: {
+            title: {
+                display: true,
+                color: themeColor,
+                font: {
+                    size: 16,
+                    weight: "bold",
+                },
+                text: "Cumulative GPA by Semester",
+            },
             tooltip: {
                 callbacks: {
                     footer: (elem) => {
@@ -127,13 +157,13 @@ const TranscriptChart = (props: props): JSX.Element => {
                 labels: {
                     boxWidth: 50,
                     generateLabels: generateLabelsNew,
-                    color: theme === "dark" ? "white" : "black",
+                    color: themeColor,
                 },
             },
         },
     };
 
-    return <Bar data={data} options={options} />;
+    return <Bar className="hover:cursor-pointer" data={data} options={options} />;
 };
 
 export default TranscriptChart;

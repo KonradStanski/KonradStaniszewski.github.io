@@ -48,11 +48,11 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
      *
      * @param {*} event the form event
      */
-    const submitGpaForm = (event) => {
+    const submitGpaForm: React.FormEventHandler<HTMLFormElement> = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // stop reload
         window.scrollTo(0, 100);
 
-        const textArea = event.target[0];
+        const textArea: HTMLTextAreaElement = event.target[0];
         // set text to inputted text, or if empty fall back to default
         let inString = "";
 
@@ -102,10 +102,12 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
                         Hit CTRL-A, CTRL-C to copy paste the contents of the page. <br />
                         Paste these contentes with CTRL-V into the input box below, and then hit the button to calculate
                         grade.
+                        <br />
+                        Pressing the Calculate GPA button with no input runs a randomly generated gpa calculation.
                     </p>
                     <form className="flex flex-col" onSubmit={submitGpaForm}>
                         <textarea
-                            className="bg-opacity-0 bg-white border-2 dark:border-gray-300 border-black rounded-md h-48 mb-2"
+                            className="bg-opacity-0 bg-white border-2 dark:border-gray-300 border-black rounded-md h-48 mb-4 p-2"
                             placeholder={props.sampleTranscript}
                         />
                         <p>Alternatively, select or drop a PDF download of your transcript here:</p>

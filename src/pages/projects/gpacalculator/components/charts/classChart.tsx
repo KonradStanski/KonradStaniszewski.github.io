@@ -1,12 +1,14 @@
 /* eslint-disable no-console */
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { TranscriptInfoType } from "../gpaCalculatorTypes";
+import { TranscriptInfoType } from "../../gpaCalculatorTypes";
 import { clamp } from "@app/utils/utilFunc";
 
 type props = {
     transcriptInfo: TranscriptInfoType;
     theme: string;
+    setClassInfo: React.Dispatch<React.SetStateAction<string>>;
+    classInfo: string;
 };
 
 const ClassChart = (props: props): JSX.Element => {
@@ -71,15 +73,34 @@ const ClassChart = (props: props): JSX.Element => {
         }, this);
     }
 
+    const handleClick = (_event: MouseEvent, array) => {
+        const index = array[0]?.index;
+        const label = data.labels[index];
+        if (props.classInfo === label) {
+            props.setClassInfo("");
+        } else {
+            props.setClassInfo(label);
+        }
+    };
+
+    const themeColor = theme === "dark" ? "white" : "black";
     const options = {
+        animation: {
+            duration: 0,
+        },
+        onClick: handleClick,
+        interaction: {
+            intersect: false,
+        },
         scales: {
             y: {
                 title: {
+                    color: themeColor,
                     display: true,
                     text: "Units Taken",
                 },
                 ticks: {
-                    color: theme === "dark" ? "white" : "black",
+                    color: theme === themeColor,
                 },
                 grid: {
                     color: theme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
@@ -88,7 +109,7 @@ const ClassChart = (props: props): JSX.Element => {
             },
             x: {
                 ticks: {
-                    color: theme === "dark" ? "white" : "black",
+                    color: theme === themeColor,
                 },
                 grid: {
                     display: false,
@@ -98,6 +119,7 @@ const ClassChart = (props: props): JSX.Element => {
         plugins: {
             title: {
                 display: true,
+                color: themeColor,
                 font: {
                     size: 16,
                     weight: "bold",
@@ -117,13 +139,13 @@ const ClassChart = (props: props): JSX.Element => {
                     textAlign: "left",
                     boxWidth: 50,
                     generateLabels: generateLabelsNew,
-                    color: theme === "dark" ? "white" : "black",
+                    color: themeColor,
                 },
             },
         },
     };
 
-    return <Bar data={data} options={options} />;
+    return <Bar className="hover:cursor-pointer" data={data} options={options} />;
 };
 
 export default ClassChart;

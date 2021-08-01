@@ -34,4 +34,5 @@ export type ClassStatisticType = {
     unitsTaken: number;
     gradePoints: number;
     gpa: number;
+    classes: ClassType[];
 };

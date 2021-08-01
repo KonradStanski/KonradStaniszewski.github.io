@@ -26,7 +26,21 @@ const regex = {
     classLinePDF: /^[\w\s]{1,6}\d{3}\s{4,5}/,
 };
 
-export default function processTranscriptText(inString: string, textArea, pasted: boolean): TranscriptInfoType {
+/**
+ * This function is the global function used to process the input from a transcript to return a transcript info type
+ * This is the only export from this file
+ *
+ * @export
+ * @param {string} inString the input string
+ * @param {*} textArea the input text are (use for validation)
+ * @param {boolean} pasted wether or not it was paster
+ * @return {*}  {TranscriptInfoType}
+ */
+export default function processTranscriptText(
+    inString: string,
+    textArea: HTMLTextAreaElement,
+    pasted: boolean
+): TranscriptInfoType {
     let semesters = getSemesters(inString, pasted);
     if (!semesters?.length) {
         textArea.setCustomValidity("Please enter a valid transcript or pdf file");
@@ -183,6 +197,12 @@ function getRunningSemesterProperties(semesters: Array<SemesterType>): Array<Sem
     return semesters;
 }
 
+/**
+ * Gets class based statistics for the second chart
+ *
+ * @param {SemesterType[]} semesters
+ * @return {*}  {ClassStatisticType[]}
+ */
 function getClassStatistics(semesters: SemesterType[]): ClassStatisticType[] {
     const classStatistics = new Map<string, ClassStatisticType>();
     semesters.forEach((semester: SemesterType) => {
@@ -192,6 +212,7 @@ function getClassStatistics(semesters: SemesterType[]): ClassStatisticType[] {
                     const classStat = classStatistics.get(classObj.course);
                     classStat.unitsTaken += classObj.unitsTaken;
                     classStat.gradePoints += classObj.gradePoints;
+                    classStat.classes.push(classObj);
                     classStatistics.set(classObj.course, classStat);
                 } else {
                     // add new class type to class statistic
@@ -200,6 +221,7 @@ function getClassStatistics(semesters: SemesterType[]): ClassStatisticType[] {
                         unitsTaken: classObj.unitsTaken,
                         gradePoints: classObj.gradePoints,
                         gpa: null,
+                        classes: [classObj],
                     });
                 }
             }
