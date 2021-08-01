@@ -1,7 +1,7 @@
 ---
 title: Building an Animated Hamburger Button with Tailwind CSS
 description: Using Tailwind CSS to make an animated Hamburger menu Button
-date: '2021-06-21'
+date: "2021-06-21"
 ---
 
 ### Why use Tailwind CSS
@@ -19,11 +19,11 @@ decided to continue making it using Tailwind.
 ### Building the menu
 
 In this walkthrough, I'm assuming a basic knowledge of React, what CSS-in-js is, as well as being able to follow along
-with  a dummy create-react-app project where Tailwind CSS is already set up. If you don't have a project to try this in,
+with a dummy create-react-app project where Tailwind CSS is already set up. If you don't have a project to try this in,
 I am providing a codepen at the end with which you can experiment.
 
 To create the hamburger menu, start with an empty jsx (or tsx) file in your components folder. We will need a wrapper
-element,  and 3 elements to represent the lines within it.
+element, and 3 elements to represent the lines within it.
 
 To keep track of whether the hamburger menu is open or closed, we can use the useState react hook. Initialize the isOpen
 state to false, as we do not want the menu to be open initially.
@@ -42,25 +42,25 @@ After this, add the button element and give it the following attributes:
 ```
 
 The className attribute sets the tailwind classes that set the size, color, and shape of the button. flex, flex-col,
-justify-center,  items-center allow the 3 line elements to display in a column, and to be centered within the button.
+justify-center, items-center allow the 3 line elements to display in a column, and to be centered within the button.
 The last class present here is group, which creates a group, allowing the button to set properties on the 3 elements
 within it upon hover.
 
 The onClick attribute sets a callback function to call when the button is clicked, triggering a change in state by toggling isOpen.
 
 We now move on to adding the 3 line elements within the button. To do this, we add 3 div elements. These share a number
-of  tailwind classes, so we can extract them to a separate variable:
+of tailwind classes, so we can extract them to a separate variable:
 
 ```jsx
 const genericHamburgerLine = `h-1 w-6 my-1 rounded-full bg-black transition ease transform duration-300`;
 ```
 
 This variable contains the class names that set the size, color, and style of the 3 lines. It also enables transition
-for  opacity fading, transform for the translation and rotation, ease to set the change curve, and duration-300 to set
+for opacity fading, transform for the translation and rotation, ease to set the change curve, and duration-300 to set
 the transform and transition duration to 300ms.
 
 We now need to apply this generic style to the three div elements, as well as make some conditional class applications
-using  the isOpen state value. Using conditionals, this can be acheived like so:
+using the isOpen state value. Using conditionals, this can be acheived like so:
 
 ```jsx
 const { useState } = React;
@@ -74,20 +74,16 @@ return (
         <div
             className={`${genericHamburgerLine} ${
                 isOpen
-                    ? 'rotate-45 translate-y-3 opacity-50 group-hover:opacity-100'
-                    : 'opacity-50 group-hover:opacity-100'
+                    ? "rotate-45 translate-y-3 opacity-50 group-hover:opacity-100"
+                    : "opacity-50 group-hover:opacity-100"
             }`}
         />
-        <div
-            className={`${genericHamburgerLine} ${
-                isOpen ? 'opacity-0' : 'opacity-50 group-hover:opacity-100'
-            }`}
-        />
+        <div className={`${genericHamburgerLine} ${isOpen ? "opacity-0" : "opacity-50 group-hover:opacity-100"}`} />
         <div
             className={`${genericHamburgerLine} ${
                 isOpen
-                    ? '-rotate-45 -translate-y-3 opacity-50 group-hover:opacity-100'
-                    : 'opacity-50 group-hover:opacity-100'
+                    ? "-rotate-45 -translate-y-3 opacity-50 group-hover:opacity-100"
+                    : "opacity-50 group-hover:opacity-100"
             }`}
         />
     </button>
@@ -102,7 +98,7 @@ direction. Notice the pseudo-element group-hover, which allows for events on the
 the 3 child elements.
 
 Here is the finished codepen for you to see the end result, and play around with. The version I have on my site has a
-bit  more, because it takes into account the theme that is being applied. Try it out if you like by turning on mobile
+bit more, because it takes into account the theme that is being applied. Try it out if you like by turning on mobile
 test view in the chrome dev tools!
 
 <Codepen src="https://codepen.io/kstanisz/embed/NWpeKZX" />

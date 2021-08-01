@@ -1,6 +1,6 @@
-import React from 'react';
-import { MetaProps } from '@app/types/layout';
-import { Meta, Header, Footer } from '@app/components';
+import React from "react";
+import { MetaProps } from "@app/types/layout";
+import { Meta, Header, Footer } from "@app/components";
 
 type LayoutProps = {
     children: React.ReactNode;

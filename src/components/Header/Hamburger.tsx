@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler } from "react";
 
 type props = {
     clickHamburger: MouseEventHandler;
@@ -16,21 +16,9 @@ const Hamburger = (props: props): JSX.Element => {
             onClick={props.clickHamburger}
             className="md:hidden hover:opacity-100 transition ease duration-300 opacity-50 flex flex-col h-[42px] w-[42px] justify-center items-center"
         >
-            <div
-                className={`${genericHamburgerLine} ${
-                    props.navOpen ? 'rotate-45 translate-y-2' : ''
-                }`}
-            />
-            <div
-                className={`${genericHamburgerLine} ${
-                    props.navOpen ? 'opacity-0' : ''
-                }`}
-            />
-            <div
-                className={`${genericHamburgerLine} ${
-                    props.navOpen ? '-rotate-45 -translate-y-2' : ''
-                }`}
-            />
+            <div className={`${genericHamburgerLine} ${props.navOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <div className={`${genericHamburgerLine} ${props.navOpen ? "opacity-0" : ""}`} />
+            <div className={`${genericHamburgerLine} ${props.navOpen ? "-rotate-45 -translate-y-2" : ""}`} />
         </button>
     );
 };

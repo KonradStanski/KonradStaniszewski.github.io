@@ -1,4 +1,4 @@
-import { useTheme } from 'next-themes';
+import { useTheme } from "next-themes";
 
 type props = {
     title?: string;
@@ -11,7 +11,7 @@ const Codepen = (props: props): JSX.Element => {
     return (
         <iframe
             title={props.title}
-            height={props.height || '280px'}
+            height={props.height || "280px"}
             width="100%"
             scrolling="no"
             src={`${props.src}?&theme-id=${theme}&default-tab=js,result`}
