@@ -23,7 +23,7 @@ const Disclaimer = (): JSX.Element => {
                     UofA ALES Academic Regulations
                 </Link>
                 <br />
-                I do not guarantee the accuracy of the determined GPA, and take no responsability for any use of the
+                I do not guarantee the accuracy of the determined GPA, and take no responsibility for any use of the
                 generated gpa anywhere and by anyone.
                 <br />
                 This website does not collect any user data, and makes no network calls with respect to the data
