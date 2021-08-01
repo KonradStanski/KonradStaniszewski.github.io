@@ -100,7 +100,7 @@ const ClassChart = (props: props): JSX.Element => {
                     text: "Units Taken",
                 },
                 ticks: {
-                    color: theme === themeColor,
+                    color: themeColor,
                 },
                 grid: {
                     color: theme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
@@ -109,7 +109,7 @@ const ClassChart = (props: props): JSX.Element => {
             },
             x: {
                 ticks: {
-                    color: theme === themeColor,
+                    color: themeColor,
                 },
                 grid: {
                     display: false,

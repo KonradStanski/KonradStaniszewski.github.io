@@ -51,7 +51,7 @@ const Results = (props: {
             />
             {classInfo && getClassComponent()}
             <button
-                className="border-2 rounded-md border-black p-1 m-auto bg-gray-200 dark:bg-gray-800 dark:border-gray-400"
+                className="border-2 rounded-md border-black p-1 m-auto mt-4 bg-gray-200 dark:bg-gray-800 dark:border-gray-400"
                 onClick={() => {
                     window.scrollTo(0, 100);
                     props.setResultsHidden(true);
