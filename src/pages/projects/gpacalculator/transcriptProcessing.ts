@@ -207,23 +207,23 @@ function getClassStatistics(semesters: SemesterType[]): ClassStatisticType[] {
     const classStatistics = new Map<string, ClassStatisticType>();
     semesters.forEach((semester: SemesterType) => {
         semester.classes.forEach((classObj: ClassType) => {
-            if (classObj.include) {
-                if (classStatistics.has(classObj.course)) {
-                    const classStat = classStatistics.get(classObj.course);
+            if (classStatistics.has(classObj.course)) {
+                const classStat = classStatistics.get(classObj.course);
+                if (classObj.include) {
                     classStat.unitsTaken += classObj.unitsTaken;
                     classStat.gradePoints += classObj.gradePoints;
-                    classStat.classes.push(classObj);
-                    classStatistics.set(classObj.course, classStat);
-                } else {
-                    // add new class type to class statistic
-                    classStatistics.set(classObj.course, {
-                        name: classObj.course,
-                        unitsTaken: classObj.unitsTaken,
-                        gradePoints: classObj.gradePoints,
-                        gpa: null,
-                        classes: [classObj],
-                    });
                 }
+                classStat.classes.push(classObj);
+                classStatistics.set(classObj.course, classStat);
+            } else {
+                // add new class type to class statistic
+                classStatistics.set(classObj.course, {
+                    name: classObj.course,
+                    unitsTaken: classObj.include ? classObj.unitsTaken : 0,
+                    gradePoints: classObj.include ? classObj.gradePoints : 0,
+                    gpa: null,
+                    classes: [classObj],
+                });
             }
         });
     });
