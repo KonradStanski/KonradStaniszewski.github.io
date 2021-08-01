@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { transcriptInfoType } from "../gpaCalculatorTypes";
+import { TranscriptInfoType } from "../gpaCalculatorTypes";
 import { clamp } from "@app/utils/utilFunc";
 
 type props = {
-    transcriptInfo: transcriptInfoType;
+    transcriptInfo: TranscriptInfoType;
     theme: string;
 };
 

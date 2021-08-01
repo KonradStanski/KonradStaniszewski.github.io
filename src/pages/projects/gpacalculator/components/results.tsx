@@ -1,11 +1,11 @@
 import TranscriptChart from "./transcriptChart";
 import ClassChart from "./classChart";
 import Semester from "./semester";
-import { transcriptInfoType } from "../gpaCalculatorTypes";
+import { TranscriptInfoType } from "../gpaCalculatorTypes";
 
 const Results = (props: {
     theme: string;
-    transcriptInfo: transcriptInfoType;
+    transcriptInfo: TranscriptInfoType;
     setResultsHidden: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element => {
     return (

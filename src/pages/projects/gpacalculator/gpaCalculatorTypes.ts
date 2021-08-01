@@ -1,13 +1,13 @@
-export type transcriptInfoType = {
-    semesters: Array<semesterType>;
+export type TranscriptInfoType = {
+    semesters: Array<SemesterType>;
     overallGpa: number;
-    classStatistics: classStatisticType[];
+    classStatistics: ClassStatisticType[];
 };
 
-export type semesterType = {
+export type SemesterType = {
     name: string;
     lines: Array<string>;
-    classes: Array<classType>;
+    classes: Array<ClassType>;
     valid: boolean;
     totalGradePoints: number;
     totalUnitsTaken: number;
@@ -17,7 +17,7 @@ export type semesterType = {
     cumulativeUnitsTaken: number;
 };
 
-export type classType = {
+export type ClassType = {
     line: string;
     course: string;
     number: number;
@@ -29,7 +29,7 @@ export type classType = {
     include: boolean;
 };
 
-export type classStatisticType = {
+export type ClassStatisticType = {
     name: string;
     unitsTaken: number;
     gradePoints: number;

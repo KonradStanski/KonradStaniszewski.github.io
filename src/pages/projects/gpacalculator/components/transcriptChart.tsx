@@ -1,10 +1,10 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { transcriptInfoType, semesterType } from "../gpaCalculatorTypes";
+import { TranscriptInfoType, SemesterType } from "../gpaCalculatorTypes";
 import { clamp } from "@app/utils/utilFunc";
 
 type props = {
-    transcriptInfo: transcriptInfoType;
+    transcriptInfo: TranscriptInfoType;
     theme: string;
 };
 
@@ -14,12 +14,12 @@ const TranscriptChart = (props: props): JSX.Element => {
     const maxGpa = 4.0;
     const minGpa = 2.0;
     const data = {
-        labels: transcript.semesters.map((semester: semesterType) => semester.name),
+        labels: transcript.semesters.map((semester: SemesterType) => semester.name),
         datasets: [
             {
                 type: "line",
                 label: "Cumulative GPA",
-                data: transcript.semesters.map((semester: semesterType) => semester.cumulativeGpa),
+                data: transcript.semesters.map((semester: SemesterType) => semester.cumulativeGpa),
                 fill: false,
                 borderColor: "rgb(54, 162, 235)",
                 backgroundColor: "rgba(54, 162, 235, 0.3)",
@@ -27,7 +27,7 @@ const TranscriptChart = (props: props): JSX.Element => {
             {
                 type: "bar",
                 label: "Semester GPA [2.0 - 4.0]",
-                data: transcript.semesters.map((semester: semesterType) => (semester.semGpa ? semester.semGpa : null)),
+                data: transcript.semesters.map((semester: SemesterType) => (semester.semGpa ? semester.semGpa : null)),
                 borderColor: "rgb(0,0,0)",
                 backgroundColor: props.transcriptInfo.semesters.map((semester) => {
                     const greenVal = clamp(0, 255, (semester.semGpa - minGpa) * (255 / (maxGpa - minGpa)));
@@ -98,7 +98,7 @@ const TranscriptChart = (props: props): JSX.Element => {
                     0,
                     Math.min(
                         ...transcript.semesters
-                            .map((semester: semesterType) => semester.semGpa)
+                            .map((semester: SemesterType) => semester.semGpa)
                             .filter((gpa) => gpa !== 0)
                     ) - 0.1
                 ),

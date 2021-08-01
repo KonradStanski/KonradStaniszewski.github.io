@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { semesterType } from "../gpaCalculatorTypes";
+import { SemesterType } from "../gpaCalculatorTypes";
 
 type props = {
-    semester: semesterType;
+    semester: SemesterType;
 };
 
 const Semester = (props: props): JSX.Element => {
