@@ -99,7 +99,7 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
                         Press the {'"'}GO{'"'} button.
                         <br />
                         Hit CTRL-A, CTRL-C to copy paste the contents of the page. <br />
-                        Paste these contentes with CTRL-V into the input box below, and then hit the button to calculate
+                        Paste these contents with CTRL-V into the input box below, and then hit the button to calculate
                         grade.
                         <br />
                         Pressing the Calculate GPA button with no input runs a randomly generated gpa calculation.
