@@ -4,10 +4,6 @@ function rnn() {
 
 function sampleTranscript(): string {
     return `Undergrad/Graduate Unofficial
-Student Name:           John Doe
-(Surname last)
-ID Number:              1234567
-Month and Day of Birth: January 1
 ---------------------------------------------------------------------------------
 Fall Term 2017                     BSc in Engineering
                                    Qualifying Year

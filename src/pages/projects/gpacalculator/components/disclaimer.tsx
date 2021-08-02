@@ -31,6 +31,8 @@ const Disclaimer = (): JSX.Element => {
                 <Link href="https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/src/pages/projects/gpacalculator">
                     Github Repo
                 </Link>
+                <br />
+                If
             </p>
         </div>
     );
