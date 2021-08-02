@@ -34,7 +34,6 @@ export const Index = (props: { sampleTranscript: string }): JSX.Element => {
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: ".pdf",
-        maxFiles: 1,
     });
     const [mounted, setMounted] = React.useState(false);
     React.useEffect(() => setMounted(true), []);
