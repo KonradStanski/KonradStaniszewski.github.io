@@ -2,12 +2,13 @@ import React, { useCallback, useState } from "react";
 import { GetStaticProps } from "next";
 import { useTheme } from "next-themes";
 import { useDropzone } from "react-dropzone";
-import { pdfToText } from "./pdfToText";
-import { Results, SampleTranscript, Disclaimer } from "./components";
+import { pdfToText } from "./util/pdfToText";
+import { Results, Disclaimer } from "./components";
 import { Layout } from "@app/components";
-import { TranscriptInfoType } from "./gpaCalculatorTypes";
+import { TranscriptInfoType } from "./util/gpaCalculatorTypes";
 import { Upload } from "@app/svgs";
-import processTranscriptText from "./transcriptProcessing";
+import processTranscriptText from "./util/transcriptProcessing";
+import SampleTranscript from "./util/sampleTranscript";
 
 export const getStaticProps: GetStaticProps = async () => ({
     props: {

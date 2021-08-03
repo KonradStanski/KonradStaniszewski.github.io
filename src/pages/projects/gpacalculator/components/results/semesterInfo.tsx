@@ -1,26 +1,26 @@
-import { ClassStatisticType } from "../gpaCalculatorTypes";
+import { SemesterType } from "../../util/gpaCalculatorTypes";
 import CloseIcon from "@material-ui/icons/Close";
 
 type props = {
-    classStatistic: ClassStatisticType;
-    setClassInfo: React.Dispatch<React.SetStateAction<string>>;
+    semester: SemesterType;
+    setSemesterInfo: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const ClassInfo = (props: props): JSX.Element => {
-    const classStat = props.classStatistic;
+const SemesterInfo = (props: props): JSX.Element => {
+    const semester = props.semester;
     const tableCols = ["Course", "Number", "Description", "Grade", "Units"];
     return (
         <div className="grid justify-items-stretch pb-1">
             <div className="border-2 py-1 rounded-md border-black bg-gray-200 dark:bg-gray-800 dark:border-gray-400">
                 <div className="grid grid-flow-col">
                     <div> </div>
-                    <h1 className="text-center justify-self-stretch">{classStat.name}</h1>
-                    <div className="justify-self-end hover:cursor-pointer" onClick={() => props.setClassInfo("")}>
+                    <h1 className="text-center justify-self-stretch">{semester.name}</h1>
+                    <div className="justify-self-end hover:cursor-pointer" onClick={() => props.setSemesterInfo("")}>
                         <CloseIcon className="mr-2" />
                     </div>
                 </div>
                 <div className="flex flex-row m-4">
-                    <table className="mr-4 table-auto">
+                    <table className="table-auto mr-4">
                         <thead>
                             <tr>
                                 {tableCols.map((col) => {
@@ -33,7 +33,7 @@ const ClassInfo = (props: props): JSX.Element => {
                             </tr>
                         </thead>
                         <tbody>
-                            {classStat.classes.map((classObj) => {
+                            {semester.classes.map((classObj) => {
                                 return (
                                     <tr key={classObj.course + classObj.number}>
                                         <td className="border border-black p-1">{classObj.course}</td>
@@ -47,9 +47,10 @@ const ClassInfo = (props: props): JSX.Element => {
                         </tbody>
                     </table>
                     <div>
-                        <p>{`${classStat.name} had an average gpa of: ${classStat.gpa.toFixed(2)}`}</p>
-                        <p>{`${classStat.name} had ${classStat.unitsTaken.toFixed(2)} units taken in total`}</p>
-                        <p>{`${classStat.name} had ${classStat.gradePoints.toFixed(2)} grade points in total`}</p>
+                        <p>{`This semesters total units: ${semester.totalUnitsTaken.toFixed(2)}`}</p>
+                        <p>{`This semesters total grade points: ${semester.totalGradePoints.toFixed(2)}`}</p>
+                        <p>{`Your cumulative units taken: ${semester.cumulativeUnitsTaken.toFixed(2)}`}</p>
+                        <p>{`Your cumulative grade points: ${semester.cumulativeGradePoints.toFixed(2)}`}</p>
                     </div>
                 </div>
             </div>
@@ -57,4 +58,4 @@ const ClassInfo = (props: props): JSX.Element => {
     );
 };
 
-export default ClassInfo;
+export default SemesterInfo;

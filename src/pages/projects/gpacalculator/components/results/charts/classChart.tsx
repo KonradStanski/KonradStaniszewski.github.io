@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { TranscriptInfoType } from "../../gpaCalculatorTypes";
+import { TranscriptInfoType } from "../../../util/gpaCalculatorTypes";
 import { clamp } from "@app/utils/utilFunc";
 
 type props = {
