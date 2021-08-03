@@ -1,4 +1,4 @@
-import { ClassStatisticType } from "../../util/gpaCalculatorTypes";
+import { ClassStatisticType } from "../../types/gpaCalculatorTypes";
 import CloseIcon from "@material-ui/icons/Close";
 
 type props = {

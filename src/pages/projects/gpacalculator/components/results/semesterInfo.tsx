@@ -1,4 +1,4 @@
-import { SemesterType } from "../../util/gpaCalculatorTypes";
+import { SemesterType } from "../../types/gpaCalculatorTypes";
 import CloseIcon from "@material-ui/icons/Close";
 
 type props = {

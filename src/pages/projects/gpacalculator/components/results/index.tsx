@@ -1,6 +1,6 @@
 import TranscriptChart from "./charts/transcriptChart";
 import ClassChart from "./charts/classChart";
-import { TranscriptInfoType } from "../../util/gpaCalculatorTypes";
+import { TranscriptInfoType } from "../../types/gpaCalculatorTypes";
 import { useState } from "react";
 import SemesterInfo from "./semesterInfo";
 import ClassInfo from "./classInfo";

@@ -1,6 +1,6 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { TranscriptInfoType, SemesterType } from "../../../util/gpaCalculatorTypes";
+import { TranscriptInfoType, SemesterType } from "../../../types/gpaCalculatorTypes";
 import { clamp } from "@app/utils/utilFunc";
 
 type props = {

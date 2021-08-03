@@ -5,8 +5,8 @@ import { useDropzone } from "react-dropzone";
 import { pdfToText } from "./util/pdfToText";
 import { Results, Disclaimer } from "./components";
 import { Layout } from "@app/components";
-import { TranscriptInfoType } from "./util/gpaCalculatorTypes";
 import { Upload } from "@app/svgs";
+import { TranscriptInfoType } from "./types/gpaCalculatorTypes";
 import processTranscriptText from "./util/transcriptProcessing";
 import SampleTranscript from "./util/sampleTranscript";
 

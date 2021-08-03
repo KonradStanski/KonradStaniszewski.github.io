@@ -1,4 +1,4 @@
-import { TranscriptInfoType, SemesterType, ClassType, ClassStatisticType } from "./gpaCalculatorTypes";
+import { TranscriptInfoType, SemesterType, ClassType, ClassStatisticType } from "../types/gpaCalculatorTypes";
 
 // prettier-ignore
 const remarks = {
