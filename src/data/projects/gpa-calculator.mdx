@@ -35,9 +35,13 @@ The tech stack I used to build this project is:
 -   Tailwind CSS
 -   chart.js
 
-Using React, I built out the form for providing the copied text, and simply validated it using some regex. I used regex
-to identify where semesters start and end, and then extracted individual class information from these. These then get
-processed to determine GPA, and all of this is then passed to chart.js where I plot your results.
+I built out a form where users can either input text into a text area, or they can select a pdf that contains the
+transcript information. I use react-dropzone to enable file processing file dragging and dropping. If a user drops a
+file, I use react-pdf to process the file on the front end and extract text from it. This was such a difficult task (for
+some reason) that I have decided to make a write-up explaining how to do so in a Next.js project, as I did not find many
+good resources that actually went over this. Either way, I convert the input to a newline-separated string at the end of
+the day, which I feed through my processing pipeline to get all of the class info and GPA info. Once this is all
+processed, the UI toggles to a results page where stats and information about your GPA are displayed.
 
 ### Challenges and improvements:
 
@@ -47,8 +51,5 @@ engineering graduating average (EGA) is calculated based on the semesters requir
 different compared to how ALES calculates its graduating average, where 60 credits are required, and if a semester does
 not fill those 60 credits fully, but the next one does, the average of the previous semester is used in the calculation
 with the weight of the remaining credits to reach a total of 60. Other faculties do even stranger things. I can see the
-utility in trying to go over each one and add a dropdown to let you choose which one you are, and calculate your
-graduating GPA accordingly, but this would probably be a lot of work. I might get around to it someday.
-
-One other thing I would like to provide would be the option of uploading the generated PDF transcript instead of
-copy-pasting the text contents of the page. I plan on doing this once I get a free minute from schoolwork.
+utility in going over each one and adding a dropdown to let you choose which one you are and calculate your graduating
+GPA accordingly, but this would probably be a lot of work. I might get around to it someday.
