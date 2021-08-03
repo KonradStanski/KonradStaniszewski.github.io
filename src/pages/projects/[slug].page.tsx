@@ -32,7 +32,7 @@ type PostPageProps = {
     frontMatter: ProjectPostType;
 };
 
-const buttonStyle = `hover:shadow-md cursor-pointer mr-3 border-[3px] dark:border-gray-700 border-gray-300 
+const buttonStyle = `hover:shadow-md cursor-pointer mr-3 m-auto border-[3px] dark:border-gray-700 border-gray-300 
 p-2 rounded-md hover:text-blue-400`;
 
 const ProjectsPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
