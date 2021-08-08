@@ -15,18 +15,7 @@ import rehypeSlug from "rehype-slug";
 import { WEBSITE_HOST_URL } from "@app/components/Meta";
 import { MetaProps } from "@app/types/layout";
 import { postFilePaths, getPostPath } from "@app/utils/mdxUtils";
-import { Codepen, Layout, NextImage } from "@app/components";
-
-// Custom components/renderers to pass to MDX.
-// Since the MDX files aren't loaded by webpack, they have no knowledge of how
-// to handle import statements. Instead, you must include components in scope
-// here.
-const components = {
-    Head,
-    NextImage,
-    Link,
-    Codepen,
-};
+import { Codepen, Layout, NextImage, SuperConductor } from "@app/components";
 
 type PostPageProps = {
     source: MDXRemoteSerializeResult;
@@ -34,6 +23,18 @@ type PostPageProps = {
 };
 
 const BlogPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
+    // Custom components/renderers to pass to MDX.
+    // Since the MDX files aren't loaded by webpack, they have no knowledge of how
+    // to handle import statements. Instead, you must include components in scope
+    // here.
+    const components = {
+        Head,
+        NextImage,
+        Link,
+        Codepen,
+        SuperConductor,
+    };
+
     const customMeta: MetaProps = {
         title: `${frontMatter.title} - Konrad Staniszewski`,
         description: frontMatter.description,

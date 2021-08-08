@@ -6,3 +6,4 @@ export { default as Layout } from "./Layout";
 export { default as BlogPostItem } from "./BlogPostItem";
 export { default as ProjectPostItem } from "./ProjectPostItem";
 export { default as NextImage } from "./NextImage/NextImage";
+export { default as SuperConductor } from "./SuperConductor";
