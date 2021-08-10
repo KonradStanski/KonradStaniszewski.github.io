@@ -145,7 +145,7 @@ const ClassChart = (props: props): JSX.Element => {
         },
     };
 
-    return <Bar className="hover:cursor-pointer" data={data} options={options} />;
+    return <Bar height={200} className="hover:cursor-pointer" data={data} options={options} />;
 };
 
 export default ClassChart;

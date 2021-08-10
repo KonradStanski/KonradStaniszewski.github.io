@@ -163,7 +163,7 @@ const TranscriptChart = (props: props): JSX.Element => {
         },
     };
 
-    return <Bar className="hover:cursor-pointer" data={data} options={options} />;
+    return <Bar height={240} className="hover:cursor-pointer" data={data} options={options} />;
 };
 
 export default TranscriptChart;
