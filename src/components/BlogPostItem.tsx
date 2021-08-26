@@ -8,16 +8,16 @@ export type BlogPostType = {
     image?: string;
     slug: string;
     title: string;
+    type: string;
 };
 
 type props = {
     post: BlogPostType;
-    type: string;
 };
 
 const BlogPostItem = (props: props): JSX.Element => {
     return (
-        <Link as={`/${props.type}/${props.post.slug}`} href={`/${props.type}/[slug]`}>
+        <Link as={`/${props.post.type}/${props.post.slug}`} href={`/${props.post.type}/[slug]`}>
             <div
                 key={props.post.slug}
                 className="mt-8 cursor-pointer hover:shadow-md hover:bg-gray-50 dark:hover:bg-opacity-5 hover:bg-opacity-40 rounded py-6 px-4"

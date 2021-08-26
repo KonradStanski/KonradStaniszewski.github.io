@@ -5,10 +5,10 @@ import { BlogPostItem, Layout } from "@app/components";
 import { BlogPostType } from "@app/components/BlogPostItem";
 
 type props = {
-    posts: BlogPostType[];
+    blogPosts: BlogPostType[];
 };
 
-export const Blog = ({ posts }: props): JSX.Element => {
+export const Blog = ({ blogPosts }: props): JSX.Element => {
     return (
         <Layout
             customMeta={{
@@ -16,18 +16,20 @@ export const Blog = ({ posts }: props): JSX.Element => {
             }}
         >
             <h1 className="text-4xl">Blog</h1>
-            {posts.map((post) => (
-                <BlogPostItem key={post.slug} post={post} type="blog" />
+            {blogPosts.map((post) => (
+                <BlogPostItem key={post.slug} post={post} />
             ))}
         </Layout>
     );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const posts = getAllPosts(["date", "description", "slug", "title"], "blog");
-
+    let blogPosts = getAllPosts(["date", "description", "slug", "title"], "blog");
+    const projectPosts = getAllPosts(["date", "description", "slug", "title"], "projects");
+    blogPosts = blogPosts.concat(projectPosts);
+    blogPosts.sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
     return {
-        props: { posts },
+        props: { blogPosts },
     };
 };
 
