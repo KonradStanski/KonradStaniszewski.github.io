@@ -1,4 +1,5 @@
 import { useTheme } from "next-themes";
+import React from "react";
 
 type props = {
     title?: string;
@@ -7,7 +8,12 @@ type props = {
 };
 
 const Codepen = (props: props): JSX.Element => {
+    const [mounted, setMounted] = React.useState(false);
     const { theme } = useTheme();
+    React.useEffect(() => setMounted(true), []);
+    if (!mounted) {
+        return null;
+    }
     return (
         <iframe
             title={props.title}
