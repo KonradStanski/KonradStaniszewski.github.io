@@ -95,7 +95,7 @@ export const Index = (): JSX.Element => {
                     <div className="flex flex-col text-xl justify-around">
                         <p>
                             Hi, I'm <b>Konrad Staniszewski</b>, a fourth year Software Engineering student at the
-                            Univeristy of Alberta.
+                            University of Alberta.
                         </p>
                         <p>
                             I love full-stack web development, making hybrid apps, data visualization, and enjoy
