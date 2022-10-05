@@ -1,7 +1,7 @@
-module.exports = {
-    distDir: "build",
-    pageExtensions: ["page.tsx", "api.ts"],
-    images: {
-        domains: ["images.unsplash.com"],
-    },
-};
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+}
+
+module.exports = nextConfig
