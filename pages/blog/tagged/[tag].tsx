@@ -27,18 +27,30 @@ const Posts: NextPage<PostsProps> = ({ tag, posts }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const mdxFiles = getAllMdx().map((post) => post["frontMatter"]);
-  return {
-    paths: Array.from(new Set(mdxFiles.map((file) => file.tags).flat())).map(
-      (tag) => {
-        return {
-          params: {
-            tag: slugify(tag || ""),
-          },
-        };
+  const tagSet = new Set<string>();
+  for (const file of mdxFiles) {
+    if (file.tags) {
+      for (const tag of file.tags) {
+        tagSet.add(tag);
       }
-    ),
-    fallback: false,
+    }
+  }
+  const pathArray = [];
+  for (const tag of tagSet) {
+    pathArray.push(
+      {
+        params: {
+          tag: slugify(tag)
+        }
+      }
+    );
+
+  }
+  const params = {
+    paths: pathArray,
+    fallback: false
   };
+  return params;
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {

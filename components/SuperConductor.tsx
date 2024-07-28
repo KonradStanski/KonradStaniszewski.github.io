@@ -10,7 +10,7 @@ const Sketch = dynamic(
 );
 
 export const SuperConductor = (): JSX.Element => {
-    let slider;
+    let slider: any;
     let xCanvas = 600;
     let yCanvas = 600;
 
@@ -113,7 +113,7 @@ export const SuperConductor = (): JSX.Element => {
         }
     };
 
-    function drawArrowCentered(p5, x, y, length, theta, color) {
+    function drawArrowCentered(p5: any, x: number, y: number, length: number, theta: number, color: any) {
         // setup drawing environment
         p5.push();
         p5.stroke(color);

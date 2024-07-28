@@ -9,7 +9,7 @@ export const ThemeSelect = () => {
   // After mounting, we have access to the theme
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
   function clickTheme() {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -22,7 +22,7 @@ export const ThemeSelect = () => {
     <button className="theme-button" type="button" aria-label="Toggle Dark Mode" onClick={clickTheme}>
       <div className="moon-or-sun" />
       <div className="moon-mask" />
-      <style jsx>{`
+      <style>{`
             .theme-button {
                 opacity: 0.5;
                 position: relative;
