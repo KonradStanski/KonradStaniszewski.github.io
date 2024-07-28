@@ -1,0 +1,51 @@
+---
+title: Blog Redesign 1.0
+description: Converting to a Next.js blog with Notion as a CMS
+date: 2019-12-14
+---
+<img src={`/images/blog/lighthouse-1.png`} />
+In preparation for acquiring a summer 2021 internship, I decided to overhaul my personal website.
+I was dissatisfied with my old website, as I wanted to have a blog section on my website but previously failed to find a
+convenient CMS system that also provided WYSIWYG editing and did not require tying myself to a restrictive framework such as WordPress or GitBook.
+This post details my search in finding a convenient technology stack that fulfilled those requirements and allowed me to build my blog using modern web technologies.
+
+This site began as a simple Html page with no fanfare and no extra pages. It hosted my portfolio and acted as a resume.
+When I decided I wanted to write blog posts, I initially turned to GatsbyJS, a framework for serving static pages.
+Editing the markdown files worked ok, but still did not provide the WYSIWYG editing I was looking for.
+I eventually found GitBook, and transitioned over to this, but found the inability to integrate it directly with my site a difficulty, as it forced me to match my
+sites layout and UI. It also required some weird DNS hacks and URL redirections.
+I knew this was not going to be a final solution, but left it like this for some time.
+
+A couple of months ago I discovered Notion and started using it for everything. I use it for my school notes, Job searching, and saving my favorite recipes.
+If you have not heard of this tool, I recommend checking it out.
+When I discovered that IJJK had reverse-engineered the Notion database API to allow using it as a WYSIWYG content management system, I was immediately convinced to try it out.
+This was made only better by the fact that it was build with Next.js and TypeScript, allowing for hybrid SSG (Static Generation) + SSR (Server Side Rendering).
+This tech stack, when hosted on Vercel (the creators of Next.js) allows for an incredibly responsive site, as can be seen from the lighthouse scores of IJJK's demo site.
+
+### Getting Set Up With Notion + Next.js Blog
+
+To get started with a notion blog, you should take the following steps:
+
+1. Cloning the repo:
+    1. Clone the ijjk repository with: `git clone https://github.com/ijjk/notion-blog.git`
+    2. Setup this cloned repository to be connected to your own GitHub by following these instructions: [HERE](https://dev.to/dance2die/push-git-cloned-repository-to-your-own-on-github-1ili)
+2. Finding environment variables:
+    1. Find your NOTION_TOKEN by finding the `token_v2` cookie in chrome.
+    2. Create a new page in your notion where you plan on hosting your blog posts. If the URL of your page is `notion.so/Blog-S5qv1QbUzM1wxm3H3SZRQkupi7XjXTul` then your BLOG_INDEX_ID is `S5qv1QbU-zM1w-xm3H-3SZR-Qkupi7XjXTul`
+3. Setting up vercel hosting:
+    1. Install the vercel command line with: `npm i -g vercel`
+    2. Sign up for a hosting account with [vercel](https://vercel.com/). (It's free)
+    3. In the root of the project, type `vc` to configure the project. This should lead you to connecting your GitHub account to vercel, and setting up the repo containing the project within vercel.
+    4. In the vercel repo dashboard, under setting/environment-variables, add your NOTION_TOKEN and BLOG_INDEX_ID as secrets.
+4. Setting up the Notion CMS page:
+    1. Run the setup script to create the table for your blog: `NOTION_TOKEN='token' BLOG_INDEX_ID='new-page-id' node scripts/create-table.js`
+    2. To work on the project locally, you have to add both NOTION_TOKEN and BLOG_INDEX_ID as environment variables in your local development environment for the following steps. This can be done by adding: `export NOTION_TOKEN=<token>` and `export BLOG_INDEX_ID=<id>` to your .bashrc file and running `source ~/.bashrc` after adding them.
+
+You should now be able to edit pages in your Notion CMS and see them updated on your site. I suggest adding GTAG's using link #1 in the references below. Link #2 is a useful handbook for working with the Next.js framework to customize your blog as you see fit. My blog is hosted on [GitHub](https://github.com/KonradStanski/KonradStaniszewski.github.io), and can be used to see how to further configure this template.
+
+References:
+
+1. [https://medium.com/frontend-digest/using-nextjs-with-google-analytics-and-typescript-620ba2359dea](https://medium.com/frontend-digest/using-nextjs-with-google-analytics-and-typescript-620ba2359dea)
+2. [https://www.freecodecamp.org/news/the-next-js-handbook/](https://www.freecodecamp.org/news/the-next-js-handbook/)
+3. [https://github.com/ijjk/notion-blog](https://github.com/ijjk/notion-blog)
+4. [https://dev.to/dance2die/push-git-cloned-repository-to-your-own-on-github-1ili](https://dev.to/dance2die/push-git-cloned-repository-to-your-own-on-github-1ili)

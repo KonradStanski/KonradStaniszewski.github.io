@@ -1,0 +1,66 @@
+---
+title: Getting the sum of a property from an array of objects
+description: How to sum a property on an array of objects in Typescript
+date: 2022-02-10
+---
+### The JavaScript way to do it:
+
+I was working on a GPA calculator page recently when I tried to get the sum of a property on an array of objects using Array.reduce(), when I came across an interesting error.
+
+The standard way of getting the sum of a property in JavaScript using reduce() would be this:
+
+```jsx
+const arr = [{x: 1},{x: 2}];
+const sum = arr.reduce((sum, curr) => (
+		{ x: sum.x + curr.x }
+)).x;
+```
+
+This works fine for situations where you only have the property x on the objects in the array. However, If you try and perform this on an array of objects that have extra properties in TypeScript, you will get a type error. Let me set up an example to demonstrate this.
+
+### Example Problem and Solution:
+
+Say we have an array of month objects with the properties name and days, and we want to find the sum of days for all months in this array.
+
+```jsx
+type month = {
+    name: string,
+    days: number,
+};
+
+const months: Array<month> = [
+    {name: "Jan", days: 31},
+    {name: "Feb", days: 28},
+    {name: "Mar", days: 31},
+    {name: "Apr", days: 30},
+    {name: "May", days: 31},
+    {name: "Jun", days: 30},
+    {name: "Jul", days: 31},
+    {name: "Aug", days: 31},
+    {name: "Sep", days: 30},
+    {name: "Oct", days: 31},
+    {name: "Nov", days: 30},
+    {name: "Dec", days: 31},
+];
+```
+
+If we try to find the sum of days using reduce() in the same manner as seen in the pure JavaScript way:
+
+```jsx
+const daySum = months.reduce((sum, curr) => (
+    { days: sum.days + curr.days }.days
+)).days; // Property 'name' is missing in type '{ days: number; }' but required in type 'month'.
+```
+
+This produces a type error telling us that the currying object in the reduce callback is missing properties. An easy way to fix this is to simply use the es6 destructuring operator '...' with either the sum or the curr in the object to "fill" in the missing properties and fix the type error.
+
+```jsx
+ const daySum2 = months.reduce((sum, curr) => (
+            {
+                days: sum.days + curr.days,
+                ...curr
+            }
+        )).days;
+```
+
+This way works, but it may not be the best way to get this done. I found it by just experimenting, so if anyone has any suggestions for me on how to do this better, please contact me via email! I would love to learn, and also update this page to provide better information to whoever comes across this.

@@ -1,35 +1,23 @@
-# NextJS - Typescript - MDX - Tailwind CSS
+# Konrad's Website
 
-My personal blog.
-Built with:
+- **View**: [demo site](https://nextjs-mdx-blog-theme.vercel.app/)
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Deployment**: [Vercel](https://vercel.com)
+- **Content**: [MDX](https://github.com/mdx-js/mdx)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 
--   [Typescript](https://www.typescriptlang.org/)
--   Write posts with [MDX](https://mdxjs.com/)
--   Style with [Tailwind CSS](https://tailwindcss.com/)
--   Linting with [ESLint](https://eslint.org/)
--   Formatting with [Prettier](https://prettier.io/)
--   Linting, typechecking and formatting on by default using [`husky`](https://github.com/typicode/husky) for commit hooks
+## Styling
 
-This is **heavily** inspired by [Lee Robinson](https://github.com/leerob/leerob.io) and [Anson Lichtfuss](https://github.com/ansonlichtfuss/website).
+To organize Tailwind CSS light and dark styles on elements, we make use of `cx` utility as an array. The first string contains the base styles, the second string is for light mode styles, and lastly the third string is for dark mode styling.
 
-## Notes:
+```jsx
+import { cx } from '@/lib/utils'
 
--   When using useTheme() to get the theme for a component, if the rendering depends on the theme, watch out for [THIS!](https://github.com/pacocoursey/next-themes#usetheme)
-
+<div
+  className={cx(
+    'p-4', // base styles
+    'text-gray-900', // light mode styles
+    'dark:text-gray-50'. // dark mode styles
+  )}
+/>
 ```
-    const [mounted, setMounted] = React.useState(false);
-    React.useEffect(() => setMounted(true), []);
-    if (!mounted) {
-        return null;
-    }
-```
-
--   I moved to keeping page specific components in the pages folder, look [here](https://github.com/vercel/next.js/issues/8454#issuecomment-560432659) to find out what settings im using. This means that all valid paths in the /pages folder need to have the .page.tsx or .api.ts extensions. Everything else is not a valid path.
-
-## TODO:
-
--   [] Add utterances comments
--   [] improve hamburger menu pop out
--   [] improve semester component in gpaCalculator
--   [x] make projects page cards show more information about project and have links to code, demo, writeup ect with image and
-        longer blurb about what the project is.
