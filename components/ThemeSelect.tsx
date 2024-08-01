@@ -17,7 +17,7 @@ export const ThemeSelect = () => {
 
   const isDark = theme === "dark";
   const color = isDark ? "#fff" : "#000";
-  const maskColor = isDark ? "#000" : "#fff";
+  const maskColor = isDark ? "#000" : "#F9FAFB";
   return (
     <button className="theme-button" type="button" aria-label="Toggle Dark Mode" onClick={clickTheme}>
       <div className="moon-or-sun" />
