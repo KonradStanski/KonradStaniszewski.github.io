@@ -18,11 +18,11 @@ const Home: NextPage = () => {
                 I grew up in Edmonton, Alberta.
                 <a className="text-sky-400" href="https://www.cbc.ca/news/canada/edmonton/edmonton-cold-record-environment-canada-1.7083387"> (very cold winters)</a>
               </li>
-              <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta</li>
-              <li>I&apos;m currently working at Arista Networks</li>
+              <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta.</li>
+              <li>I&apos;m currently working at Arista Networks.</li>
               <li>
                 My childhood appreciation of engineering came about by disassembling household objects, with varying degrees of success at
-                re-assembling them (sorry Mom!)
+                re-assembling them. (sorry Mom!)
               </li>
               <li>
                 Making Arduino robots introduced me to software years before I realized I wanted to be a software engineer.
@@ -33,7 +33,7 @@ const Home: NextPage = () => {
             <p>A few things I believe:</p>
             <ul className="list-disc mx-6">
               <li>
-                Advancing technology (<a className="text-sky-400" href="https://en.wikipedia.org/wiki/the_beginning_of_infinity">knowledge</a>)
+                Advancing technology (<a className="text-sky-400" href="https://en.wikipedia.org/wiki/The_Beginning_of_Infinity">knowledge</a>)
                 is our duty and right.
               </li>
               <li>Form ≹ Function.</li>
