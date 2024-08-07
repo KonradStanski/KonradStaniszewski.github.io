@@ -12,7 +12,7 @@ export const PostList: React.FC<PostListProps> = ({ posts }) => {
   return (
     <ul
       className={cx(
-        "divide-y -my-8",
+        "divide-y",
         "divide-gray-200",
         "dark:divide-gray-700"
       )}
@@ -35,24 +35,26 @@ export const PostList: React.FC<PostListProps> = ({ posts }) => {
                   {post.date}
                 </time>
               </div>
-              {post.description ? (
-                <div className="">
-                  <Prose>
-                    <p>{post.description}</p>
-                  </Prose>
-                </div>
-              ) : null}
-              {post.tags ? (
-                <ul className="mt-1 flex flex-wrap space-x-2">
-                  {post.tags.map((tag, index) => {
-                    return (
-                      <li key={index}>
-                        <Tag href={`/blog/tagged/${slugify(tag)}`}>{tag}</Tag>
-                      </li>
-                    );
-                  })}
-                </ul>
-              ) : null}
+              <div className="flex flex-row justify-between">
+                {post.description ? (
+                  <div className="">
+                    <Prose>
+                      <p>{post.description}</p>
+                    </Prose>
+                  </div>
+                ) : null}
+                {post.tags ? (
+                  <ul className="mt-1 flex flex-wrap space-x-2">
+                    {post.tags.map((tag, index) => {
+                      return (
+                        <li key={index}>
+                          <Tag href={`/blog/tagged/${slugify(tag)}`}>{tag}</Tag>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
+              </div>
             </article>
           </li>
         );
