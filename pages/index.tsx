@@ -4,12 +4,10 @@ const Home: NextPage = () => {
   return (
     <div>
       <div className="m-auto px-4 md:px-10">
-        <h1 className="text-center text-5xl font-bold pb-10 pt-0 md:pt-10">Konrad Staniszewski</h1>
         <div id="intro-section" className="py-5 flex flex-col md:flex md:flex-row">
           <div className="flex flex-col text-xl justify-around">
             <p>
-              Hi, I&apos;m <b>Konrad Staniszewski</b>, a Software Engineering grad from the University of Alberta.
-              Currently working at Arista.
+              Hi, I&apos;m <b>Konrad Staniszewski</b>
             </p>
             <br/>
             <p>
@@ -20,8 +18,12 @@ const Home: NextPage = () => {
                 I grew up in Edmonton, Alberta.
                 <a className="text-sky-400" href="https://www.cbc.ca/news/canada/edmonton/edmonton-cold-record-environment-canada-1.7083387"> (very cold winters)</a>
               </li>
-              <li>As a kid, tearing various things apart made me fall in love with how things worked, and more importantly: how they are made.</li>
-              <li>Made my first money by replacing capacitors from trashed audio amps and re-selling them on facebook marketplace.</li>
+              <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta</li>
+              <li>I'm currently working at Arista Networks</li>
+              <li>
+                My childhood appreciation of engineering came about by disassembling household objects, with varying degrees of success at
+                re-assembling them (sorry Mom!)
+              </li>
               <li>
                 Making Arduino robots introduced me to software years before I realized I wanted to be a software engineer.
                 My motivation for learning to code was getting my robots to move.
