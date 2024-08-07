@@ -19,7 +19,7 @@ const Home: NextPage = () => {
                 <a className="text-sky-400" href="https://www.cbc.ca/news/canada/edmonton/edmonton-cold-record-environment-canada-1.7083387"> (very cold winters)</a>
               </li>
               <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta</li>
-              <li>I'm currently working at Arista Networks</li>
+              <li>I&apos;m currently working at Arista Networks</li>
               <li>
                 My childhood appreciation of engineering came about by disassembling household objects, with varying degrees of success at
                 re-assembling them (sorry Mom!)
