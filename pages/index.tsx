@@ -20,14 +20,6 @@ const Home: NextPage = () => {
               </li>
               <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta</li>
               <li>I&apos;m currently working at Arista Networks</li>
-              <li>
-                My childhood appreciation of engineering came about by disassembling household objects, with varying degrees of success at
-                re-assembling them (sorry Mom!)
-              </li>
-              <li>
-                Making Arduino robots introduced me to software years before I realized I wanted to be a software engineer.
-                My motivation for learning to code was getting my robots to move.
-              </li>
             </ul>
             <br/>
             <p>A few things I believe:</p>
