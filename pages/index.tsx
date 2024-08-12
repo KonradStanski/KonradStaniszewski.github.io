@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             <p>A few things I believe:</p>
             <ul className="list-disc mx-6">
               <li>
-                Advancing technology (<a className="text-sky-400" href="https://en.wikipedia.org/wiki/the_beginning_of_infinity">knowledge</a>)
+                Advancing technology (<a className="text-sky-400" href="https://en.wikipedia.org/wiki/The_Beginning_of_Infinity">knowledge</a>)
                 is our duty and right.
               </li>
               <li>Form ≹ Function.</li>
