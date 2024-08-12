@@ -18,8 +18,8 @@ const Home: NextPage = () => {
                 I grew up in Edmonton, Alberta.
                 <a className="text-sky-400" href="https://www.cbc.ca/news/canada/edmonton/edmonton-cold-record-environment-canada-1.7083387"> (very cold winters)</a>
               </li>
-              <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta</li>
-              <li>I&apos;m currently working at Arista Networks</li>
+              <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta.</li>
+              <li>I&apos;m currently working at Arista Networks.</li>
             </ul>
             <br/>
             <p>A few things I believe:</p>
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
                 can be as moving as a piece of <a className="text-sky-400" href="https://en.wikipedia.org/wiki/Henri-Paul_Motte#/media/File:Vercing%C3%A9torix_se_rend_%C3%A0_C%C3%A9sar_1886_HPMotte.jpg">art</a> or music.</li>
               <li>There are many lessons to learn from history.</li>
             <li>Paul Graham&apos;s <a className="text-sky-400" href="https://www.paulgraham.com/articles.html">essays</a> deserve your attention.</li>
-              <li>Life is best lived enjoyed 🙂</li>
+              <li>Life is best lived enjoyed. 🙂</li>
             </ul>
             <br/>
             <p>Things inspiring me right now:</p>
