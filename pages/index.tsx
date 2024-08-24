@@ -20,14 +20,6 @@ const Home: NextPage = () => {
               </li>
               <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta.</li>
               <li>I&apos;m currently working at Arista Networks.</li>
-              <li>
-                My childhood appreciation of engineering came about by disassembling household objects, with varying degrees of success at
-                re-assembling them. (sorry Mom!)
-              </li>
-              <li>
-                Making Arduino robots introduced me to software years before I realized I wanted to be a software engineer.
-                My motivation for learning to code was getting my robots to move.
-              </li>
             </ul>
             <br/>
             <p>A few things I believe:</p>
@@ -42,7 +34,7 @@ const Home: NextPage = () => {
                 can be as moving as a piece of <a className="text-sky-400" href="https://en.wikipedia.org/wiki/Henri-Paul_Motte#/media/File:Vercing%C3%A9torix_se_rend_%C3%A0_C%C3%A9sar_1886_HPMotte.jpg">art</a> or music.</li>
               <li>There are many lessons to learn from history.</li>
             <li>Paul Graham&apos;s <a className="text-sky-400" href="https://www.paulgraham.com/articles.html">essays</a> deserve your attention.</li>
-              <li>Life is best lived enjoyed 🙂</li>
+              <li>Life is best lived enjoyed. 🙂</li>
             </ul>
             <br/>
             <p>Things inspiring me right now:</p>
