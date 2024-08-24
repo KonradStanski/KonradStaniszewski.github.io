@@ -41,6 +41,7 @@ export const Page: React.FC<PageProps> = ({
       <div
         className={cx(
           "border-b",
+          "mb-4",
           "border-gray-200",
           "dark:border-gray-700"
         )}
@@ -54,7 +55,7 @@ export const Page: React.FC<PageProps> = ({
           </time>
         ) : null}
         {description ? (
-          <div className="mt-4">
+          <div className="mt-4 mb-2">
             <Prose>
               {typeof description === "string" ? (
                 <p>{description}</p>

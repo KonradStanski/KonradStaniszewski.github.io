@@ -1,0 +1,78 @@
+---
+title: Moving windows between spaces on MacOS
+description: Using hammerspoon to move windows between spaces with shortcuts on MacOS
+date: 2024-09-16
+tags:
+---
+Since moving to MacOS as my default work os ~2 years ago, I've tried to find a consistent way to achieve all of my usual linux workflows with shortcuts. I got everything working right away except moving windows between spaces. Most articles online tell you to grab the title bar and switch spaces using the built in space navigation shortcuts. This works, but still requires using your mouse. If you're trying to develop "keyboard only" workflows, this guide should sort you out.
+
+The steps are:
+1. Install hammerspoon (version [1.0.0](https://www.hammerspoon.org/releasenotes/1.0.0.html) or above)
+2. copy the script from below into the correct location:  `~/.hammerspoon/init.lua`
+3. run hammerspoon and double check everything is working
+4. Disable conflicting MacOS shortcuts
+## Installing Hammerspoon
+Hammerspoon is a macos scripting utility which provides a number of nice utilities for macos exposed via the lua scripting language. In hammerspoon's [1.0.0](https://www.hammerspoon.org/releasenotes/1.0.0.html)version, they added an api for moving windows between spaces.
+To install hamerspoon, you can either download it from the [github](https://github.com/Hammerspoon/hammerspoon/releases/tag/1.0.0), or install it using [brew](https://formulae.brew.sh/cask/hammerspoon).
+## Required Script
+Copy the following script into ~/.hammerspoon/init.lua
+Please refer to the hammerspoon [docs]() for info on what is happening in this script.
+```
+-- Set up the logger
+local log = hs.logger.new('WindowMover', 'info')
+
+-- Function to get spaceId by space name
+function getSpaceIdByName(spaceName)
+    local spaceNames = hs.spaces.missionControlSpaceNames()
+    for uuid, desktops in pairs(spaceNames) do
+        log.i("UUID: " .. uuid) -- Log the UUID
+        for index, name in pairs(desktops) do
+            log.i("Index: " .. index .. ", Name: " .. tostring(name)) -- Log the index and name
+            if name == spaceName then
+                log.i("Found spaceId for " .. spaceName .. ": " .. index)
+                return index
+            end
+        end
+    end
+    log.w("Space not found: " .. spaceName)
+    return nil
+end
+
+-- Function to move focused window to a specific space
+function moveFocusedWindowToSpace(spaceNumber)
+    local spaceName = "Desktop " .. spaceNumber
+    log.i("Attempting to move window to " .. spaceName)
+    local spaceId = getSpaceIdByName(spaceName)
+    if spaceId then
+        local focusedWindow = hs.window.focusedWindow()
+        if focusedWindow then
+            log.i("Moving window " .. focusedWindow:title() .. " to spaceId " .. spaceId)
+            hs.spaces.moveWindowToSpace(focusedWindow:id(), spaceId)
+        else
+            log.w("No focused window")
+            hs.alert.show("No focused window")
+        end
+    else
+        log.w("Space not found: " .. spaceName)
+        hs.alert.show("Space not found: " .. spaceName)
+    end
+end
+
+-- Bind keys cmd + shift + 1-6
+for i = 1, 6 do
+    hs.hotkey.bind({"cmd", "shift"}, tostring(i), function()
+        log.i("Hotkey pressed: cmd + shift + " .. i)
+        moveFocusedWindowToSpace(i)
+    end)
+end
+```
+
+## Things to note
+1. For this to work, you should ensure that you have the [displays have separate spaces](https://www.howtogeek.com/180677/mission-control-101-how-to-use-multiple-desktops-on-a-mac/) option disabled.
+2. You also need to have all of the desktops in the control center dropdown be named "Desktop 1-N".
+3. You can open hammerspoon to see the console and see debug messages when the shortcuts are working.
+4. The hotkeys will conflict with MacOs's default keyboard shortcuts for taking screenshots. You can either disable these, or change the script.
+
+### Questions?
+post questions in the X thread below:
+[questions]()
