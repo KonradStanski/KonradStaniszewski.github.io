@@ -41,6 +41,7 @@ const Home: NextPage = () => {
             <ul className="list-disc mx-6">
               <li><a className="text-sky-400" href="https://www.palladiummag.com/2023/08/16/the-only-reason-to-explore-space/">Why should we reach for the stars?</a></li>
               <li><a className="text-sky-400" href="https://www.piratewires.com/p/techno-industrialist-manifesto">The techno-industrialist manifesto</a></li>
+              <li><a className="text-sky-400" href="https://writings.stephenwolfram.com/2019/02/seeking-the-productive-life-some-details-of-my-personal-infrastructure/">Stephen Wolfram's personal productivity infrastructure.</a></li>
             </ul>
             <br/>
             <p>Check out my <a className="text-sky-400" href="/blog/">blog</a> posts!</p>
