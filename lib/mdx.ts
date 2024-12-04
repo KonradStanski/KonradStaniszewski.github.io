@@ -15,7 +15,6 @@ export const getMdx = (fileName: string) => {
   return {
     frontMatter: {
       ...data,
-      slug: fileName.replace(".mdx", ""),
     } as MDXFrontMatter,
     content,
   };
