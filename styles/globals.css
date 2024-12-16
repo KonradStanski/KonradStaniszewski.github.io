@@ -164,3 +164,13 @@ pre[class*="language-"] {
 .token.italic {
   font-style: italic;
 }
+
+.heading-link {
+  @apply underline;
+  text-decoration-color: rgba(238, 174, 57, 0.687);
+  text-decoration-style: double;
+}
+
+a.heading-link {
+  @apply text-zinc-800 dark:text-zinc-100; /* Light mode: dark text, Dark mode: light text */
+}

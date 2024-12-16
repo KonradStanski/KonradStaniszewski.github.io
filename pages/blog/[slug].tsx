@@ -11,6 +11,9 @@ import { components } from "@/components/MDX";
 import { Prose } from "@/components/Prose";
 import { cx } from "@/lib/utils";
 import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+
 interface ContextProps extends ParsedUrlQuery {
   slug: string;
 }
@@ -95,7 +98,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const mdxContent = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [remarkGfm],
-      rehypePlugins: [rehypePrism],
+      rehypePlugins: [
+        rehypePrism,
+        rehypeSlug,
+        [rehypeAutolinkHeadings, {
+          behavior: 'wrap',
+          properties: {
+            className: ["heading-link"],
+          },
+        }]
+      ],
     },
     scope: frontMatter,
   });
