@@ -14,11 +14,7 @@ const Home: NextPage = () => {
               Some things about me:
             </p>
             <ul className="list-disc mx-6">
-              <li>
-                I grew up in Edmonton, Alberta.
-                <a className="text-sky-400" href="https://www.cbc.ca/news/canada/edmonton/edmonton-cold-record-environment-canada-1.7083387"> (very cold winters)</a>
-              </li>
-              <li>I studied Computer Engineering, Software Specialization at the Univserity of Alberta.</li>
+              <li>I studied Computer Engineering, Software Specialization at the University of Alberta.</li>
               <li>I&apos;m currently working at Arista Networks.</li>
             </ul>
             <br/>
@@ -31,13 +27,13 @@ const Home: NextPage = () => {
               <li>Form ≹ Function.</li>
               <li>
                 <a className="text-sky-400" href="/images/raptor-engine.jpg">Good engineering </a>
-                can be as moving as a piece of <a className="text-sky-400" href="https://en.wikipedia.org/wiki/Henri-Paul_Motte#/media/File:Vercing%C3%A9torix_se_rend_%C3%A0_C%C3%A9sar_1886_HPMotte.jpg">art</a> or music.</li>
-              <li>There are many lessons to learn from history.</li>
-            <li>Paul Graham&apos;s <a className="text-sky-400" href="https://www.paulgraham.com/articles.html">essays</a> deserve your attention.</li>
+                is as moving as a piece of <a className="text-sky-400" href="https://en.wikipedia.org/wiki/Henri-Paul_Motte#/media/File:Vercing%C3%A9torix_se_rend_%C3%A0_C%C3%A9sar_1886_HPMotte.jpg">art</a> or music.</li>
+              <li>It pays to study history.</li>
+              <li>Paul Graham&apos;s <a className="text-sky-400" href="https://www.paulgraham.com/articles.html">essays</a> deserve your attention.</li>
               <li>Life is best lived enjoyed. 🙂</li>
             </ul>
             <br/>
-            <p>Things inspiring me right now:</p>
+            <p>Personally Inspiring Writing:</p>
             <ul className="list-disc mx-6">
               <li><a className="text-sky-400" href="https://www.palladiummag.com/2023/08/16/the-only-reason-to-explore-space/">Why should we reach for the stars?</a></li>
               <li><a className="text-sky-400" href="https://www.piratewires.com/p/techno-industrialist-manifesto">The techno-industrialist manifesto</a></li>
