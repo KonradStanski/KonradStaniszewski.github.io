@@ -26,8 +26,8 @@ const projects: Project[] = [
   {
     title: "University GPA Calculator",
     slug: "gpa-calculator",
-    description: "Calculate your GPA with different grading schemes and course weights",
-    status: "coming-soon",
+    description: "Calculate your University of Alberta GPA from your transcript with interactive charts",
+    status: "active",
   },
 ];
 
