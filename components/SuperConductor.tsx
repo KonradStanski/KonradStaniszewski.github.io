@@ -1,13 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import p5Types from "p5";
 
-const Sketch = dynamic(
-    () => {
-        return import("react-p5");
-    },
-    { ssr: false }
-);
+const Sketch = dynamic(() => import("react-p5"), { ssr: false });
 
 export const SuperConductor = (): JSX.Element => {
     let slider: any;
@@ -76,11 +70,8 @@ export const SuperConductor = (): JSX.Element => {
 
     /**
      * Monte Carlo step algorithm.
-     *
-     * @param {p5Types} p5
-     * @param {number} temp
      */
-    const mcStep = (p5: p5Types, temp: number) => {
+    const mcStep = (p5: any, temp: number) => {
         for (let i = 0; i < N; i++) {
             // make N random changes
             const s = Math.floor(Math.random() * N);
@@ -113,7 +104,14 @@ export const SuperConductor = (): JSX.Element => {
         }
     };
 
-    function drawArrowCentered(p5: any, x: number, y: number, length: number, theta: number, color: any) {
+    function drawArrowCentered(
+        p5: any,
+        x: number,
+        y: number,
+        length: number,
+        theta: number,
+        color: string
+    ) {
         // setup drawing environment
         p5.push();
         p5.stroke(color);
@@ -139,7 +137,7 @@ export const SuperConductor = (): JSX.Element => {
         p5.pop();
     }
 
-    const setup = (p5: p5Types, canvasParentRef: Element) => {
+    const setup = (p5: any, canvasParentRef: Element) => {
         const top = canvasParentRef.getBoundingClientRect().top;
         const left = canvasParentRef.getBoundingClientRect().left;
         xCanvas = canvasParentRef.getBoundingClientRect().width;
@@ -150,7 +148,7 @@ export const SuperConductor = (): JSX.Element => {
         p5.textSize(20);
     };
 
-    const draw = (p5: p5Types) => {
+    const draw = (p5: any) => {
         p5.background(100);
         p5.fill(255);
         const temp = slider.value();
