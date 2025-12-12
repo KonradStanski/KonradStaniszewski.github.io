@@ -43,7 +43,6 @@ export const SailingSimulator = (): JSX.Element => {
     sailTrimSlider: null as any,
     rudderSlider: null as any,
     motorPower: null as any,
-    windSlider: null as any,
     rudderActive: false,
   });
 
@@ -57,6 +56,13 @@ export const SailingSimulator = (): JSX.Element => {
     sailForce: 0,
     forwardForce: 0,
   });
+  // Coin state: single active gold coin
+  const coinRef = useRef<{ x: number; y: number; spawnedAt: number } | null>(null);
+  const lastSpawnRef = useRef(0);
+  const COIN_SPAWN_INTERVAL = 10000; // ms
+  const COIN_COLLECT_RADIUS = 40; // world units
+  const COIN_MAX_DISTANCE = 5000; // maximum spawn distance from boat
+  const COIN_MIN_DISTANCE = 400; // minimum spawn distance from boat
 
   // Physics constants
   const BOAT_MASS = 500;
@@ -109,6 +115,116 @@ export const SailingSimulator = (): JSX.Element => {
     }
 
     return field;
+  };
+
+  // Spawn a coin randomly on the map every COIN_SPAWN_INTERVAL ms if none exists
+  const maybeSpawnCoin = (p5: any) => {
+    const now = Date.now();
+    if (coinRef.current) return; // already have one
+    if (now - lastSpawnRef.current < COIN_SPAWN_INTERVAL) return;
+    // spawn within a ring around the boat between min and max distance
+    const boat = boatState.current;
+    let cx = 0, cy = 0;
+    for (let attempts = 0; attempts < 30; attempts++) {
+      const theta = Math.random() * Math.PI * 2;
+      // sample radius uniformly over area => sqrt(random) * max
+      const r = Math.sqrt(Math.random()) * (COIN_MAX_DISTANCE - COIN_MIN_DISTANCE) + COIN_MIN_DISTANCE;
+      cx = boat.x + Math.cos(theta) * r;
+      cy = boat.y + Math.sin(theta) * r;
+      // clamp to world
+      cx = Math.max(20, Math.min(WORLD_SIZE - 20, cx));
+      cy = Math.max(20, Math.min(WORLD_SIZE - 20, cy));
+      const dx = cx - boat.x;
+      const dy = cy - boat.y;
+      if (Math.sqrt(dx * dx + dy * dy) >= COIN_MIN_DISTANCE && Math.sqrt(dx * dx + dy * dy) <= COIN_MAX_DISTANCE) break;
+    }
+    coinRef.current = { x: cx, y: cy, spawnedAt: now };
+    lastSpawnRef.current = now;
+  };
+
+  const drawCoin = (p5: any) => {
+    if (!coinRef.current) return;
+    const coin = coinRef.current;
+    // draw gold coin
+    p5.push();
+    p5.noStroke();
+    p5.fill(212, 175, 55);
+    p5.ellipse(coin.x, coin.y, 14, 14);
+    p5.fill(180, 140, 30);
+    p5.ellipse(coin.x, coin.y, 8, 8);
+    p5.pop();
+
+    // Collect if close
+    const boat = boatState.current;
+    const dx = coin.x - boat.x;
+    const dy = coin.y - boat.y;
+    if (Math.sqrt(dx * dx + dy * dy) < COIN_COLLECT_RADIUS) {
+      coinRef.current = null;
+    }
+  };
+
+  // Draw an on-screen arrow at the canvas edge pointing to the coin plus distance label
+  const drawCoinIndicator = (p5: any) => {
+    if (!coinRef.current) return;
+    const coin = coinRef.current;
+    const boat = boatState.current;
+    // Vector from screen center to coin in world coords
+    const screenCenterX = p5.width / 2;
+    const screenCenterY = p5.height / 2;
+    const relX = coin.x - boat.x;
+    const relY = coin.y - boat.y;
+    const angle = Math.atan2(relY, relX);
+    // Compute intersection of ray (from screen center) with canvas rectangle (inset)
+    const inset = 12;
+    const left = inset;
+    const right = p5.width - inset;
+    const top = inset;
+    const bottom = p5.height - inset;
+
+    const dx = Math.cos(angle);
+    const dy = Math.sin(angle);
+
+    const candidates: { x: number; y: number; t: number }[] = [];
+    // Intersect with vertical lines
+    if (Math.abs(dx) > 1e-6) {
+      const tLeft = (left - screenCenterX) / dx;
+      const yLeft = screenCenterY + dy * tLeft;
+      if (tLeft > 0 && yLeft >= top && yLeft <= bottom) candidates.push({ x: left, y: yLeft, t: tLeft });
+      const tRight = (right - screenCenterX) / dx;
+      const yRight = screenCenterY + dy * tRight;
+      if (tRight > 0 && yRight >= top && yRight <= bottom) candidates.push({ x: right, y: yRight, t: tRight });
+    }
+    // Intersect with horizontal lines
+    if (Math.abs(dy) > 1e-6) {
+      const tTop = (top - screenCenterY) / dy;
+      const xTop = screenCenterX + dx * tTop;
+      if (tTop > 0 && xTop >= left && xTop <= right) candidates.push({ x: xTop, y: top, t: tTop });
+      const tBottom = (bottom - screenCenterY) / dy;
+      const xBottom = screenCenterX + dx * tBottom;
+      if (tBottom > 0 && xBottom >= left && xBottom <= right) candidates.push({ x: xBottom, y: bottom, t: tBottom });
+    }
+
+    if (candidates.length === 0) return; // shouldn't happen
+    // pick nearest positive intersection
+    candidates.sort((a, b) => a.t - b.t);
+    const hit = candidates[0];
+
+    // Draw arrow at hit.x, hit.y pointing outward toward coin
+    p5.push();
+    p5.translate(hit.x, hit.y);
+    // rotate so arrow points toward coin; adjust so arrow head points outward
+    p5.rotate(angle);
+    p5.fill(212, 175, 55);
+    p5.noStroke();
+    p5.triangle(-10, -8, -10, 8, 12, 0);
+    p5.pop();
+
+    // Distance label (world units)
+    const dist = Math.sqrt(relX * relX + relY * relY);
+    p5.fill(255);
+    p5.textSize(12);
+    p5.textAlign(p5.CENTER, p5.BOTTOM);
+    p5.text(`${Math.round(dist)}u`, hit.x, hit.y - 12);
   };
 
   // Get interpolated wind at a position using bilinear interpolation between grid nodes
@@ -176,7 +292,7 @@ export const SailingSimulator = (): JSX.Element => {
     const left = rect?.left || 0;
 
     // Sheet length: 0 = tight (boom aft), 100 = loose (boom can swing perpendicular)
-    controlsRef.current.sailTrimSlider = p5.createSlider(0, 100, 0, 1);
+    controlsRef.current.sailTrimSlider = p5.createSlider(0, 100, 20, 1);
     controlsRef.current.sailTrimSlider.position(left + 10, top + 85);
     controlsRef.current.sailTrimSlider.style("width", "120px");
 
@@ -194,10 +310,6 @@ export const SailingSimulator = (): JSX.Element => {
     controlsRef.current.motorPower = p5.createSlider(0, 100, 0, 1);
     controlsRef.current.motorPower.position(left + 10, top + 145);
     controlsRef.current.motorPower.style("width", "120px");
-
-    controlsRef.current.windSlider = p5.createSlider(40, 300, 50, 1);
-    controlsRef.current.windSlider.position(left + 10, top + 175);
-    controlsRef.current.windSlider.style("width", "120px");
   };
 
   const draw = (p5: any) => {
@@ -206,7 +318,7 @@ export const SailingSimulator = (): JSX.Element => {
     const sheetLength = (controlsRef.current.sailTrimSlider?.value() || 50) / 100; // 0-1
     let rudderAngle = controlsRef.current.rudderSlider?.value() || 0;
     const motorPower = controlsRef.current.motorPower.value() || 0;
-    const windAdjust = (controlsRef.current.windSlider.value() || 50) - 50;
+    const windAdjust = 300;
 
     // Return rudder to center when not being adjusted
     if (!controlsRef.current.rudderActive && controlsRef.current.rudderSlider) {
@@ -230,8 +342,15 @@ export const SailingSimulator = (): JSX.Element => {
     drawWorldBorder(p5);
     drawBoat(p5, rudderAngle);
     drawBoatVectors(p5, showWindVectors, showForceVectors, windAdjust);
+    // Spawn coin periodically
+    maybeSpawnCoin(p5);
+    // Draw coin in world
+    drawCoin(p5);
 
     p5.pop();
+
+    // Draw on-screen coin indicator (screen-space)
+    drawCoinIndicator(p5);
 
     // Screen-space UI
     drawUI(p5, sheetLength, rudderAngle);
