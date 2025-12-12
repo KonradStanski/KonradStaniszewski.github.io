@@ -4,29 +4,35 @@ import dynamic from "next/dynamic";
 const Sketch = dynamic(() => import("react-p5"), { ssr: false });
 
 // World constants
-const WORLD_SIZE = 3000;
+const WORLD_SIZE = 30000;
 const WIND_GRID_SIZE = 150; // Size of each wind cell
 const GRID_CELLS = Math.ceil(WORLD_SIZE / WIND_GRID_SIZE);
 
-// Island data
+// Island data (scattered across the larger world)
 const ISLANDS = [
-  { x: 500, y: 500, radius: 80 },
-  { x: 2500, y: 600, radius: 120 },
-  { x: 1800, y: 1400, radius: 60 },
-  { x: 700, y: 2200, radius: 100 },
-  { x: 2300, y: 2400, radius: 90 },
-  { x: 1500, y: 800, radius: 50 },
+  { x: 5000, y: 5000, radius: 300 },
+  { x: 25000, y: 6000, radius: 450 },
+  { x: 18000, y: 14000, radius: 250 },
+  { x: 7000, y: 22000, radius: 400 },
+  { x: 23000, y: 24000, radius: 350 },
+  { x: 15000, y: 8000, radius: 200 },
+  { x: 12000, y: 18000, radius: 500 },
+  { x: 3000, y: 12000, radius: 280 },
+  { x: 27000, y: 15000, radius: 320 },
+  { x: 20000, y: 27000, radius: 380 },
+  { x: 8000, y: 28000, radius: 260 },
 ];
 
 export const SailingSimulator = (): JSX.Element => {
-  const [showVectors, setShowVectors] = useState(true);
+  const [showWindVectors, setShowWindVectors] = useState(true);
+  const [showForceVectors, setShowForceVectors] = useState(true);
   const [showHelp, setShowHelp] = useState(true);
 
   // Use refs to persist state across renders
   const boatState = useRef({
     x: WORLD_SIZE / 2,
     y: WORLD_SIZE / 2,
-    speed: 0,
+    speed: 0.3,
     heading: 0, // cardinal direction in radians, 0 = east
     angularVel: 0,
     boomAngle: 90, // from 0 to 180, 90 being straight back
@@ -37,22 +43,26 @@ export const SailingSimulator = (): JSX.Element => {
     sailTrimSlider: null as any,
     rudderSlider: null as any,
     motorPower: null as any,
+    windSlider: null as any,
+    rudderActive: false,
   });
 
   // Wind field grid (generated once)
   const windField = useRef<{ x: number; y: number }[][]>([]);
 
   // Physics constants
-  const BOAT_MASS = 100;
-  const HULL_WATER_DRAG = 0.08;      // Drag from water on hull
-  const HULL_WIND_COEF = 0.02;       // Wind force on hull (small)
-  const RUDDER_EFFECTIVENESS = 0.02;
-  const SAIL_AREA = 20;
-  const SAIL_LIFT_COEF = 0.5;
-  const SAIL_DRAG_COEF = 0.1;
-  const MAX_SPEED = 3;
-  const MIN_SPEED = 0.001;
-  const ANGULAR_DRAG = 0.92;
+  const BOAT_MASS = 500;
+  const RUDDER_EFFECTIVENESS = 0.003;
+  const HULL_WATER_DRAG = 1.0;      // Drag from water on hull
+  const ANGULAR_DRAG = 0.85;
+  const MAX_SPEED = 8;
+  const MIN_SPEED = 0.01;
+
+  // Sail/boom physics
+  const BOOM_INERTIA = 5;           // Moment of inertia of boom/sail
+  const BOOM_DRAG_COEF = 2.0;        // Angular drag on boom rotation
+  const SAIL_FORCE_COEF = 15;        // Force coefficient for sail
+  const BOOM_LENGTH = 25;            // Length of boom (moment arm)
 
   // Generate smooth wind field using sine/cosine combinations
   const generateWindField = () => {
@@ -94,7 +104,7 @@ export const SailingSimulator = (): JSX.Element => {
   };
 
   // Get interpolated wind at a position using 9-cell weighted average
-  const getWindAt = (worldX: number, worldY: number): { speed: number; direction: number } => {
+  const getWindAt = (worldX: number, worldY: number, windAdjust: number): { speed: number; direction: number } => {
     /*
       Bilinear interpolation of wind vector at (worldX, worldY)
       return a speed and direction vector
@@ -147,7 +157,10 @@ export const SailingSimulator = (): JSX.Element => {
     const windSpeed = Math.sqrt(windX * windX + windY * windY);
     const windDirection = Math.atan2(windY, windX); // Radians
 
-    return { speed: windSpeed, direction: windDirection };
+    // Apply wind adjustment
+    const adjustedWindSpeed = windSpeed + windAdjust * 0.01;
+
+    return { speed: adjustedWindSpeed, direction: windDirection };
   };
 
   const setup = (p5: any, canvasParentRef: Element) => {
@@ -167,27 +180,48 @@ export const SailingSimulator = (): JSX.Element => {
     const top = rect?.top || 0;
     const left = rect?.left || 0;
 
-    controlsRef.current.sailTrimSlider = p5.createSlider(0, 90, 45, 1);
+    // Sheet length: 0 = tight (boom aft), 100 = loose (boom can swing perpendicular)
+    controlsRef.current.sailTrimSlider = p5.createSlider(0, 100, 50, 1);
     controlsRef.current.sailTrimSlider.position(left + 10, top + 85);
     controlsRef.current.sailTrimSlider.style("width", "120px");
 
     controlsRef.current.rudderSlider = p5.createSlider(-45, 45, 0, 1);
     controlsRef.current.rudderSlider.position(left + 10, top + 115);
     controlsRef.current.rudderSlider.style("width", "120px");
+    // Track when rudder is being actively adjusted
+    controlsRef.current.rudderSlider.mousePressed(() => {
+      controlsRef.current.rudderActive = true;
+    });
+    controlsRef.current.rudderSlider.mouseReleased(() => {
+      controlsRef.current.rudderActive = false;
+    });
 
     controlsRef.current.motorPower = p5.createSlider(0, 100, 0, 1);
     controlsRef.current.motorPower.position(left + 10, top + 145);
     controlsRef.current.motorPower.style("width", "120px");
+
+    controlsRef.current.windSlider = p5.createSlider(0, 100, 50, 1);
+    controlsRef.current.windSlider.position(left + 10, top + 175);
+    controlsRef.current.windSlider.style("width", "120px");
   };
 
   const draw = (p5: any) => {
-    p5.background(30, 90, 150); // Ocean blue
+    p5.background(30, 90, 150);
 
-    const sailTrim = controlsRef.current.sailTrimSlider?.value() || 45;
-    const rudderAngle = controlsRef.current.rudderSlider?.value() || 0;
+    const sheetLength = (controlsRef.current.sailTrimSlider?.value() || 50) / 100; // 0-1
+    let rudderAngle = controlsRef.current.rudderSlider?.value() || 0;
     const motorPower = controlsRef.current.motorPower.value() || 0;
+    const windAdjust = (controlsRef.current.windSlider.value() || 50) - 50;
 
-    updatePhysics(sailTrim, rudderAngle, motorPower);
+    // Return rudder to center when not being adjusted
+    if (!controlsRef.current.rudderActive && controlsRef.current.rudderSlider) {
+      const returnSpeed = 0.15;
+      rudderAngle = rudderAngle * (1 - returnSpeed);
+      if (Math.abs(rudderAngle) < 4) rudderAngle = 0;
+      controlsRef.current.rudderSlider.value(rudderAngle);
+    }
+
+    updatePhysics(sheetLength, rudderAngle, motorPower, windAdjust);
 
     const boat = boatState.current;
 
@@ -196,33 +230,145 @@ export const SailingSimulator = (): JSX.Element => {
     p5.translate(p5.width / 2 - boat.x, p5.height / 2 - boat.y);
 
     // Draw world elements
-    drawWindField(p5);
+    drawWindField(p5, windAdjust);
     drawIslands(p5);
     drawWorldBorder(p5);
-    if (showVectors) {
-      drawBoatVectors(p5);
-    }
-    drawBoat(p5, sailTrim, rudderAngle);
+    drawBoat(p5, rudderAngle);
+    drawBoatVectors(p5, showWindVectors, showForceVectors);
 
     p5.pop();
 
     // Screen-space UI
-    drawUI(p5, sailTrim, rudderAngle);
+    drawUI(p5, sheetLength, rudderAngle);
     drawMinimap(p5);
   };
 
   // ============================================================
   // PHYSICS UPDATE - Clear force pipeline
   // ============================================================
-  const updatePhysics = (sheetSetting: number, rudderAngle: number, motorPower: number) => {
+  const updatePhysics = (sheetLength: number, rudderAngle: number, motorPower: number, windAdjust: number) => {
     const boat = boatState.current;
-    const wind = getWindAt(boat.x, boat.y);
-    // get wind strength and direction
+    const dt = 1 / 60; // Assume 60fps
 
-    // We want to calculate 
+    // === GET WIND ===
+    const wind = getWindAt(boat.x, boat.y, windAdjust);
+
+    // Convert to cartesian for vector math
+    const windVx = wind.speed * Math.cos(wind.direction);
+    const windVy = wind.speed * Math.sin(wind.direction);
+
+    // Boat velocity in cartesian
+    const boatVx = boat.speed * Math.cos(boat.heading);
+    const boatVy = boat.speed * Math.sin(boat.heading);
+
+    // === APPARENT WIND (what the sail feels) ===
+    const appWindVx = windVx - boatVx;
+    const appWindVy = windVy - boatVy;
+
+    // === SAIL/BOOM DYNAMICS ===
+    // boomAngle: 0-180 degrees relative to boat, 90 = pointing aft
+    // Convert to world angle:
+    // - boomAngle 90 (aft) = heading + PI
+    // - boomAngle 0 (starboard) = heading + PI/2
+    // - boomAngle 180 (port) = heading - PI/2
+    const boomLocalRad = (boat.boomAngle - 90) * Math.PI / 180;
+    const boomWorldAngle = boat.heading + Math.PI + boomLocalRad;
+
+    // Sail is along the boom direction
+    const sailDirX = Math.cos(boomWorldAngle);
+    const sailDirY = Math.sin(boomWorldAngle);
+
+    // Project apparent wind onto sail direction to get parallel component
+    const windAlongSail = appWindVx * sailDirX + appWindVy * sailDirY;
+
+    // Perpendicular component of wind (what pushes the sail)
+    const windPerpX = appWindVx - windAlongSail * sailDirX;
+    const windPerpY = appWindVy - windAlongSail * sailDirY;
+    const windPerpMag = Math.sqrt(windPerpX * windPerpX + windPerpY * windPerpY);
+
+    // Force magnitude proportional to perpendicular wind squared
+    const sailForceMag = windPerpMag * windPerpMag * SAIL_FORCE_COEF;
+
+    // Force direction is the direction the wind pushes (normalized perpendicular component)
+    let sailForceX = 0, sailForceY = 0;
+    if (windPerpMag > 0.001) {
+      sailForceX = (windPerpX / windPerpMag) * sailForceMag;
+      sailForceY = (windPerpY / windPerpMag) * sailForceMag;
+    }
+
+    // === TORQUE ON BOOM ===
+    // Tangent to boom rotation (perpendicular to boom direction)
+    const tangentX = -sailDirY;
+    const tangentY = sailDirX;
+
+    // Tangential component of sail force creates torque
+    const tangentialForce = sailForceX * tangentX + sailForceY * tangentY;
+    const sailTorque = tangentialForce * BOOM_LENGTH * 0.5;
+
+    // Angular drag on boom (resists flapping)
+    const boomAngularDrag = -boat.boomAngularVel * BOOM_DRAG_COEF;
+
+    // Update boom angular velocity
+    boat.boomAngularVel += (sailTorque + boomAngularDrag) / BOOM_INERTIA * dt;
+
+    // Update boom angle (rad/s to deg)
+    boat.boomAngle += boat.boomAngularVel * (180 / Math.PI) * dt;
+
+    // === MAINSHEET CONSTRAINT ===
+    // sheetLength (0-1) limits how far boom can swing from centerline
+    // sheetLength=0: boom locked at 90° (straight aft)
+    // sheetLength=1: boom can swing 0-180° (perpendicular to boat on either side)
+    const minBoomAngle = 90 - sheetLength * 90;
+    const maxBoomAngle = 90 + sheetLength * 90;
+
+    if (boat.boomAngle < minBoomAngle) {
+      boat.boomAngle = minBoomAngle;
+      // Bounce back slightly or stop
+      boat.boomAngularVel = Math.max(0, boat.boomAngularVel * -0.3);
+    }
+    if (boat.boomAngle > maxBoomAngle) {
+      boat.boomAngle = maxBoomAngle;
+      boat.boomAngularVel = Math.min(0, boat.boomAngularVel * -0.3);
+    }
+
+    // === FORCE ON BOAT FROM SAIL ===
+    // Project sail force onto boat heading (keel prevents lateral motion)
+    const headingX = Math.cos(boat.heading);
+    const headingY = Math.sin(boat.heading);
+    const sailForwardForce = sailForceX * headingX + sailForceY * headingY;
+
+    // === WATER DRAG ===
+    // Proportional to v^2, opposes motion
+    const waterDrag = -boat.speed * Math.abs(boat.speed) * HULL_WATER_DRAG;
+
+    // === MOTOR ===
+    const motorForce = motorPower * 0.1;
+
+    // === UPDATE BOAT SPEED ===
+    const totalForce = sailForwardForce + waterDrag + motorForce;
+    boat.speed += totalForce / BOAT_MASS;
+
+    // Clamp speed
+    if (Math.abs(boat.speed) < MIN_SPEED) boat.speed = 0;
+    boat.speed = Math.max(-MAX_SPEED * 0.3, Math.min(MAX_SPEED, boat.speed));
+
+    // === RUDDER / TURNING ===
+    // Rudder effectiveness scales with speed
+    const rudderTorque = -rudderAngle * (Math.PI / 180) * Math.abs(boat.speed) * RUDDER_EFFECTIVENESS;
+    boat.angularVel += rudderTorque;
+    boat.angularVel *= ANGULAR_DRAG;
+    boat.heading += boat.angularVel;
+
+    // === UPDATE POSITION ===
+    boat.x += boat.speed * Math.cos(boat.heading);
+    boat.y += boat.speed * Math.sin(boat.heading);
+
+    // Boundary collision
+    boat.x = Math.max(20, Math.min(WORLD_SIZE - 20, boat.x));
+    boat.y = Math.max(20, Math.min(WORLD_SIZE - 20, boat.y));
   };
 
-  const drawWindField = (p5: any) => {
+  const drawWindField = (p5: any, windAdjust: number) => {
     const boat = boatState.current;
     const cameraX = boat.x - p5.width / 2;
     const cameraY = boat.y - p5.height / 2;
@@ -244,21 +390,13 @@ export const SailingSimulator = (): JSX.Element => {
           const centerX = (i + 0.5) * WIND_GRID_SIZE;
           const centerY = (j + 0.5) * WIND_GRID_SIZE;
 
-          // Draw small arrow
-          const mag = Math.sqrt(wind.x * wind.x + wind.y * wind.y);
-          const arrowLen = 20 * mag;
-          const endX = centerX + (wind.x / mag) * arrowLen;
-          const endY = centerY + (wind.y / mag) * arrowLen;
-
-          p5.line(centerX, centerY, endX, endY);
-
-          // Arrow head
-          const angle = Math.atan2(wind.y, wind.x);
-          p5.push();
-          p5.translate(endX, endY);
-          p5.rotate(angle);
-          p5.triangle(-6, -3, -6, 3, 0, 0);
-          p5.pop();
+          // Draw arrow with adjusted wind strength
+          const arrowLength = 20 + windAdjust * 0.4;
+          // use p5 vector
+          const windDir = Math.atan2(wind.y, wind.x);
+          const endX = centerX + Math.cos(windDir) * arrowLength;
+          const endY = centerY + Math.sin(windDir) * arrowLength;
+          drawArrow(p5, centerX, centerY, endX, endY);
         }
       }
     }
@@ -301,7 +439,99 @@ export const SailingSimulator = (): JSX.Element => {
     p5.text("World Border", 20, 30);
   };
 
-  const drawBoatVectors = (p5: any) => {
+  const drawBoatVectors = (p5: any, showWind: boolean, showForces: boolean) => {
+    if (!showWind && !showForces) return;
+
+    const boat = boatState.current;
+    const wind = getWindAt(boat.x, boat.y);
+
+    // Scale for visibility
+    const windScale = 120;
+    const velScale = 30;
+    const forceScale = 80.0;
+
+    // Calculate apparent wind (needed for both wind and force vectors)
+    const appWindVx = wind.speed * Math.cos(wind.direction) - boat.speed * Math.cos(boat.heading);
+    const appWindVy = wind.speed * Math.sin(wind.direction) - boat.speed * Math.sin(boat.heading);
+
+    if (showWind) {
+      // True wind vector (blue)
+      const windVx = wind.speed * Math.cos(wind.direction) * windScale;
+      const windVy = wind.speed * Math.sin(wind.direction) * windScale;
+      p5.stroke(80, 120, 255);
+      p5.strokeWeight(4);
+      p5.fill(80, 120, 255);
+      drawArrow(p5, boat.x, boat.y, boat.x + windVx, boat.y + windVy);
+
+      // Boat velocity (red)
+      const velX = boat.speed * Math.cos(boat.heading) * velScale;
+      const velY = boat.speed * Math.sin(boat.heading) * velScale;
+      p5.stroke(255, 80, 80);
+      p5.strokeWeight(4);
+      p5.fill(255, 80, 80);
+      drawArrow(p5, boat.x, boat.y, boat.x + velX, boat.y + velY);
+
+      // Apparent wind (green)
+      p5.stroke(80, 255, 80);
+      p5.strokeWeight(4);
+      p5.fill(80, 255, 80);
+      drawArrow(p5, boat.x, boat.y, boat.x + appWindVx * windScale, boat.y + appWindVy * windScale);
+    }
+
+    if (showForces) {
+      // === SAIL FORCE VECTORS ===
+      // Calculate boom direction in world coordinates
+      const boomLocalRad = (boat.boomAngle - 90) * Math.PI / 180;
+      const boomWorldAngle = boat.heading + Math.PI + boomLocalRad;
+
+      // Sail is along the boom - get the sail plane direction
+      const sailDirX = Math.cos(boomWorldAngle);
+      const sailDirY = Math.sin(boomWorldAngle);
+
+      // Calculate sail center position in world coordinates
+      // Mast is 20 units (5*s where s=4) forward of boat center in heading direction
+      const mastOffsetX = 20 * Math.cos(boat.heading);
+      const mastOffsetY = 20 * Math.sin(boat.heading);
+      const mastX = boat.x + mastOffsetX;
+      const mastY = boat.y + mastOffsetY;
+      // Sail center is halfway along the boom (boom length = 100 in drawing, use 50 for center)
+      const sailCenterX = mastX + sailDirX * 50;
+      const sailCenterY = mastY + sailDirY * 50;
+
+      // Project apparent wind onto sail direction to get component parallel to sail
+      const windAlongSail = appWindVx * sailDirX + appWindVy * sailDirY;
+
+      // The force perpendicular to sail is the remaining component
+      // Force pushes in the direction of the apparent wind minus the along-sail component
+      const forceDirX = appWindVx - windAlongSail * sailDirX;
+      const forceDirY = appWindVy - windAlongSail * sailDirY;
+
+      // Magnitude is proportional to the perpendicular wind component squared
+      const perpMag = Math.sqrt(forceDirX * forceDirX + forceDirY * forceDirY);
+      const sailForceMag = perpMag * perpMag * SAIL_FORCE_COEF;
+
+      // Total sail force (yellow/orange) - in direction wind pushes the sail
+      let sailForceX = 0, sailForceY = 0;
+      if (perpMag > 0.001) {
+        sailForceX = (forceDirX / perpMag) * sailForceMag * forceScale;
+        sailForceY = (forceDirY / perpMag) * sailForceMag * forceScale;
+      }
+      p5.stroke(255, 200, 50);
+      p5.strokeWeight(5);
+      p5.fill(255, 200, 50);
+      drawArrow(p5, sailCenterX, sailCenterY, sailCenterX + sailForceX, sailCenterY + sailForceY);
+
+      // Forward component of sail force (magenta) - what actually propels the boat
+      const headingX = Math.cos(boat.heading);
+      const headingY = Math.sin(boat.heading);
+      const forwardForce = sailForceX * headingX + sailForceY * headingY;
+      const fwdForceX = forwardForce * headingX;
+      const fwdForceY = forwardForce * headingY;
+      p5.stroke(255, 50, 255);
+      p5.strokeWeight(5);
+      p5.fill(255, 50, 255);
+      drawArrow(p5, sailCenterX, sailCenterY, sailCenterX + fwdForceX, sailCenterY + fwdForceY);
+    }
   };
 
   const drawArrow = (p5: any, x1: number, y1: number, x2: number, y2: number) => {
@@ -314,15 +544,17 @@ export const SailingSimulator = (): JSX.Element => {
     p5.pop();
   };
 
-  const drawBoat = (p5: any, sailTrim: number, rudderAngle: number) => {
+  const drawBoat = (p5: any, rudderAngle: number) => {
     const boat = boatState.current;
 
     p5.push();
     p5.translate(boat.x, boat.y);
-    p5.rotate(boat.heading);
+    // Boat hull is drawn pointing up (-Y), so rotate by (heading + PI/2)
+    // to make heading=0 point right (+X), standard math convention
+    p5.rotate(boat.heading + Math.PI / 2);
 
     // Boat scale
-    const s = 4.0;
+    const s = 7.0;
 
     // Hull
     p5.fill(139, 69, 19);
@@ -357,8 +589,12 @@ export const SailingSimulator = (): JSX.Element => {
     p5.strokeWeight(4);
     p5.line(mastX, mastY, mastX, mastY - 30 * s);
 
-    // Calculate sail angle for drawing (based on wind and sheet setting)
-    const sailAngle = boat.boomAngle * (Math.PI / 180) + 90;
+    // Calculate sail angle for drawing
+    // boomAngle: 0=starboard, 90=aft, 180=port (relative to boat)
+    // The boom is drawn along -Y axis then rotated by sailAngle
+    // So: sailAngle=0 → -Y (forward), PI/2 → +X (starboard), PI → +Y (aft)
+    // Mapping: boomAngle 0 → PI/2, boomAngle 90 → PI, boomAngle 180 → 3*PI/2
+    const sailAngle = (boat.boomAngle + 90) * (Math.PI / 180);
 
     // Boom and sail
     const boomLength = 25 * s;
@@ -410,10 +646,15 @@ export const SailingSimulator = (): JSX.Element => {
   };
 
   const drawMinimap = (p5: any) => {
-    const mapSize = 100;
+    const mapSize = 120;
     const mapX = p5.width - mapSize - 10;
     const mapY = p5.height - mapSize - 10;
-    const scale = mapSize / WORLD_SIZE;
+
+    // Sliding minimap: show area around boat
+    const viewRadius = 5000; // World units visible in minimap
+    const scale = mapSize / (viewRadius * 2);
+
+    const boat = boatState.current;
 
     // Background
     p5.fill(30, 60, 100, 200);
@@ -421,37 +662,60 @@ export const SailingSimulator = (): JSX.Element => {
     p5.strokeWeight(1);
     p5.rect(mapX, mapY, mapSize, mapSize);
 
-    // Islands
+    // Clip to minimap area
+    p5.drawingContext.save();
+    p5.drawingContext.beginPath();
+    p5.drawingContext.rect(mapX, mapY, mapSize, mapSize);
+    p5.drawingContext.clip();
+
+    // World border indicator (shows where you are in the world)
+    const worldLeft = mapX + mapSize / 2 + (0 - boat.x) * scale;
+    const worldTop = mapY + mapSize / 2 + (0 - boat.y) * scale;
+    const worldSize = WORLD_SIZE * scale;
+    p5.noFill();
+    p5.stroke(255, 100, 100, 150);
+    p5.strokeWeight(2);
+    p5.rect(worldLeft, worldTop, worldSize, worldSize);
+
+    // Islands (relative to boat position)
     p5.fill(194, 178, 128);
     p5.noStroke();
     for (const island of ISLANDS) {
-      const ix = mapX + island.x * scale;
-      const iy = mapY + island.y * scale;
-      const ir = Math.max(3, island.radius * scale);
+      const ix = mapX + mapSize / 2 + (island.x - boat.x) * scale;
+      const iy = mapY + mapSize / 2 + (island.y - boat.y) * scale;
+      const ir = Math.max(4, island.radius * scale);
       p5.ellipse(ix, iy, ir * 2, ir * 2);
     }
 
-    // Boat position
-    const boat = boatState.current;
-    const bx = mapX + boat.x * scale;
-    const by = mapY + boat.y * scale;
+    p5.drawingContext.restore();
+
+    // Boat always in center
+    const bx = mapX + mapSize / 2;
+    const by = mapY + mapSize / 2;
     p5.fill(255, 0, 0);
     p5.noStroke();
-    p5.circle(bx, by, 6);
+    p5.circle(bx, by, 8);
 
     // Boat heading indicator
     p5.stroke(255, 0, 0);
-    p5.strokeWeight(1);
-    const headLen = 8;
+    p5.strokeWeight(2);
+    const headLen = 12;
     p5.line(
       bx,
       by,
-      bx + Math.sin(boat.heading) * headLen,
-      by - Math.cos(boat.heading) * headLen
+      bx + Math.cos(boat.heading) * headLen,
+      by + Math.sin(boat.heading) * headLen
     );
+
+    // Position text
+    p5.fill(255);
+    p5.noStroke();
+    p5.textSize(9);
+    p5.textAlign(p5.CENTER);
+    p5.text(`(${Math.round(boat.x)}, ${Math.round(boat.y)})`, mapX + mapSize / 2, mapY + mapSize + 12);
   };
 
-  const drawUI = (p5: any, sailTrim: number, rudderAngle: number) => {
+  const drawUI = (p5: any, sheetLength: number, rudderAngle: number) => {
     const boat = boatState.current;
 
     p5.fill(0);
@@ -469,20 +733,33 @@ export const SailingSimulator = (): JSX.Element => {
     p5.text(`Position: (${boat.x.toFixed(0)}, ${boat.y.toFixed(0)})`, 10, 54);
 
     // Vector legend (if shown)
-    if (showVectors) {
-      p5.textSize(11);
-      p5.fill(0, 200, 0);
-      p5.text("Green: Apparent Wind", 10, 71);
-      p5.fill(100, 100, 255);
-      p5.text("Blue: True Wind", 120, 71);
-      p5.fill(255, 0, 0);
-      p5.text("Red: Velocity", 210, 71);
+    if (showWindVectors || showForceVectors) {
+      p5.textSize(10);
+      let legendX = 10;
+      if (showWindVectors) {
+        p5.fill(80, 120, 255);
+        p5.text("Blue: True Wind", legendX, 71);
+        legendX += 90;
+        p5.fill(80, 255, 80);
+        p5.text("Green: Apparent Wind", legendX, 71);
+        legendX += 120;
+        p5.fill(255, 80, 80);
+        p5.text("Red: Velocity", legendX, 71);
+        legendX += 80;
+      }
+      if (showForceVectors) {
+        p5.fill(255, 200, 50);
+        p5.text("Yellow: Sail Force", legendX, 71);
+        legendX += 100;
+        p5.fill(255, 50, 255);
+        p5.text("Magenta: Forward Force", legendX, 71);
+      }
     }
 
     // Control labels (next to sliders at y=85 and y=115)
     p5.fill(0);
     p5.textSize(12);
-    p5.text(`Sheet: ${sailTrim}°`, 140, 97);
+    p5.text(`Sheet: ${(sheetLength * 100).toFixed(0)}%`, 140, 97);
     p5.text(`Rudder: ${rudderAngle}°`, 140, 127);
     p5.text(`Motor: ${controlsRef.current.motorPower.value()}%`, 140, 157);
 
@@ -512,10 +789,16 @@ export const SailingSimulator = (): JSX.Element => {
     <div>
       <div className="mb-4 flex gap-4">
         <button
-          onClick={() => setShowVectors(!showVectors)}
+          onClick={() => setShowWindVectors(!showWindVectors)}
           className="px-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
         >
-          {showVectors ? "Hide" : "Show"} Vectors
+          {showWindVectors ? "Hide" : "Show"} Wind
+        </button>
+        <button
+          onClick={() => setShowForceVectors(!showForceVectors)}
+          className="px-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+        >
+          {showForceVectors ? "Hide" : "Show"} Forces
         </button>
       </div>
       <Sketch setup={setup} draw={draw} mousePressed={mousePressed} />
