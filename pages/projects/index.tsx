@@ -12,9 +12,9 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "Interactive Counter",
-    slug: "counter",
-    description: "A simple counter demo built with React hooks to demonstrate state management",
+    title: "Sailing Simulator",
+    slug: "sailing-simulator",
+    description: "Interactive physics simulation showing how sailboats can sail upwind using lift and keel resistance",
     status: "active",
   },
   {
@@ -27,12 +27,6 @@ const projects: Project[] = [
     title: "University GPA Calculator",
     slug: "gpa-calculator",
     description: "Calculate your University of Alberta GPA from your transcript with interactive charts",
-    status: "active",
-  },
-  {
-    title: "Sailing Simulator",
-    slug: "sailing-simulator",
-    description: "Interactive physics simulation showing how sailboats can sail upwind using lift and keel resistance",
     status: "active",
   },
 ];
