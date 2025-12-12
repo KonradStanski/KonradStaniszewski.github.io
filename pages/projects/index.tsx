@@ -18,15 +18,21 @@ const projects: Project[] = [
     status: "active",
   },
   {
-    title: "Web Sailing Simulator",
-    slug: "sailing-simulator",
-    description: "Navigate a virtual boat through wind and waves with realistic physics",
-    status: "coming-soon",
+    title: "Superconductor Simulator",
+    slug: "superconductor",
+    description: "Interactive simulation of Type I superconductor using XY Monte Carlo model",
+    status: "active",
   },
   {
     title: "University GPA Calculator",
     slug: "gpa-calculator",
     description: "Calculate your University of Alberta GPA from your transcript with interactive charts",
+    status: "active",
+  },
+  {
+    title: "Sailing Simulator",
+    slug: "sailing-simulator",
+    description: "Interactive physics simulation showing how sailboats can sail upwind using lift and keel resistance",
     status: "active",
   },
 ];
