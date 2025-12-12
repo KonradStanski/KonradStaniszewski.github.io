@@ -157,7 +157,7 @@ export const SailingSimulator = (): JSX.Element => {
   };
 
   // Spawn a coin randomly on the map every COIN_SPAWN_INTERVAL ms if none exists
-  const maybeSpawnCoin = (p5: any) => {
+  const maybeSpawnCoin = () => {
     const now = Date.now();
     if (coinRef.current) return; // already have one
     if (now - lastSpawnRef.current < COIN_SPAWN_INTERVAL) return;
@@ -267,7 +267,7 @@ export const SailingSimulator = (): JSX.Element => {
   };
 
   // Get interpolated wind at a position using bilinear interpolation between grid nodes
-  const getWindAt = (worldX: number, worldY: number, windAdjust: number = 0): { speed: number; direction: number } => {
+  const getWindAt = (worldX: number, worldY: number, windAdjust = 0): { speed: number; direction: number } => {
     const field = windField.current;
     if (!field || field.length === 0) return { speed: 0, direction: 0 };
 
@@ -382,7 +382,7 @@ export const SailingSimulator = (): JSX.Element => {
     drawBoat(p5, rudderAngle);
     drawBoatVectors(p5, showWindVectors, showForceVectors, windAdjust);
     // Spawn coin periodically
-    maybeSpawnCoin(p5);
+    maybeSpawnCoin();
     // Draw coin in world
     drawCoin(p5);
 
@@ -592,7 +592,7 @@ export const SailingSimulator = (): JSX.Element => {
     p5.text("World Border", 20, 30);
   };
 
-  const drawBoatVectors = (p5: any, showWind: boolean, showForces: boolean, windAdjust: number = 0) => {
+  const drawBoatVectors = (p5: any, showWind: boolean, showForces: boolean, windAdjust = 0) => {
     if (!showWind && !showForces) return;
 
     const boat = boatState.current;
