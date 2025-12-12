@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 const Sketch = dynamic(() => import("react-p5"), { ssr: false });
@@ -45,6 +45,45 @@ export const SailingSimulator = (): JSX.Element => {
     motorPower: null as any,
     rudderActive: false,
   });
+
+  // Keyboard controls: WASD / arrows
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const key = e.key;
+      const rudder = controlsRef.current.rudderSlider;
+      const sheet = controlsRef.current.sailTrimSlider;
+
+      if (key === 'ArrowLeft' || key === 'a' || key === 'A') {
+        rudder?.value(15);
+        controlsRef.current.rudderActive = true;
+      } else if (key === 'ArrowRight' || key === 'd' || key === 'D') {
+        rudder?.value(-15);
+        controlsRef.current.rudderActive = true;
+      } else if (key === 'ArrowUp' || key === 'w' || key === 'W') {
+        // pull main sheet in (decrease value)
+        const cur = sheet?.value() ?? 50;
+        sheet?.value(Math.max(0, cur + 5));
+      } else if (key === 'ArrowDown' || key === 's' || key === 'S') {
+        // ease sheet out (increase value)
+        const cur = sheet?.value() ?? 50;
+        sheet?.value(Math.min(100, cur - 5));
+      }
+    };
+
+    const onKeyUp = (e: KeyboardEvent) => {
+      const key = e.key;
+      if (key === 'ArrowLeft' || key === 'a' || key === 'A' || key === 'ArrowRight' || key === 'd' || key === 'D') {
+        controlsRef.current.rudderActive = false;
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+    };
+  }, []);
 
   // Wind field grid (generated once)
   const windField = useRef<{ x: number; y: number }[][]>([]);
@@ -175,7 +214,7 @@ export const SailingSimulator = (): JSX.Element => {
     const relY = coin.y - boat.y;
     const angle = Math.atan2(relY, relX);
     // Compute intersection of ray (from screen center) with canvas rectangle (inset)
-    const inset = 12;
+    const inset = 48;
     const left = inset;
     const right = p5.width - inset;
     const top = inset;
@@ -224,7 +263,7 @@ export const SailingSimulator = (): JSX.Element => {
     p5.fill(255);
     p5.textSize(12);
     p5.textAlign(p5.CENTER, p5.BOTTOM);
-    p5.text(`${Math.round(dist)}u`, hit.x, hit.y - 12);
+    p5.text(`${Math.round(dist)}u`, hit.x, hit.y - 18);
   };
 
   // Get interpolated wind at a position using bilinear interpolation between grid nodes
@@ -601,8 +640,6 @@ export const SailingSimulator = (): JSX.Element => {
       p5.strokeWeight(4);
       p5.fill(80, 120, 255);
       drawArrow(p5, bowWorld.x, bowWorld.y, bowWorld.x + windVx, bowWorld.y + windVy);
-
-      // Boat velocity vector removed (red) — intentionally hidden
 
       // Apparent wind (green)
       p5.stroke(80, 255, 80);
