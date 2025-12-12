@@ -49,6 +49,14 @@ export const SailingSimulator = (): JSX.Element => {
 
   // Wind field grid (generated once)
   const windField = useRef<{ x: number; y: number }[][]>([]);
+  // Last computed vector magnitudes for UI readouts
+  const vectorMetricsRef = useRef({
+    trueWind: 0,
+    apparentWind: 0,
+    velocity: 0,
+    sailForce: 0,
+    forwardForce: 0,
+  });
 
   // Physics constants
   const BOAT_MASS = 500;
@@ -103,63 +111,50 @@ export const SailingSimulator = (): JSX.Element => {
     return field;
   };
 
-  // Get interpolated wind at a position using 9-cell weighted average
-  const getWindAt = (worldX: number, worldY: number, windAdjust: number): { speed: number; direction: number } => {
-    /*
-      Bilinear interpolation of wind vector at (worldX, worldY)
-      return a speed and direction vector
-    */
+  // Get interpolated wind at a position using bilinear interpolation between grid nodes
+  const getWindAt = (worldX: number, worldY: number, windAdjust: number = 0): { speed: number; direction: number } => {
     const field = windField.current;
-    if (!field || field.length === 0) {
-      return { speed: 0, direction: 0 };
-    }
+    if (!field || field.length === 0) return { speed: 0, direction: 0 };
 
-    // Find the grid cell
-    const gridX = worldX / WIND_GRID_SIZE;
-    const gridY = worldY / WIND_GRID_SIZE;
-    const cellX = Math.floor(gridX);
-    const cellY = Math.floor(gridY);
+    // Normalized grid coordinates
+    const gx = worldX / WIND_GRID_SIZE;
+    const gy = worldY / WIND_GRID_SIZE;
 
-    let totalWeight = 0;
-    let windX = 0;
-    let windY = 0;
+    // Grid indices
+    const i0 = Math.floor(gx);
+    const j0 = Math.floor(gy);
+    const i1 = i0 + 1;
+    const j1 = j0 + 1;
 
-    // Sample the 9 surrounding cells
-    for (let di = -1; di <= 1; di++) {
-      for (let dj = -1; dj <= 1; dj++) {
-        const i = cellX + di;
-        const j = cellY + dj;
+    // Fractional part
+    const sx = gx - i0;
+    const sy = gy - j0;
 
-        // Bounds check
-        if (i < 0 || i > GRID_CELLS || j < 0 || j > GRID_CELLS) continue;
+    // Clamp indices to valid range
+    const ii0 = Math.max(0, Math.min(GRID_CELLS, i0));
+    const jj0 = Math.max(0, Math.min(GRID_CELLS, j0));
+    const ii1 = Math.max(0, Math.min(GRID_CELLS, i1));
+    const jj1 = Math.max(0, Math.min(GRID_CELLS, j1));
 
-        // Calculate distance to cell center
-        const cellCenterX = (i + 0.5) * WIND_GRID_SIZE;
-        const cellCenterY = (j + 0.5) * WIND_GRID_SIZE;
-        const dx = worldX - cellCenterX;
-        const dy = worldY - cellCenterY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+    // Fetch four surrounding node vectors (fallback to zero if missing)
+    const v00 = field[ii0] && field[ii0][jj0] ? field[ii0][jj0] : { x: 0, y: 0 };
+    const v10 = field[ii1] && field[ii1][jj0] ? field[ii1][jj0] : { x: 0, y: 0 };
+    const v01 = field[ii0] && field[ii0][jj1] ? field[ii0][jj1] : { x: 0, y: 0 };
+    const v11 = field[ii1] && field[ii1][jj1] ? field[ii1][jj1] : { x: 0, y: 0 };
 
-        // Weight by inverse distance (closer cells have more influence)
-        const weight = 1 / (distance + WIND_GRID_SIZE * 0.1);
-        totalWeight += weight;
+    // Bilinear interpolate x and y components separately
+    const ix0 = v00.x * (1 - sx) + v10.x * sx;
+    const iy0 = v00.y * (1 - sx) + v10.y * sx;
+    const ix1 = v01.x * (1 - sx) + v11.x * sx;
+    const iy1 = v01.y * (1 - sx) + v11.y * sx;
 
-        windX += field[i][j].x * weight;
-        windY += field[i][j].y * weight;
-      }
-    }
-
-    if (totalWeight > 0) {
-      windX /= totalWeight;
-      windY /= totalWeight;
-    }
+    const windX = ix0 * (1 - sy) + ix1 * sy;
+    const windY = iy0 * (1 - sy) + iy1 * sy;
 
     const windSpeed = Math.sqrt(windX * windX + windY * windY);
-    const windDirection = Math.atan2(windY, windX); // Radians
+    const windDirection = Math.atan2(windY, windX);
 
-    // Apply wind adjustment
-    const adjustedWindSpeed = windSpeed + windAdjust * 0.01;
-
+    const adjustedWindSpeed = windSpeed + (windAdjust || 0) * 0.01;
     return { speed: adjustedWindSpeed, direction: windDirection };
   };
 
@@ -181,7 +176,7 @@ export const SailingSimulator = (): JSX.Element => {
     const left = rect?.left || 0;
 
     // Sheet length: 0 = tight (boom aft), 100 = loose (boom can swing perpendicular)
-    controlsRef.current.sailTrimSlider = p5.createSlider(0, 100, 50, 1);
+    controlsRef.current.sailTrimSlider = p5.createSlider(0, 100, 0, 1);
     controlsRef.current.sailTrimSlider.position(left + 10, top + 85);
     controlsRef.current.sailTrimSlider.style("width", "120px");
 
@@ -200,7 +195,7 @@ export const SailingSimulator = (): JSX.Element => {
     controlsRef.current.motorPower.position(left + 10, top + 145);
     controlsRef.current.motorPower.style("width", "120px");
 
-    controlsRef.current.windSlider = p5.createSlider(0, 100, 50, 1);
+    controlsRef.current.windSlider = p5.createSlider(40, 300, 50, 1);
     controlsRef.current.windSlider.position(left + 10, top + 175);
     controlsRef.current.windSlider.style("width", "120px");
   };
@@ -234,7 +229,7 @@ export const SailingSimulator = (): JSX.Element => {
     drawIslands(p5);
     drawWorldBorder(p5);
     drawBoat(p5, rudderAngle);
-    drawBoatVectors(p5, showWindVectors, showForceVectors);
+    drawBoatVectors(p5, showWindVectors, showForceVectors, windAdjust);
 
     p5.pop();
 
@@ -439,98 +434,122 @@ export const SailingSimulator = (): JSX.Element => {
     p5.text("World Border", 20, 30);
   };
 
-  const drawBoatVectors = (p5: any, showWind: boolean, showForces: boolean) => {
+  const drawBoatVectors = (p5: any, showWind: boolean, showForces: boolean, windAdjust: number = 0) => {
     if (!showWind && !showForces) return;
 
     const boat = boatState.current;
-    const wind = getWindAt(boat.x, boat.y);
+
+    // Use same scale as drawBoat
+    const s = 7.0;
+
+    // Local coordinates used in drawBoat
+    const localBowX = 0;
+    const localBowY = -20 * s;
+    const localMastX = 0;
+    const localMastY = -5 * s;
+    const localBoomLength = 25 * s;
+
+    // Rotation used in drawBoat
+    const canvasAngle = boat.heading + Math.PI / 2;
+
+    // Transform local->world helper
+    const localToWorld = (lx: number, ly: number) => {
+      return {
+        x: boat.x + (lx * Math.cos(canvasAngle) - ly * Math.sin(canvasAngle)),
+        y: boat.y + (lx * Math.sin(canvasAngle) + ly * Math.cos(canvasAngle)),
+      };
+    };
+
+    const bowWorld = localToWorld(localBowX, localBowY);
+    const mastWorld = localToWorld(localMastX, localMastY);
+
+    // Get wind at boat position (pass adjustment)
+    const wind = getWindAt(boat.x, boat.y, windAdjust);
 
     // Scale for visibility
-    const windScale = 120;
-    const velScale = 30;
-    const forceScale = 80.0;
+    const windScale = 60;
+    const forceScale = 6.0; // visible scale
 
-    // Calculate apparent wind (needed for both wind and force vectors)
+    // Apparent wind
     const appWindVx = wind.speed * Math.cos(wind.direction) - boat.speed * Math.cos(boat.heading);
     const appWindVy = wind.speed * Math.sin(wind.direction) - boat.speed * Math.sin(boat.heading);
 
     if (showWind) {
-      // True wind vector (blue)
+      // True wind (blue)
       const windVx = wind.speed * Math.cos(wind.direction) * windScale;
       const windVy = wind.speed * Math.sin(wind.direction) * windScale;
       p5.stroke(80, 120, 255);
       p5.strokeWeight(4);
       p5.fill(80, 120, 255);
-      drawArrow(p5, boat.x, boat.y, boat.x + windVx, boat.y + windVy);
+      drawArrow(p5, bowWorld.x, bowWorld.y, bowWorld.x + windVx, bowWorld.y + windVy);
 
-      // Boat velocity (red)
-      const velX = boat.speed * Math.cos(boat.heading) * velScale;
-      const velY = boat.speed * Math.sin(boat.heading) * velScale;
-      p5.stroke(255, 80, 80);
-      p5.strokeWeight(4);
-      p5.fill(255, 80, 80);
-      drawArrow(p5, boat.x, boat.y, boat.x + velX, boat.y + velY);
+      // Boat velocity vector removed (red) — intentionally hidden
 
       // Apparent wind (green)
       p5.stroke(80, 255, 80);
       p5.strokeWeight(4);
       p5.fill(80, 255, 80);
-      drawArrow(p5, boat.x, boat.y, boat.x + appWindVx * windScale, boat.y + appWindVy * windScale);
+      drawArrow(p5, bowWorld.x, bowWorld.y, bowWorld.x + appWindVx * windScale, bowWorld.y + appWindVy * windScale);
     }
 
     if (showForces) {
-      // === SAIL FORCE VECTORS ===
-      // Calculate boom direction in world coordinates
-      const boomLocalRad = (boat.boomAngle - 90) * Math.PI / 180;
-      const boomWorldAngle = boat.heading + Math.PI + boomLocalRad;
+      // Compute sail angle and local boom end
+      const sailAngle = (boat.boomAngle + 90) * (Math.PI / 180);
+      const localBoomEndX = Math.sin(sailAngle) * localBoomLength;
+      const localBoomEndY = localMastY - Math.cos(sailAngle) * localBoomLength;
 
-      // Sail is along the boom - get the sail plane direction
+      const sailTipWorld = localToWorld(localBoomEndX, localBoomEndY);
+
+      // Debug markers
+      p5.push();
+      p5.noStroke();
+      p5.fill(255, 0, 0, 200);
+      p5.circle(sailTipWorld.x, sailTipWorld.y, 6);
+      p5.fill(0, 150, 255, 200);
+      p5.circle(bowWorld.x, bowWorld.y, 6);
+      p5.pop();
+
+      // Project apparent wind onto sail direction
+      const boomWorldAngle = boat.heading + Math.PI + (boat.boomAngle - 90) * Math.PI / 180;
       const sailDirX = Math.cos(boomWorldAngle);
       const sailDirY = Math.sin(boomWorldAngle);
 
-      // Calculate sail center position in world coordinates
-      // Mast is 20 units (5*s where s=4) forward of boat center in heading direction
-      const mastOffsetX = 20 * Math.cos(boat.heading);
-      const mastOffsetY = 20 * Math.sin(boat.heading);
-      const mastX = boat.x + mastOffsetX;
-      const mastY = boat.y + mastOffsetY;
-      // Sail center is halfway along the boom (boom length = 100 in drawing, use 50 for center)
-      const sailCenterX = mastX + sailDirX * 50;
-      const sailCenterY = mastY + sailDirY * 50;
-
-      // Project apparent wind onto sail direction to get component parallel to sail
       const windAlongSail = appWindVx * sailDirX + appWindVy * sailDirY;
-
-      // The force perpendicular to sail is the remaining component
-      // Force pushes in the direction of the apparent wind minus the along-sail component
       const forceDirX = appWindVx - windAlongSail * sailDirX;
       const forceDirY = appWindVy - windAlongSail * sailDirY;
 
-      // Magnitude is proportional to the perpendicular wind component squared
       const perpMag = Math.sqrt(forceDirX * forceDirX + forceDirY * forceDirY);
       const sailForceMag = perpMag * perpMag * SAIL_FORCE_COEF;
 
-      // Total sail force (yellow/orange) - in direction wind pushes the sail
       let sailForceX = 0, sailForceY = 0;
       if (perpMag > 0.001) {
         sailForceX = (forceDirX / perpMag) * sailForceMag * forceScale;
         sailForceY = (forceDirY / perpMag) * sailForceMag * forceScale;
       }
-      p5.stroke(255, 200, 50);
-      p5.strokeWeight(5);
-      p5.fill(255, 200, 50);
-      drawArrow(p5, sailCenterX, sailCenterY, sailCenterX + sailForceX, sailCenterY + sailForceY);
 
-      // Forward component of sail force (magenta) - what actually propels the boat
+      p5.stroke(255, 200, 50);
+      p5.strokeWeight(4);
+      p5.fill(255, 200, 50);
+      drawArrow(p5, sailTipWorld.x, sailTipWorld.y, sailTipWorld.x + sailForceX, sailTipWorld.y + sailForceY);
+
+      // Forward component
       const headingX = Math.cos(boat.heading);
       const headingY = Math.sin(boat.heading);
       const forwardForce = sailForceX * headingX + sailForceY * headingY;
       const fwdForceX = forwardForce * headingX;
       const fwdForceY = forwardForce * headingY;
+
+      // Store metrics
+      vectorMetricsRef.current.trueWind = wind.speed;
+      vectorMetricsRef.current.apparentWind = Math.sqrt(appWindVx * appWindVx + appWindVy * appWindVy);
+      vectorMetricsRef.current.sailForce = Math.sqrt(sailForceX * sailForceX + sailForceY * sailForceY);
+      vectorMetricsRef.current.forwardForce = Math.abs(forwardForce);
+
       p5.stroke(255, 50, 255);
-      p5.strokeWeight(5);
+      p5.strokeWeight(4);
       p5.fill(255, 50, 255);
-      drawArrow(p5, sailCenterX, sailCenterY, sailCenterX + fwdForceX, sailCenterY + fwdForceY);
+      // Draw forward component anchored at mast/base of boom
+      drawArrow(p5, mastWorld.x, mastWorld.y, mastWorld.x + fwdForceX, mastWorld.y + fwdForceY);
     }
   };
 
@@ -732,27 +751,24 @@ export const SailingSimulator = (): JSX.Element => {
 
     p5.text(`Position: (${boat.x.toFixed(0)}, ${boat.y.toFixed(0)})`, 10, 54);
 
-    // Vector legend (if shown)
+    // Vector legend (if shown) with numeric readouts
     if (showWindVectors || showForceVectors) {
       p5.textSize(10);
       let legendX = 10;
       if (showWindVectors) {
         p5.fill(80, 120, 255);
-        p5.text("Blue: True Wind", legendX, 71);
-        legendX += 90;
+        p5.text(`Blue: True Wind (${vectorMetricsRef.current.trueWind.toFixed(2)})`, legendX, 71);
+        legendX += 150;
         p5.fill(80, 255, 80);
-        p5.text("Green: Apparent Wind", legendX, 71);
-        legendX += 120;
-        p5.fill(255, 80, 80);
-        p5.text("Red: Velocity", legendX, 71);
-        legendX += 80;
+        p5.text(`Green: Apparent Wind (${vectorMetricsRef.current.apparentWind.toFixed(2)})`, legendX, 71);
+        legendX += 170;
       }
       if (showForceVectors) {
         p5.fill(255, 200, 50);
-        p5.text("Yellow: Sail Force", legendX, 71);
-        legendX += 100;
+        p5.text(`Yellow: Sail Force (${vectorMetricsRef.current.sailForce.toFixed(2)})`, legendX, 71);
+        legendX += 160;
         p5.fill(255, 50, 255);
-        p5.text("Magenta: Forward Force", legendX, 71);
+        p5.text(`Magenta: Forward Force (${vectorMetricsRef.current.forwardForce.toFixed(2)})`, legendX, 71);
       }
     }
 
