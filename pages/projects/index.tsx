@@ -12,6 +12,12 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "Language Travel Map",
+    slug: "language-map",
+    description: "See where you can travel and communicate based on the languages you speak",
+    status: "active",
+  },
+  {
     title: "Sailing Simulator",
     slug: "sailing-simulator",
     description: "Interactive physics simulation showing how sailboats can sail upwind using lift and keel resistance",

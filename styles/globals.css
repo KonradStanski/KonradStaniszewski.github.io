@@ -169,3 +169,23 @@ pre[class*="language-"] {
 a.heading-link {
   @apply text-zinc-800 dark:text-zinc-100; /* Light mode: dark text, Dark mode: light text */
 }
+
+/* Leaflet map styles */
+.leaflet-container {
+  font-family: inherit;
+}
+
+.country-tooltip {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dark .country-tooltip {
+  background: #1f2937;
+  border-color: #374151;
+  color: #f3f4f6;
+}
