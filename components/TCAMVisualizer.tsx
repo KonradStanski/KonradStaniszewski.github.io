@@ -688,43 +688,71 @@ function countPatriciaNodes(node: PatriciaNode | null): number {
   return 1 + countPatriciaNodes(node.children[0]) + countPatriciaNodes(node.children[1]);
 }
 
-function PatriciaVis({ node }: { node: PatriciaNode }) {
-  const hasChildren = node.children[0] || node.children[1];
+function PatriciaVis({ node, isRoot = true }: { node: PatriciaNode; isRoot?: boolean }) {
+  const left = node.children[0];
+  const right = node.children[1];
+  const hasChildren = left || right;
   const isEndpoint = node.prefix !== null;
+
+  const nodeEl = (
+    <div
+      className={cx(
+        "px-2 py-1 rounded-md flex flex-col items-center text-xs font-mono border-2 transition-all min-w-[2.5rem]",
+        isEndpoint
+          ? "bg-green-100 dark:bg-green-900/50 border-green-500 text-green-800 dark:text-green-300"
+          : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400"
+      )}
+      title={isEndpoint ? `${node.prefix}/${node.len} → ${node.nextHop}` : `edge: ${node.label}`}
+    >
+      <span className="font-bold">{node.label}</span>
+      {isEndpoint && (
+        <span className="text-[9px] text-green-700 dark:text-green-400 whitespace-nowrap">
+          /{node.len}
+        </span>
+      )}
+    </div>
+  );
+
+  if (!hasChildren) {
+    return (
+      <div className="flex flex-col items-center">
+        {!isRoot && <div className="w-px h-5 bg-gray-400 dark:bg-gray-500" />}
+        {nodeEl}
+      </div>
+    );
+  }
+
+  // Two children: draw a ┬ shaped connector
+  // One child: draw a straight vertical line
+  const bothChildren = left && right;
 
   return (
     <div className="flex flex-col items-center">
-      {/* Node */}
-      <div
-        className={cx(
-          "px-2 py-1 rounded-md flex flex-col items-center text-xs font-mono border-2 transition-all min-w-[2.5rem]",
-          isEndpoint
-            ? "bg-green-100 dark:bg-green-900/50 border-green-500 text-green-800 dark:text-green-300"
-            : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400"
-        )}
-        title={isEndpoint ? `${node.prefix}/${node.len} → ${node.nextHop}` : `edge: ${node.label}`}
-      >
-        <span className="font-bold">{node.label}</span>
-        {isEndpoint && (
-          <span className="text-[9px] text-green-700 dark:text-green-400 whitespace-nowrap">
-            /{node.len}
-          </span>
-        )}
-      </div>
-      {/* Children */}
-      {hasChildren && (
-        <div className="flex gap-3 mt-1">
-          {[0, 1].map((b) => {
-            const child = node.children[b as 0 | 1];
-            if (!child) return <div key={b} />;
-            return (
-              <div key={b} className="flex flex-col items-center">
-                <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
-                <PatriciaVis node={child} />
-              </div>
-            );
-          })}
-        </div>
+      {/* Vertical line from parent above to this node */}
+      {!isRoot && <div className="w-px h-5 bg-gray-400 dark:bg-gray-500" />}
+      {nodeEl}
+      {/* Vertical stem down from node */}
+      <div className="w-px h-5 bg-gray-400 dark:bg-gray-500" />
+      {bothChildren ? (
+        <>
+          {/* Horizontal bar spanning both children */}
+          <div className="flex w-full">
+            <div className="w-1/2 border-b-2 border-r border-gray-400 dark:border-gray-500 h-0" />
+            <div className="w-1/2 border-b-2 border-l border-gray-400 dark:border-gray-500 h-0" />
+          </div>
+          {/* Children side by side */}
+          <div className="flex w-full">
+            <div className="flex-1 flex flex-col items-center">
+              <PatriciaVis node={left} isRoot={false} />
+            </div>
+            <div className="flex-1 flex flex-col items-center">
+              <PatriciaVis node={right} isRoot={false} />
+            </div>
+          </div>
+        </>
+      ) : (
+        /* Single child — straight line down */
+        <PatriciaVis node={(left ?? right) as PatriciaNode} isRoot={false} />
       )}
     </div>
   );
