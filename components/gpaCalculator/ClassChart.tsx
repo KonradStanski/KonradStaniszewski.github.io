@@ -10,7 +10,7 @@ type Props = {
   classInfo: string;
 };
 
-const ClassChart = (props: Props): JSX.Element => {
+const ClassChart = (props: Props) => {
   const transcript = props.transcriptInfo;
   props.transcriptInfo.classStatistics.sort((a, b) => a.gpa - b.gpa);
   const theme = props.theme;

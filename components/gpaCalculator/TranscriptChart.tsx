@@ -36,7 +36,7 @@ type Props = {
   semesterInfo: string;
 };
 
-const TranscriptChart = (props: Props): JSX.Element => {
+const TranscriptChart = (props: Props) => {
   const transcript = props.transcriptInfo;
   const theme = props.theme;
   const maxGpa = 4.0;

@@ -23,7 +23,7 @@ const ISLANDS = [
   { x: 8000, y: 28000, radius: 260 },
 ];
 
-export const SailingSimulator = (): JSX.Element => {
+export const SailingSimulator = () => {
   const [showWindVectors, setShowWindVectors] = useState(true);
   const [showForceVectors, setShowForceVectors] = useState(true);
   const [showHelp, setShowHelp] = useState(true);

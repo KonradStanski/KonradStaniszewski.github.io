@@ -5,7 +5,7 @@ type Props = {
   setSemesterInfo: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const SemesterInfo = (props: Props): JSX.Element => {
+const SemesterInfo = (props: Props) => {
   const semester = props.semester;
   const tableCols = ["Course", "Number", "Description", "Grade", "Units"];
   return (

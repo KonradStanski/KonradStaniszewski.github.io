@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const Disclaimer = (): JSX.Element => {
+const Disclaimer = () => {
   return (
     <div className="pt-10">
       <h2 className="text-xl font-bold mb-4">Disclaimer</h2>

@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 const Sketch = dynamic(() => import("react-p5"), { ssr: false });
 
-export const SuperConductor = (): JSX.Element => {
+export const SuperConductor = () => {
     let slider: any;
     let xCanvas = 600;
     let yCanvas = 600;

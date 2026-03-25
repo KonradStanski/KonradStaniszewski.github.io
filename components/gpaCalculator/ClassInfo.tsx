@@ -5,7 +5,7 @@ type Props = {
   setClassInfo: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const ClassInfo = (props: Props): JSX.Element => {
+const ClassInfo = (props: Props) => {
   const classStat = props.classStatistic;
   const tableCols = ["Course", "Number", "Description", "Grade", "Units"];
   return (

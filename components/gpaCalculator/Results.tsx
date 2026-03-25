@@ -11,7 +11,7 @@ type Props = {
   setResultsHidden: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Results = (props: Props): JSX.Element => {
+const Results = (props: Props) => {
   const [semesterInfo, setSemesterInfo] = useState("");
   const [classInfo, setClassInfo] = useState("");
 
