@@ -35,16 +35,16 @@ export const PostList: React.FC<PostListProps> = ({ posts }) => {
                   {post.date}
                 </time>
               </div>
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-row justify-between items-start gap-4">
                 {post.description ? (
-                  <div className="">
+                  <div className="min-w-0">
                     <Prose>
                       <p>{post.description}</p>
                     </Prose>
                   </div>
                 ) : null}
                 {post.tags ? (
-                  <ul className="mt-1 flex flex-wrap space-x-2">
+                  <ul className="mt-1 flex flex-wrap shrink-0 gap-1 justify-end">
                     {post.tags.map((tag, index) => {
                       return (
                         <li key={index}>

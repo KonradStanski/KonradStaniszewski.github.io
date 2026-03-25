@@ -1,99 +1,98 @@
 import type { NextPage } from "next";
 import { Page } from "@/components/Page";
-import Link from "next/link";
 import { cx } from "@/lib/utils";
 
 interface Project {
   title: string;
-  slug: string;
   description: string;
-  status: "active" | "coming-soon";
+  liveUrl?: string;
+  githubUrl?: string;
 }
 
 const projects: Project[] = [
   {
-    title: "Language Travel Map",
-    slug: "language-map",
-    description: "See where you can travel and communicate based on the languages you speak",
-    status: "active",
-  },
-  {
-    title: "Sailing Simulator",
-    slug: "sailing-simulator",
-    description: "Interactive physics simulation showing how sailboats can sail upwind using lift and keel resistance",
-    status: "active",
-  },
-  {
-    title: "Superconductor Simulator",
-    slug: "superconductor",
-    description: "Interactive simulation of Type I superconductor using XY Monte Carlo model",
-    status: "active",
-  },
-  {
-    title: "University GPA Calculator",
-    slug: "gpa-calculator",
+    title: "UofA GPA Calculator",
     description: "Calculate your University of Alberta GPA from your transcript with interactive charts",
-    status: "active",
+    liveUrl: "/projects/gpa-calculator",
+    githubUrl: "https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/components/gpaCalculator",
+  },
+  {
+    title: "ANET RSU ACB Calculator",
+    description: "Calculate the adjusted cost base for Arista Networks RSU grants with automatic exchange rate lookups",
+    liveUrl: "/anet-acb",
+    githubUrl: "https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/pages/anet-acb",
+  },
+  {
+    title: "Giduru",
+    description: "",
+    liveUrl: "https://app.giduru.com",
+  },
+  {
+    title: "ASCII Diagram",
+    description: "",
+    liveUrl: "https://app.asciidiagram.com",
   },
 ];
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
-  const isActive = project.status === "active";
-
-  const card = (
+  return (
     <div
       className={cx(
-        "p-6 border rounded-lg transition-all",
+        "p-6 border rounded-lg",
         "border-gray-300 dark:border-gray-600",
-        isActive
-          ? "bg-white dark:bg-gray-800 hover:shadow-lg hover:border-gray-400 dark:hover:border-gray-500 cursor-pointer"
-          : "bg-gray-100 dark:bg-gray-900 opacity-75"
+        "bg-white dark:bg-gray-800"
       )}
     >
-      <div className="flex items-start justify-between">
-        <h3 className={cx("text-xl font-bold", isActive && "text-sky-600 dark:text-sky-400")}>
-          {project.title}
-        </h3>
-        {!isActive && (
-          <span className="text-xs px-2 py-1 rounded bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200">
-            Coming Soon
-          </span>
+      <h3 className="text-xl font-bold text-sky-600 dark:text-sky-400">
+        {project.title}
+      </h3>
+      <p className="mt-2 text-gray-700 dark:text-gray-300">
+        {project.description}
+      </p>
+      <div className="mt-4 flex gap-3">
+        {project.liveUrl && (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm px-3 py-1 rounded border border-sky-500 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 transition"
+          >
+            Live Demo
+          </a>
+        )}
+        {project.githubUrl && (
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm px-3 py-1 rounded border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+          >
+            GitHub
+          </a>
         )}
       </div>
-      <p className="mt-2 text-gray-700 dark:text-gray-300">{project.description}</p>
     </div>
   );
-
-  if (isActive) {
-    return (
-      <Link href={`/projects/${project.slug}`}>
-        {card}
-      </Link>
-    );
-  }
-
-  return card;
 };
 
 const Projects: NextPage = () => {
   return (
     <Page
       title="Projects"
-      description="Fun interactive projects and experiments built with React and JavaScript"
+      description="Things I've built"
     >
       <div className="space-y-6">
-        <section>
-          <p className="text-lg text-gray-700 dark:text-gray-300">
-            This is my playground for fun side projects and interactive experiments.
-            Click on any active project below to try it out!
+        {projects.length > 0 ? (
+          <section className="grid gap-4 md:grid-cols-2">
+            {projects.map((project, index) => (
+              <ProjectCard key={index} project={project} />
+            ))}
+          </section>
+        ) : (
+          <p className="text-gray-500 dark:text-gray-400">
+            Projects coming soon.
           </p>
-        </section>
-
-        <section className="grid gap-4 md:grid-cols-2">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
-          ))}
-        </section>
+        )}
       </div>
     </Page>
   );

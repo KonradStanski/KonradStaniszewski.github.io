@@ -1,0 +1,59 @@
+---
+title: Sailing Simulator
+slug: sailing-simulator
+description: An interactive physics simulation demonstrating how sailboats can sail upwind using lift and keel resistance
+date: 2025-01-20
+tags:
+  - web
+  - physics
+  - projects
+---
+
+[demo](/projects/sailing-simulator)
+[code](https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/components/SailingSimulator)
+
+### How Can a Sailboat Sail Upwind?
+
+Ever wondered how a sailboat can sail against the wind? It seems counterintuitive, but the secret lies in three key components:
+
+1. **The Sail as an Airfoil:** When wind hits the sail at an angle, it acts like an airplane wing, creating "lift" perpendicular to the sail surface. This is the primary force that propels the boat.
+
+2. **The Keel:** The keel (underwater fin) provides massive resistance to sideways motion while allowing forward motion. Without the keel, the boat would just slide sideways.
+
+3. **Vector Addition:** The lift force from the sail has components both forward and sideways. The keel blocks the sideways component, leaving only the forward component to push the boat ahead.
+
+### Apparent Wind
+
+One of the most important concepts in sailing is **apparent wind** - the wind that the boat actually experiences, which is different from the true wind.
+
+**Apparent Wind = True Wind - Boat Velocity**
+
+As the boat moves, it creates its own "wind" in the opposite direction of motion (like feeling wind when you ride a bike on a calm day). This combines with the true wind to create the apparent wind. As the boat speeds up, the apparent wind shifts forward, which is why sailors must continuously adjust their sail trim.
+
+### Points of Sail
+
+Different wind angles require different sailing techniques:
+
+- **Close-hauled (30-45 degrees from wind):** Sailing as close to upwind as possible. Requires tight sail trim (15-20 degrees). This is where the keel is most important.
+- **Beam reach (90 degrees from wind):** Wind coming from the side. Generally the fastest point of sail. Moderate sail trim (45-60 degrees).
+- **Broad reach (135 degrees from wind):** Wind from behind and to the side. Loose sail trim (60-80 degrees).
+- **Running (180 degrees from wind):** Wind directly behind. Maximum sail trim (80-90 degrees). Slower than you might think!
+
+**No-Go Zone:** You cannot sail directly into the wind (0-30 degrees). The sail cannot generate lift when the wind is too close to straight ahead.
+
+### Physics Implementation
+
+The simulator models:
+
+- **Sail aerodynamics:** Lift and drag forces based on angle of attack (angle between apparent wind and sail)
+- **Keel hydrodynamics:** 98% resistance to lateral motion, simulating the keel's effectiveness
+- **Hull drag:** Water resistance proportional to velocity squared
+- **Rudder forces:** Turning torque proportional to water flow speed
+- **Apparent wind:** Continuously updated based on boat velocity
+
+### Things to Try
+
+1. **Sail upwind:** Turn the boat to point as close to the wind direction as you can. Set sail trim to about 20 degrees. Use the rudder to maintain heading. Notice how you're moving forward despite the wind blowing against you!
+2. **Watch the vectors:** Pay attention to how the apparent wind vector shifts as you speed up. This is why sailors constantly adjust their sails.
+3. **Tacking:** To reach a point directly upwind, you must "tack" - sail at 45 degrees to one side, then turn through the wind and sail 45 degrees to the other side, zigzagging your way upwind.
+4. **Feel the power:** Try a beam reach (90 degrees to wind) with sail trim around 50 degrees. This is often the fastest and most powerful point of sail!

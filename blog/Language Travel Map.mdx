@@ -1,0 +1,39 @@
+---
+title: Language Travel Map
+slug: language-travel-map
+description: Building an interactive world map that shows where you can travel and communicate based on the languages you speak
+date: 2025-01-15
+tags:
+  - web
+  - projects
+---
+
+[demo](/projects/language-map)
+[code](https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/components/LanguageMap)
+
+### What is it?
+
+An interactive world map that shows which countries you can visit and communicate with locals, based on the languages you speak. Enter the languages you know and the map highlights countries where those languages are spoken officially or widely understood.
+
+### How It Works
+
+The tool maps over 200 countries to the languages commonly spoken there. Languages include both official languages and those widely spoken or understood by the local population. For example, English is included for countries where it's commonly used in tourism and business, even if it's not an official language.
+
+### Understanding the Results
+
+- **Green countries** indicate places where at least one of your languages is spoken. Darker green means more of your languages are understood there.
+- **Gray countries** represent potential language barriers. You may still be able to visit, but communication could be more challenging.
+- **Hover over any country** to see which languages are spoken there and which ones match your selection.
+
+### Tips for Travelers
+
+- **English** is widely understood in tourism areas of most countries, even those not highlighted.
+- **Learning basic phrases** in the local language goes a long way, even if you're not fluent.
+- Consider **regional variations** - for example, Brazilian Portuguese and European Portuguese have differences.
+- Major cities typically have more English speakers than rural areas.
+
+### About the Data
+
+Language data is compiled from various sources and includes both official languages and those widely spoken in each country. The data focuses on practical communication rather than just official status, so languages commonly used in business, tourism, and daily life are included.
+
+The map uses [OpenStreetMap](https://www.openstreetmap.org/) data with [Leaflet](https://leafletjs.com/) for rendering and [CARTO](https://carto.com/) for tile layers.
