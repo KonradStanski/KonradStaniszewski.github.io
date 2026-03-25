@@ -163,41 +163,82 @@ export function ExportTools({ acbEntries, years }: ExportToolsProps) {
                   </pre>
                 </div>
 
-                <div className="mt-3 text-sm text-gray-500">
-                  <p className="font-medium text-gray-600 mb-1">How to use:</p>
-                  <ol className="list-decimal ml-5 space-y-1">
-                    <li>
-                      Install the{' '}
-                      <a
-                        href="https://www.tampermonkey.net/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        TamperMonkey
-                      </a>{' '}
-                      browser extension
-                    </li>
-                    <li>Click &quot;Copy Script&quot; above</li>
-                    <li>
-                      Open TamperMonkey dashboard, click the &quot;+&quot; tab to create a new script, clear
-                      the template, and paste
-                    </li>
-                    <li>Save the script (Ctrl+S / Cmd+S)</li>
-                    <li>
-                      Navigate to WealthSimple Tax, go to the Capital Gains / Losses section
-                    </li>
-                    <li>
-                      Click into the first empty row&apos;s &quot;Type&quot; dropdown field
-                    </li>
-                    <li>
-                      Click &quot;Start Auto-Fill&quot; on the floating panel that appears in the top-right
-                    </li>
-                    <li>
-                      The script will fill each row automatically — you can click &quot;Stop&quot; at any
-                      time
-                    </li>
-                  </ol>
+                <div className="mt-3 space-y-3">
+                  <div className="bg-amber-50 border border-amber-200 rounded p-3 text-xs text-amber-800">
+                    <p className="font-semibold mb-1">Important: TamperMonkey Security Settings</p>
+                    <p className="mb-2">
+                      WealthSimple Tax has strict Content Security Policy (CSP) headers that block
+                      injected scripts by default. You must change these TamperMonkey settings or
+                      the script panel will not appear:
+                    </p>
+                    <ol className="list-decimal ml-4 space-y-1">
+                      <li>
+                        Click the TamperMonkey icon → <strong>Dashboard</strong> → <strong>Settings</strong> tab
+                      </li>
+                      <li>
+                        Under <strong>General</strong>, set <strong>Config Mode</strong> to{' '}
+                        <strong>&quot;Advanced&quot;</strong> (this reveals the security options)
+                      </li>
+                      <li>
+                        Scroll to <strong>Security</strong> and set{' '}
+                        <strong>&quot;Modify existing content security policy (CSP) headers&quot;</strong>{' '}
+                        to <strong>&quot;Remove entirely (possibly unsafe)&quot;</strong>
+                      </li>
+                      <li>Click <strong>Save</strong> and reload the WealthSimple Tax page</li>
+                    </ol>
+                    <p className="mt-2 text-amber-600">
+                      You can revert this setting after you&apos;re done filing your taxes.
+                    </p>
+                  </div>
+
+                  <div className="text-sm text-gray-500">
+                    <p className="font-medium text-gray-600 mb-1">How to use:</p>
+                    <ol className="list-decimal ml-5 space-y-1">
+                      <li>
+                        Install the{' '}
+                        <a
+                          href="https://www.tampermonkey.net/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          TamperMonkey
+                        </a>{' '}
+                        browser extension and configure the security settings above
+                      </li>
+                      <li>Click &quot;Copy Script&quot; above</li>
+                      <li>
+                        Open TamperMonkey dashboard, click the &quot;+&quot; tab to create a new
+                        script, clear the template, and paste
+                      </li>
+                      <li>Save the script (Ctrl+S / Cmd+S)</li>
+                      <li>
+                        Navigate to WealthSimple Tax and search for &quot;Capital Gains&quot; to add
+                        the <strong>Capital Gains (or Losses)</strong> section to your return
+                      </li>
+                      <li>
+                        A dark panel will appear pinned to the right side of the page — this is
+                        the auto-fill control panel
+                      </li>
+                      <li>
+                        Scroll to the Capital Gains section so it&apos;s visible, then click{' '}
+                        <strong>&quot;Start Auto-Fill&quot;</strong>
+                      </li>
+                      <li>
+                        The script will automatically add rows and fill in each disposition
+                        (type, description, proceeds, cost base, expenses) — click
+                        &quot;Stop&quot; at any time
+                      </li>
+                      <li>
+                        For the 2024 tax year, transactions are automatically split into Period
+                        1 (Jan 1 – Jun 24) and Period 2 (Jun 25 – Dec 31) based on the trade
+                        date
+                      </li>
+                      <li>
+                        <strong>Review all values</strong> before submitting your return
+                      </li>
+                    </ol>
+                  </div>
                 </div>
               </>
             )}
