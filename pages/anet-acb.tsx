@@ -6,7 +6,7 @@ const AnetAcbApp = dynamic(
   { ssr: false }
 );
 
-export default function AnetAcbPage() {
+function AnetAcbPage() {
   return (
     <Page
       title="ANET ACB Calculator"
@@ -16,3 +16,7 @@ export default function AnetAcbPage() {
     </Page>
   );
 }
+
+AnetAcbPage.fullWidth = true;
+
+export default AnetAcbPage;

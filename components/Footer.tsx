@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
     <footer className="mt-auto py-8">
       {siteConfig.social ? (
         <ul className="flex justify-center items-center space-x-4">
-          <p>Konrad Staniszewski - 2024</p>
+          <p>Konrad Staniszewski - 2026</p>
           {Object.entries(siteConfig.social).map(([key, href]) => {
             return (
               <li key={key}>
