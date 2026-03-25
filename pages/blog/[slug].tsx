@@ -97,7 +97,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { frontMatter, content } = post;
   const mdxContent = await serialize(content, {
     mdxOptions: {
-      remarkPlugins: [remarkGfm],
+      remarkPlugins: [remarkGfm] as any,
       rehypePlugins: [
         rehypePrism,
         rehypeSlug,
@@ -107,7 +107,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
             className: ["heading-link"],
           },
         }]
-      ],
+      ] as any,
     },
     scope: frontMatter,
   });
