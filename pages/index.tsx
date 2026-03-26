@@ -40,8 +40,7 @@ const Home: NextPage = () => {
               <li><a className="text-sky-400" href="https://writings.stephenwolfram.com/2019/02/seeking-the-productive-life-some-details-of-my-personal-infrastructure/">Stephen Wolfram&apos;s personal productivity infrastructure.</a></li>
             </ul>
             <br/>
-            <p>Check out my <a className="text-sky-400" href="/blog/">blog</a> posts!</p>
-            <p>Reach me: konrad.a.staniszewski (at) gmail.com</p>
+            <p>Reach me: <a className="text-sky-400" href="mailto:contact@konradstaniszewski.com">contact@konradstaniszewski.com</a></p>
           </div>
         </div>
       </div>
