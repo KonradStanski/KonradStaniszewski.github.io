@@ -313,15 +313,19 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
   );
 
   // For 2024 tax year, transactions are split into two periods:
-  // Period 1: Jan 1 - Jun 24 (fields use _temp suffix)
-  // Period 2: Jun 25 - Dec 31 (fields use no suffix)
+  // Period 1: Jan 1 - Jun 24 (fields use _temp suffix in table s3_t_temp)
+  // Period 2: Jun 25 - Dec 31 (fields use no suffix in table s3_t)
+  // All other years: single table s3_t, period is always 0 (no split)
+  const hasPeriods = year === 2024;
   const data = sells.map((e) => {
-    const month = parseInt(e.date.substring(5, 7), 10);
-    const day = parseInt(e.date.substring(8, 10), 10);
-    // Period 1 if before June 25
-    const period = (month < 6 || (month === 6 && day <= 24)) ? 1 : 2;
+    let period = 0; // default: no period split
+    if (hasPeriods) {
+      const month = parseInt(e.date.substring(5, 7), 10);
+      const day = parseInt(e.date.substring(8, 10), 10);
+      period = (month < 6 || (month === 6 && day <= 24)) ? 1 : 2;
+    }
     return {
-      typeKey: 'p', // Types "p" to select "Publicly traded shares..." in dropdown
+      typeKey: 'p',
       description: `ANET ${e.date}`.substring(0, 30),
       proceeds: (e.proceedsCad ?? 0).toFixed(2),
       costBase: (e.acbOfSharesSoldCad ?? 0).toFixed(2),
@@ -344,6 +348,9 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
 
 (function() {
   'use strict';
+
+  console.log('%c[ANET AutoFill] Script loaded successfully!', 'color: lime; font-size: 16px; font-weight: bold;');
+  console.log('[ANET AutoFill] Transactions:', ${sells.length});
 
   const TRANSACTIONS = ${JSON.stringify(data, null, 2)};
 
@@ -420,9 +427,11 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
   }
 
 
-  // Split transactions by period
+  var HAS_PERIODS = ${hasPeriods};
+  // Split transactions by period (only for 2024)
   var p1Txns = TRANSACTIONS.filter(function(t) { return t.period === 1; });
   var p2Txns = TRANSACTIONS.filter(function(t) { return t.period === 2; });
+  var allTxns = TRANSACTIONS;
 
   var STEP_DELAY = 0;
 
@@ -432,9 +441,14 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
     console.log('[ANET AutoFill]   activeElement:', ae?.tagName, 'type=' + ae?.type, 'name=' + ae?.name, 'id=' + ae?.id, 'class=' + ae?.className);
   }
 
+  function getTableTarget(periodNum) {
+    if (!HAS_PERIODS) return 's3_t';
+    return periodNum === 1 ? 's3_t_temp' : 's3_t';
+  }
+
   // Find the first empty Type <select> in the period's table
   function findFirstEmptyType(periodNum) {
-    var target = periodNum === 1 ? 's3_t_temp' : 's3_t';
+    var target = getTableTarget(periodNum);
     var table = document.querySelector('table[data-son-sub-input="' + target + '"]');
     if (!table) { log('Table not found for target: ' + target); return null; }
     var rows = table.querySelectorAll('tbody > tr[data-son-form]');
@@ -452,7 +466,7 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
 
   // Click "Add another disposition" for the period
   function clickAddButton(periodNum) {
-    var target = periodNum === 1 ? 's3_t_temp' : 's3_t';
+    var target = getTableTarget(periodNum);
     var btn = document.querySelector('button.js-add-sub-input[data-son-sub-input-target="' + target + '"]');
     if (btn) { btn.click(); log('Clicked Add button for ' + target); return true; }
     log('Add button not found for ' + target);
@@ -463,21 +477,22 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
     if (running) return;
     running = true;
 
-    var txns = periodNum === 1 ? p1Txns : p2Txns;
+    var txns = periodNum === 0 ? allTxns : (periodNum === 1 ? p1Txns : p2Txns);
+    var label = periodNum === 0 ? 'All' : ('Period ' + periodNum);
     if (txns.length === 0) {
-      statusEl.textContent = 'No transactions for Period ' + periodNum + '.';
+      statusEl.textContent = 'No transactions for ' + label + '.';
       running = false;
       return;
     }
 
-    log('=== Starting Period ' + periodNum + ' fill: ' + txns.length + ' transactions ===');
+    log('=== Starting ' + label + ' fill: ' + txns.length + ' transactions ===');
 
     var filled = 0;
     for (var i = 0; i < txns.length; i++) {
       if (!running) break;
       var tx = txns[i];
       var isLast = (i === txns.length - 1);
-      statusEl.textContent = 'Period ' + periodNum + ': ' + (i + 1) + '/' + txns.length + ' — ' + tx.description;
+      statusEl.textContent = label + ': ' + (i + 1) + '/' + txns.length + ' — ' + tx.description;
 
       // Find or create an empty row, then focus its Type select
       var typeSelect = findFirstEmptyType(periodNum);
@@ -552,6 +567,7 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
         descInput.focus();
         document.execCommand('selectAll', false, null);
         document.execCommand('insertText', false, tx.description);
+        log('Row ' + (i + 1) + ': Description value after fill: "' + descInput.value + '"');
       }
       await sleep(FIELD_DELAY);
 
@@ -560,6 +576,9 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
       if (proceedsInput) {
         log('Row ' + (i + 1) + ': Filling Proceeds = ' + tx.proceeds);
         await emulateTyping(proceedsInput, tx.proceeds);
+        log('Row ' + (i + 1) + ': Proceeds value after fill: "' + proceedsInput.value + '"');
+      } else {
+        log('Row ' + (i + 1) + ': ERROR - no Proceeds input found');
       }
       await sleep(FIELD_DELAY);
 
@@ -568,6 +587,9 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
       if (costInput) {
         log('Row ' + (i + 1) + ': Filling Cost Base = ' + tx.costBase);
         await emulateTyping(costInput, tx.costBase);
+        log('Row ' + (i + 1) + ': Cost Base value after fill: "' + costInput.value + '"');
+      } else {
+        log('Row ' + (i + 1) + ': ERROR - no Cost Base input found');
       }
       await sleep(FIELD_DELAY);
 
@@ -576,16 +598,19 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
       if (expInput) {
         log('Row ' + (i + 1) + ': Filling Expenses = ' + tx.expenses);
         await emulateTyping(expInput, tx.expenses);
+        log('Row ' + (i + 1) + ': Expenses value after fill: "' + expInput.value + '"');
+      } else {
+        log('Row ' + (i + 1) + ': ERROR - no Expenses input found');
       }
       await sleep(FIELD_DELAY);
 
-      log('Row ' + (i + 1) + ': DONE');
+      log('Row ' + (i + 1) + ': DONE — final values: desc="' + (descInput?.value || 'N/A') + '" proceeds="' + (proceedsInput?.value || 'N/A') + '" cost="' + (costInput?.value || 'N/A') + '" exp="' + (expInput?.value || 'N/A') + '"');
       filled++;
     }
 
     log('=== Finished: ' + filled + '/' + txns.length + ' ===');
     if (filled === txns.length) {
-      statusEl.textContent = 'Period ' + periodNum + ' done! ' + filled + '/' + txns.length + ' filled. Review values.';
+      statusEl.textContent = label + ' done! ' + filled + '/' + txns.length + ' filled. Review values.';
       statusEl.style.background = '#22c55e';
     } else {
       statusEl.textContent = 'Stopped at ' + filled + '/' + txns.length;
@@ -609,6 +634,7 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
 
   function createPanel() {
     if (document.getElementById(PANEL_ID)) return;
+    console.log('%c[ANET AutoFill] Mounting panel...', 'color: cyan; font-weight: bold;');
 
     var host = document.createElement('div');
     host.id = PANEL_ID;
@@ -658,8 +684,9 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
       '  </div>',
       '  <div class="subtitle">' + TRANSACTIONS.length + ' total dispositions</div>',
       '  <div id="body">',
-      '    <div class="status" id="status">Ready \\u2014 select a period to fill</div>',
+      '    <div class="status" id="status">Ready</div>',
       '',
+      HAS_PERIODS ? [
       '    <div class="period-section">',
       '      <div class="period-title">Period 1</div>',
       '      <div class="period-dates">Jan 1 \\u2013 Jun 24, ${year}</div>',
@@ -679,6 +706,15 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
         ? '      <button class="btn-p2" id="fill-p2-btn">Fill Period 2 (' + p2Txns.length + ')</button>'
         : '      <div class="none">No transactions in this period</div>',
       '    </div>',
+      ].join('\\n') : [
+      '    <div class="period-section">',
+      '      <div class="period-count" id="all-count">' + allTxns.length + ' transactions (click to view)</div>',
+      txListHtml(allTxns).replace('class="tx-list"', 'class="tx-list" id="all-list"'),
+      allTxns.length > 0
+        ? '      <button class="btn-p1" id="fill-all-btn">Fill All (' + allTxns.length + ')</button>'
+        : '      <div class="none">No transactions</div>',
+      '    </div>',
+      ].join('\\n'),
       '',
       '    <button class="btn-stop" id="stop-btn" style="display:none">Stop</button>',
       '    <button class="btn-close" id="close-btn">Close</button>',
@@ -714,19 +750,18 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
 
     var p1Btn = shadow.getElementById('fill-p1-btn');
     var p2Btn = shadow.getElementById('fill-p2-btn');
+    var fillAllBtn = shadow.getElementById('fill-all-btn');
     if (p1Btn) p1Btn.addEventListener('click', function() { runPeriod(1); });
     if (p2Btn) p2Btn.addEventListener('click', function() { runPeriod(2); });
+    if (fillAllBtn) fillAllBtn.addEventListener('click', function() { runPeriod(0); });
 
     // Toggle transaction list visibility on count click
-    var p1Count = shadow.getElementById('p1-count');
-    var p1List = shadow.getElementById('p1-list');
-    if (p1Count && p1List) p1Count.addEventListener('click', function() {
-      p1List.style.display = p1List.style.display === 'none' ? 'block' : 'none';
-    });
-    var p2Count = shadow.getElementById('p2-count');
-    var p2List = shadow.getElementById('p2-list');
-    if (p2Count && p2List) p2Count.addEventListener('click', function() {
-      p2List.style.display = p2List.style.display === 'none' ? 'block' : 'none';
+    [['p1-count','p1-list'],['p2-count','p2-list'],['all-count','all-list']].forEach(function(pair) {
+      var countEl = shadow.getElementById(pair[0]);
+      var listEl = shadow.getElementById(pair[1]);
+      if (countEl && listEl) countEl.addEventListener('click', function() {
+        listEl.style.display = listEl.style.display === 'none' ? 'block' : 'none';
+      });
     });
 
     stopBtn.addEventListener('click', function() { running = false; });
@@ -740,13 +775,22 @@ export function generateTamperMonkeyScript(entries: AcbEntry[], year: number): s
   }
 
   function ensurePanel() {
-    if (!document.getElementById(PANEL_ID)) createPanel();
+    try {
+      if (!document.getElementById(PANEL_ID)) {
+        console.log('[ANET AutoFill] Panel missing, re-mounting...');
+        createPanel();
+        console.log('%c[ANET AutoFill] Panel mounted OK', 'color: lime;');
+      }
+    } catch (e) {
+      console.error('[ANET AutoFill] Panel mount FAILED:', e);
+    }
   }
 
   ensurePanel();
   var observer = new MutationObserver(ensurePanel);
   observer.observe(document.documentElement, { childList: true, subtree: true });
   setInterval(ensurePanel, 2000);
+  console.log('[ANET AutoFill] Observer and interval started');
 })();
 `;
 }
