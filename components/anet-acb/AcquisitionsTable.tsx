@@ -105,7 +105,7 @@ export function AcquisitionsTable({ vests, esppPurchases, exchangeRates, normali
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold">Acquisitions (from BenefitHistory.xlsx)</h3>
+      <h3 className="text-lg font-semibold">Acquisitions (from stock plan confirmation PDFs)</h3>
 
       {(sortedVests.length > 0 || sortedEspp.length > 0) && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -235,6 +235,7 @@ export function AcquisitionsTable({ vests, esppPurchases, exchangeRates, normali
                 <tr className="bg-gray-100">
                   <th className="border px-3 py-2 text-left">Vest Date</th>
                   <th className="border px-3 py-2 text-left">Grant</th>
+                  <th className="border px-3 py-2 text-left">Source</th>
                   <th className="border px-3 py-2 text-right">Period</th>
                   <th className="border px-3 py-2 text-right">Qty</th>
                   <th className="border px-3 py-2 text-right">FMV/Share (USD)</th>
@@ -257,6 +258,7 @@ export function AcquisitionsTable({ vests, esppPurchases, exchangeRates, normali
                           {v.grantNumber}
                         </span>
                       </td>
+                      <td className="border px-3 py-1.5 text-xs">{v.source}</td>
                       <td className="border px-3 py-1.5 text-right">{v.vestPeriod}</td>
                       <td className="border px-3 py-1.5 text-right">{v.vestedQty}</td>
                       <td className="border px-3 py-1.5 text-right">${v.fmvPerShare.toFixed(2)}</td>
@@ -277,7 +279,7 @@ export function AcquisitionsTable({ vests, esppPurchases, exchangeRates, normali
               </tbody>
               <tfoot>
                 <tr className="bg-gray-50 font-medium">
-                  <td className="border px-3 py-1.5" colSpan={3}>Totals</td>
+                  <td className="border px-3 py-1.5" colSpan={4}>Totals</td>
                   <td className="border px-3 py-1.5 text-right">
                     {sortedVests.reduce((s, v) => s + v.vestedQty, 0)}
                   </td>
@@ -350,6 +352,7 @@ export function AcquisitionsTable({ vests, esppPurchases, exchangeRates, normali
               <thead>
                 <tr className="bg-gray-100">
                   <th className="border px-3 py-2 text-left">Purchase Date</th>
+                  <th className="border px-3 py-2 text-left">Source</th>
                   <th className="border px-3 py-2 text-right">Qty</th>
                   <th className="border px-3 py-2 text-right">Price (USD)</th>
                   <th className="border px-3 py-2 text-right">Total Cost (USD)</th>
@@ -369,6 +372,7 @@ export function AcquisitionsTable({ vests, esppPurchases, exchangeRates, normali
                   return (
                     <tr key={i} className="hover:bg-gray-50">
                       <td className="border px-3 py-1.5">{p.purchaseDate}</td>
+                      <td className="border px-3 py-1.5 text-xs">{p.source}</td>
                       <td className="border px-3 py-1.5 text-right">{p.purchasedQty}</td>
                       <td className="border px-3 py-1.5 text-right">${p.purchasePrice.toFixed(4)}</td>
                       <td className="border px-3 py-1.5 text-right">${fmt(totalUsd)}</td>
@@ -391,7 +395,7 @@ export function AcquisitionsTable({ vests, esppPurchases, exchangeRates, normali
               </tbody>
               <tfoot>
                 <tr className="bg-gray-50 font-medium">
-                  <td className="border px-3 py-1.5">Totals</td>
+                  <td className="border px-3 py-1.5" colSpan={2}>Totals</td>
                   <td className="border px-3 py-1.5 text-right">
                     {sortedEspp.reduce((s, p) => s + p.purchasedQty, 0)}
                   </td>

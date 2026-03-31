@@ -46,7 +46,7 @@ export function TaxInfoPanel() {
         </div>
 
         <div>
-          <p className="font-medium">ANET 4:1 Stock Split (Dec 6, 2024)</p>
+          <p className="font-medium">ANET 4:1 Stock Split (trading adjusted Dec 4, 2024)</p>
           <p>
             Pre-split transactions are automatically normalized: quantities multiplied by 4,
             prices divided by 4. This does not affect total dollar amounts.
@@ -77,14 +77,14 @@ export function TaxInfoPanel() {
             </a>
           </li>
           <li>
-            BenefitHistory.xlsx:{' '}
+            Stock plan confirmations (PDFs):{' '}
             <a
-              href="https://us.etrade.com/etx/sp/stockplan#/myAccount/benefitHistory"
+              href="https://us.etrade.com/etx/sp/stockplan?accountIndex=1&traxui=tsp_accountshome#/myAccount/stockPlanConfirmations"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-amber-600"
             >
-              E*TRADE Benefit History
+              E*TRADE Stock Plan Confirmations
             </a>
           </li>
         </ul>

@@ -29,10 +29,10 @@ export function useTransactions() {
   const addVests = useCallback((newVests: RawVestEvent[]) => {
     setVests((prev) => {
       const existing = new Set(
-        prev.map((v) => `${v.vestDate}|${v.vestedQty}|${v.grantNumber}|${v.vestPeriod}`)
+        prev.map((v) => `${v.vestDate}|${v.vestedQty}|${v.grantNumber}|${v.source}`)
       );
       const unique = newVests.filter(
-        (v) => !existing.has(`${v.vestDate}|${v.vestedQty}|${v.grantNumber}|${v.vestPeriod}`)
+        (v) => !existing.has(`${v.vestDate}|${v.vestedQty}|${v.grantNumber}|${v.source}`)
       );
       return [...prev, ...unique];
     });
@@ -41,10 +41,10 @@ export function useTransactions() {
   const addEsppPurchases = useCallback((newPurchases: RawEsppPurchase[]) => {
     setEsppPurchases((prev) => {
       const existing = new Set(
-        prev.map((p) => `${p.purchaseDate}|${p.purchasedQty}|${p.purchasePrice}`)
+        prev.map((p) => `${p.purchaseDate}|${p.purchasedQty}|${p.purchasePrice}|${p.source}`)
       );
       const unique = newPurchases.filter(
-        (p) => !existing.has(`${p.purchaseDate}|${p.purchasedQty}|${p.purchasePrice}`)
+        (p) => !existing.has(`${p.purchaseDate}|${p.purchasedQty}|${p.purchasePrice}|${p.source}`)
       );
       return [...prev, ...unique];
     });
@@ -77,7 +77,7 @@ export function useTransactions() {
         totalCad: rate !== null ? totalUsd * rate : null,
         commissionCad: 0,
         feeCad: 0,
-        source: `BenefitHistory.xlsx (${vest.grantNumber})`,
+        source: vest.source,
         preSplit: isPreSplit(vest.vestDate),
       });
     }
@@ -103,7 +103,7 @@ export function useTransactions() {
         totalCad: rate !== null ? totalUsd * rate : null,
         commissionCad: 0,
         feeCad: 0,
-        source: 'BenefitHistory.xlsx (ESPP)',
+        source: espp.source,
         preSplit: isPreSplit(espp.purchaseDate),
       });
     }

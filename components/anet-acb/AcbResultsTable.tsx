@@ -25,7 +25,7 @@ export function AcbResultsTable({ entries, selectedYear }: AcbResultsTableProps)
             <tr className="bg-gray-100">
               <Th tooltip="Transaction date: trade date for sells, vest date for RSUs, purchase date for ESPP" className="text-left">Date</Th>
               <Th tooltip="RSU = restricted stock unit vest, ESPP = employee stock purchase plan buy, SELL = disposition" className="text-left">Type</Th>
-              <Th tooltip="Source document for this transaction (PDF filename or BenefitHistory.xlsx grant)" className="text-left">Source</Th>
+              <Th tooltip="Source PDF for this transaction" className="text-left">Source</Th>
               <Th tooltip="Number of shares acquired or sold (post-split adjusted for the 4:1 split on Dec 6, 2024)" className="text-right">Qty</Th>
               <Th tooltip="Price per share in USD as reported on the source document" className="text-right">$/Share (USD)</Th>
               <Th tooltip="Total amount in USD = qty x price per share" className="text-right">Total (USD)</Th>

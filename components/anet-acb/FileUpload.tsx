@@ -2,17 +2,15 @@ import { useCallback, useState } from 'react';
 
 interface FileUploadProps {
   onPdfsSelected: (files: File[]) => void;
-  onXlsxSelected: (file: File) => void;
-  pdfCount: number;
-  hasXlsx: boolean;
+  sellCount: number;
+  benefitPdfCount: number;
   parsingProgress: { parsed: number; total: number } | null;
 }
 
 export function FileUpload({
   onPdfsSelected,
-  onXlsxSelected,
-  pdfCount,
-  hasXlsx,
+  sellCount,
+  benefitPdfCount,
   parsingProgress,
 }: FileUploadProps) {
   const [dragOver, setDragOver] = useState(false);
@@ -20,20 +18,16 @@ export function FileUpload({
   const handleFiles = useCallback(
     (files: FileList | File[]) => {
       const pdfs: File[] = [];
-      let xlsx: File | null = null;
 
       for (const file of Array.from(files)) {
         if (file.name.endsWith('.pdf')) {
           pdfs.push(file);
-        } else if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
-          xlsx = file;
         }
       }
 
       if (pdfs.length > 0) onPdfsSelected(pdfs);
-      if (xlsx) onXlsxSelected(xlsx);
     },
-    [onPdfsSelected, onXlsxSelected],
+    [onPdfsSelected],
   );
 
   const handleDrop = useCallback(
@@ -72,7 +66,7 @@ export function FileUpload({
           const input = document.createElement('input');
           input.type = 'file';
           input.multiple = true;
-          input.accept = '.pdf,.xlsx,.xls';
+          input.accept = '.pdf';
           input.onchange = () => {
             if (input.files) handleFiles(input.files);
           };
@@ -81,7 +75,7 @@ export function FileUpload({
       >
         <div className="text-gray-500">
           <p className="text-lg font-medium">
-            Drop trade confirmation PDFs and BenefitHistory.xlsx here
+            Drop trade confirmations and stock plan confirmation PDFs here
           </p>
           <p className="text-sm mt-1">or click to browse</p>
         </div>
@@ -105,15 +99,17 @@ export function FileUpload({
       )}
 
       <div className="flex gap-4 text-sm text-gray-600">
-        <span className={pdfCount > 0 ? 'text-green-600 font-medium' : ''}>
+        <span className={sellCount > 0 ? 'text-green-600 font-medium' : ''}>
           {isParsing
-            ? `${pdfCount} PDF${pdfCount !== 1 ? 's' : ''} parsed so far...`
-            : pdfCount > 0
-              ? `${pdfCount} PDF${pdfCount !== 1 ? 's' : ''} loaded`
-              : 'No PDFs'}
+            ? `${parsingProgress.parsed} / ${parsingProgress.total} PDFs parsed...`
+            : sellCount > 0
+              ? `${sellCount} sell PDF${sellCount !== 1 ? 's' : ''} loaded`
+              : 'No sell PDFs'}
         </span>
-        <span className={hasXlsx ? 'text-green-600 font-medium' : ''}>
-          {hasXlsx ? 'BenefitHistory.xlsx loaded' : 'No XLSX'}
+        <span className={benefitPdfCount > 0 ? 'text-green-600 font-medium' : ''}>
+          {benefitPdfCount > 0
+            ? `${benefitPdfCount} stock plan PDF${benefitPdfCount !== 1 ? 's' : ''} loaded`
+            : 'No stock plan PDFs'}
         </span>
       </div>
     </div>

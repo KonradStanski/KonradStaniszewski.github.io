@@ -1,54 +1,76 @@
-import * as pdfjsLib from 'pdfjs-dist/webpack.mjs';
-import type { RawSellTransaction } from '../types';
+import type { RawEsppPurchase, RawSellTransaction, RawVestEvent } from '../types';
+import { parseBenefitHistoryPdf } from './benefitPdfParser';
+import { extractPdfText, type ExtractedPdfText } from './pdfText';
 import { parseFormat1 } from './pdfParserFormat1';
 import { parseFormat2 } from './pdfParserFormat2';
 
-async function extractText(data: ArrayBuffer): Promise<string> {
-  const pdf = await pdfjsLib.getDocument({ data }).promise;
-  const textParts: string[] = [];
+type ParsedPdfDocument =
+  | { kind: 'sell'; value: RawSellTransaction }
+  | { kind: 'vest'; value: RawVestEvent }
+  | { kind: 'espp_purchase'; value: RawEsppPurchase };
 
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    const pageText = content.items
-      .map((item) => ('str' in item ? item.str : ''))
-      .join(' ');
-    textParts.push(pageText);
+function detectAndParse(extracted: ExtractedPdfText, filename: string): ParsedPdfDocument | null {
+  const benefitDocument = parseBenefitHistoryPdf(extracted, filename);
+  if (benefitDocument) {
+    return benefitDocument;
   }
 
-  return textParts.join('\n');
-}
+  const { text } = extracted;
 
-function detectAndParse(text: string, filename: string): RawSellTransaction | null {
   // Format 2: E*TRADE Stock Plan (2-digit year dates, "SELL" keyword)
   if (text.includes('Stock Plan') || text.includes('TRADE CONFIRMATION')) {
     const result = parseFormat2(text, filename);
-    if (result) return result;
+    if (result) return { kind: 'sell', value: result };
   }
 
   // Format 1: Morgan Stanley (4-digit year dates)
   if (text.includes('ARISTA NETWORKS') || text.includes('ANET')) {
     const result = parseFormat1(text, filename);
-    if (result) return result;
+    if (result) return { kind: 'sell', value: result };
   }
 
   return null;
 }
 
-export async function parsePdf(file: File): Promise<RawSellTransaction | null> {
+export async function parsePdf(file: File): Promise<ParsedPdfDocument | null> {
   const buffer = await file.arrayBuffer();
-  const text = await extractText(buffer);
-  return detectAndParse(text, file.name);
+  const extracted = await extractPdfText(buffer);
+  return detectAndParse(extracted, file.name);
+}
+
+function assignVestPeriods(vests: RawVestEvent[]): RawVestEvent[] {
+  const counts = new Map<string, number>();
+
+  return [...vests]
+    .sort((a, b) => {
+      const grantCompare = a.grantNumber.localeCompare(b.grantNumber);
+      if (grantCompare !== 0) return grantCompare;
+      const dateCompare = a.vestDate.localeCompare(b.vestDate);
+      if (dateCompare !== 0) return dateCompare;
+      return a.source.localeCompare(b.source);
+    })
+    .map((vest) => {
+      const nextPeriod = (counts.get(vest.grantNumber) ?? 0) + 1;
+      counts.set(vest.grantNumber, nextPeriod);
+      return {
+        ...vest,
+        vestPeriod: nextPeriod,
+      };
+    });
 }
 
 export async function parsePdfs(
   files: File[],
-  onProgress?: (parsed: number, total: number, latest: RawSellTransaction | null) => void,
+  onProgress?: (parsed: number, total: number) => void,
 ): Promise<{
-  transactions: RawSellTransaction[];
+  sells: RawSellTransaction[];
+  vests: RawVestEvent[];
+  esppPurchases: RawEsppPurchase[];
   errors: string[];
 }> {
-  const transactions: RawSellTransaction[] = [];
+  const sells: RawSellTransaction[] = [];
+  const vests: RawVestEvent[] = [];
+  const esppPurchases: RawEsppPurchase[] = [];
   const errors: string[] = [];
   let completed = 0;
 
@@ -59,19 +81,31 @@ export async function parsePdfs(
         if (!result) {
           errors.push(`Could not parse ${file.name}: unrecognized format`);
         }
-        onProgress?.(++completed, files.length, result);
+        onProgress?.(++completed, files.length);
         return result;
       } catch (err) {
         errors.push(`Error parsing ${file.name}: ${err instanceof Error ? err.message : String(err)}`);
-        onProgress?.(++completed, files.length, null);
+        onProgress?.(++completed, files.length);
         return null;
       }
     }),
   );
 
   for (const r of results) {
-    if (r) transactions.push(r);
+    if (!r) continue;
+    if (r.kind === 'sell') {
+      sells.push(r.value);
+    } else if (r.kind === 'vest') {
+      vests.push(r.value);
+    } else {
+      esppPurchases.push(r.value);
+    }
   }
 
-  return { transactions, errors };
+  return {
+    sells,
+    vests: assignVestPeriods(vests),
+    esppPurchases,
+    errors,
+  };
 }

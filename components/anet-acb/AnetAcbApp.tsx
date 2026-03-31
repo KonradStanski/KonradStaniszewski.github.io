@@ -15,11 +15,14 @@ import { useTransactions } from './hooks/useTransactions';
 import { useAcbCalculation } from './hooks/useAcbCalculation';
 import { useYahooFinance } from './hooks/useYahooFinance';
 import { parsePdfs } from './lib/pdfParser';
-import { parseXlsx } from './lib/xlsxParser';
 import { exportAcbToCsv } from './lib/exportUtils';
 import { downloadFile } from './lib/format';
 
-function AnetAcbApp() {
+interface AnetAcbAppProps {
+  etradeDownloadScript: string;
+}
+
+function AnetAcbApp({ etradeDownloadScript }: AnetAcbAppProps) {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
@@ -81,16 +84,20 @@ function AnetAcbApp() {
       setErrors([]);
       setParsingProgress({ parsed: 0, total: files.length });
       try {
-        const { transactions, errors: parseErrors } = await parsePdfs(
+        const {
+          sells: newSells,
+          vests: newVests,
+          esppPurchases: newEspp,
+          errors: parseErrors,
+        } = await parsePdfs(
           files,
-          (parsed, total, latest) => {
+          (parsed, total) => {
             setParsingProgress({ parsed, total });
-            if (latest) {
-              addSells([latest]);
-            }
           },
         );
-        addSells(transactions);
+        addSells(newSells);
+        addVests(newVests);
+        addEsppPurchases(newEspp);
         if (parseErrors.length > 0) {
           setErrors((prev) => [...prev, ...parseErrors]);
         }
@@ -104,35 +111,7 @@ function AnetAcbApp() {
         setParsingProgress(null);
       }
     },
-    [addSells],
-  );
-
-  const handleXlsxSelected = useCallback(
-    async (file: File) => {
-      setLoading(true);
-      setErrors([]);
-      try {
-        const buffer = await file.arrayBuffer();
-        const {
-          vests: newVests,
-          esppPurchases: newEspp,
-          errors: parseErrors,
-        } = parseXlsx(buffer);
-        addVests(newVests);
-        addEsppPurchases(newEspp);
-        if (parseErrors.length > 0) {
-          setErrors((prev) => [...prev, ...parseErrors]);
-        }
-      } catch (err) {
-        setErrors((prev) => [
-          ...prev,
-          `XLSX parsing error: ${err instanceof Error ? err.message : String(err)}`,
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [addVests, addEsppPurchases],
+    [addEsppPurchases, addSells, addVests],
   );
 
   const handleManualRate = useCallback(
@@ -167,14 +146,13 @@ function AnetAcbApp() {
 
       {showInfo && <TaxInfoPanel />}
 
-      <DownloadInstructions />
+      <DownloadInstructions etradeDownloadScript={etradeDownloadScript} />
 
       <div className="bg-white rounded-lg shadow p-4">
         <FileUpload
           onPdfsSelected={handlePdfsSelected}
-          onXlsxSelected={handleXlsxSelected}
-          pdfCount={sells.length}
-          hasXlsx={vests.length > 0 || esppPurchases.length > 0}
+          sellCount={sells.length}
+          benefitPdfCount={vests.length + esppPurchases.length}
           parsingProgress={parsingProgress}
         />
       </div>
@@ -267,7 +245,7 @@ function AnetAcbApp() {
       {!hasData && !loading && (
         <div className="text-center py-12 text-gray-400">
           <p className="text-lg">
-            Upload your E*TRADE trade confirmation PDFs and BenefitHistory.xlsx
+            Upload your E*TRADE trade confirmation PDFs and stock plan confirmation PDFs
             to get started
           </p>
           <p className="text-sm mt-2">

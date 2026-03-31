@@ -22,6 +22,7 @@ export interface RawVestEvent {
   vestPeriod: number;
   totalTaxesPaid: number;
   taxDescription: string;
+  source: string;
 }
 
 export interface RawEsppPurchase {
@@ -33,6 +34,7 @@ export interface RawEsppPurchase {
   discountPercent: number;
   grantDateFmv: number;
   purchaseDateFmv: number;
+  source: string;
 }
 
 export interface NormalizedTransaction {

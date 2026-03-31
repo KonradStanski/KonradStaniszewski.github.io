@@ -1,5 +1,5 @@
-// ANET 4:1 stock split effective December 6, 2024
-const SPLIT_DATE = '2024-12-06';
+// ANET began trading on a split-adjusted basis on December 4, 2024.
+const SPLIT_DATE = '2024-12-04';
 const SPLIT_RATIO = 4;
 
 export function isPreSplit(date: string): boolean {
