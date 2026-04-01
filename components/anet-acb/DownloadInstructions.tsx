@@ -58,6 +58,11 @@ export function DownloadInstructions({ etradeDownloadScript }: DownloadInstructi
               </a>{' '}
               if you do not already have it
             </li>
+            <li>
+              In Chrome, open <code>chrome://extensions</code>, enable <strong>Developer mode</strong> in
+              the top right, open Tampermonkey <strong>Details</strong>, then enable{' '}
+              <strong>Allow User Scripts</strong>
+            </li>
             <li>Click <strong>Copy Tampermonkey Script</strong> above</li>
             <li>Create a new Tampermonkey script, replace the template, paste, and save</li>
             <li>Reload any open E*TRADE tabs after saving the script</li>
