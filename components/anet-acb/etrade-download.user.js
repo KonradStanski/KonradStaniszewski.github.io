@@ -6,7 +6,7 @@
 // @match        https://us.etrade.com/*
 // @grant        none
 // @run-at       document-start
-// @require      file:///Users/konrad/git/KonradStaniszewski.github.io/components/anet-acb/tampermonkey/etrade-download.user.js
+// @require      file:///Users/konrad/git/KonradStaniszewski.com/components/anet-acb/tampermonkey/etrade-download.user.js
 // ==/UserScript==
 
 // Local dev loader only. The live implementation is loaded from @require.

@@ -14,13 +14,13 @@ const projects: Project[] = [
     title: "UofA GPA Calculator",
     description: "Calculate your University of Alberta GPA from your transcript with interactive charts",
     liveUrl: "/projects/gpa-calculator",
-    githubUrl: "https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/components/gpaCalculator",
+    githubUrl: "https://github.com/KonradStanski/KonradStaniszewski.com/tree/master/components/gpaCalculator",
   },
   {
     title: "ANET RSU ACB Calculator",
     description: "Calculate the adjusted cost base for Arista Networks RSU grants with automatic exchange rate lookups",
     liveUrl: "/anet-acb",
-    githubUrl: "https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/pages/anet-acb",
+    githubUrl: "https://github.com/KonradStanski/KonradStaniszewski.com/tree/master/pages/anet-acb",
   },
   {
     title: "Giduru",

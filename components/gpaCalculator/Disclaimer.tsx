@@ -48,7 +48,7 @@ const Disclaimer = () => {
           calls with respect to the data provided. If you want to double check
           for yourself, you can check the requisite code for this page here:{" "}
           <Link
-            href="https://github.com/KonradStanski/KonradStaniszewski.github.io/tree/master/pages/projects/gpa-calculator.tsx"
+            href="https://github.com/KonradStanski/KonradStaniszewski.com/tree/master/pages/projects/gpa-calculator.tsx"
             className="text-sky-400 hover:text-sky-500"
           >
             GitHub Repo
