@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import posthog from "posthog-js";
 
 
 export const ThemeSelect = () => {
@@ -12,7 +13,9 @@ export const ThemeSelect = () => {
   if (!mounted) return null;
 
   function clickTheme() {
-    setTheme(theme === "dark" ? "light" : "dark");
+    const newTheme = theme === "dark" ? "light" : "dark";
+    posthog.capture('theme_toggled', { new_theme: newTheme });
+    setTheme(newTheme);
   }
 
   const isDark = theme === "dark";

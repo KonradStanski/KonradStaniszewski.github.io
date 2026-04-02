@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import posthog from 'posthog-js';
 import { FileUpload } from './FileUpload';
 import { DownloadInstructions } from './DownloadInstructions';
 import { AcquisitionsTable } from './AcquisitionsTable';
@@ -83,6 +84,7 @@ function AnetAcbApp({ etradeDownloadScript }: AnetAcbAppProps) {
       setLoading(true);
       setErrors([]);
       setParsingProgress({ parsed: 0, total: files.length });
+      posthog.capture('pdfs_uploaded', { file_count: files.length });
       try {
         const {
           sells: newSells,
@@ -98,10 +100,21 @@ function AnetAcbApp({ etradeDownloadScript }: AnetAcbAppProps) {
         addSells(newSells);
         addVests(newVests);
         addEsppPurchases(newEspp);
+        posthog.capture('pdf_parsing_completed', {
+          file_count: files.length,
+          sell_count: newSells.length,
+          vest_count: newVests.length,
+          espp_count: newEspp.length,
+          parse_error_count: parseErrors.length,
+        });
         if (parseErrors.length > 0) {
           setErrors((prev) => [...prev, ...parseErrors]);
         }
       } catch (err) {
+        posthog.capture('pdf_parsing_error', {
+          error: err instanceof Error ? err.message : String(err),
+        });
+        posthog.captureException(err);
         setErrors((prev) => [
           ...prev,
           `PDF parsing error: ${err instanceof Error ? err.message : String(err)}`,
@@ -116,6 +129,7 @@ function AnetAcbApp({ etradeDownloadScript }: AnetAcbAppProps) {
 
   const handleManualRate = useCallback(
     (date: string, rate: number) => {
+      posthog.capture('exchange_rate_manually_set', { date, rate });
       setManualRate(date, rate);
       updateExchangeRates({ [date]: rate });
     },
@@ -136,7 +150,14 @@ function AnetAcbApp({ etradeDownloadScript }: AnetAcbAppProps) {
         </button>
         {hasData && (
           <button
-            onClick={clearAll}
+            onClick={() => {
+              posthog.capture('data_cleared', {
+                sell_count: sells.length,
+                vest_count: vests.length,
+                espp_count: esppPurchases.length,
+              });
+              clearAll();
+            }}
             className="px-3 py-1.5 text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors"
           >
             Clear All
@@ -199,9 +220,13 @@ function AnetAcbApp({ etradeDownloadScript }: AnetAcbAppProps) {
                   onSelectYear={setSelectedYear}
                 />
                 <button
-                  onClick={() =>
-                    downloadFile(exportAcbToCsv(acbEntries), 'acb-ledger.csv', 'text/csv')
-                  }
+                  onClick={() => {
+                    posthog.capture('acb_csv_exported', {
+                      entry_count: acbEntries.length,
+                      selected_year: selectedYear,
+                    });
+                    downloadFile(exportAcbToCsv(acbEntries), 'acb-ledger.csv', 'text/csv');
+                  }}
                   className="text-sm px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded transition-colors"
                 >
                   Export ACB CSV

@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import type { GetStaticProps, NextPage } from "next";
+import posthog from "posthog-js";
 import { useTheme } from "next-themes";
 import { useDropzone } from "react-dropzone";
 import { Page } from "@/components/Page";
@@ -35,6 +36,7 @@ const GpaCalculator: NextPage<Props> = (props) => {
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
+      posthog.capture('transcript_pdf_dropped');
       setPdfFile([acceptedFiles[0]]);
     },
     []
@@ -81,6 +83,11 @@ const GpaCalculator: NextPage<Props> = (props) => {
   ) {
     const result = processTranscriptText(inString, textArea, pasted);
     if (result) {
+      posthog.capture('gpa_calculated', {
+        input_method: pasted ? 'pasted' : 'pdf',
+        semester_count: result.semesters.length,
+        overall_gpa: result.overallGpa,
+      });
       setTranscriptInfo(result);
       setResultsHidden(false);
     }
