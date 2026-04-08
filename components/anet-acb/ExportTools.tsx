@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import posthog from 'posthog-js';
 import type { AcbEntry } from './types';
 import { exportForAcbTool, generateTamperMonkeyScript } from './lib/exportUtils';
 import { downloadFile } from './lib/format';
@@ -25,7 +24,6 @@ export function ExportTools({ acbEntries, years }: ExportToolsProps) {
 
   const handleCopyScript = async () => {
     await navigator.clipboard.writeText(script);
-    posthog.capture('tampermonkey_script_copied', { tax_year: selectedYear });
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -36,7 +34,6 @@ export function ExportTools({ acbEntries, years }: ExportToolsProps) {
     <div className="bg-white rounded-lg shadow p-4">
       <button
         onClick={() => {
-          if (!expanded) posthog.capture('export_tools_expanded', { entry_count: acbEntries.length });
           setExpanded(!expanded);
         }}
         className="flex items-center justify-between w-full text-left"
@@ -62,7 +59,6 @@ export function ExportTools({ acbEntries, years }: ExportToolsProps) {
               <h4 className="font-semibold text-gray-800">ACB Tool CSV Export</h4>
               <button
                 onClick={() => {
-                  posthog.capture('acb_tool_csv_downloaded', { entry_count: acbEntries.length });
                   downloadFile(exportForAcbTool(acbEntries), 'anet-acb-tool.csv', 'text/csv');
                 }}
                 className="text-sm px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded transition-colors"
