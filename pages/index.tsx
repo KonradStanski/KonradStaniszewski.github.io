@@ -32,12 +32,26 @@ const Home: NextPage = () => {
             </p>
             <br/>
             <p>
-              Some things about me:
+              I&apos;m a software engineer at Arista Networks, where I work on
+              developer infrastructure, programming language tooling, and
+              distributed build systems.
             </p>
-            <ul className="list-disc mx-6">
-              <li>I studied Computer Engineering, Software Specialization at the University of Alberta.</li>
-              <li>I&apos;m currently working at Arista Networks.</li>
-            </ul>
+            <br/>
+            <p>
+              I&apos;ve developed tooling for type-safe interoperability between
+              C++ and Python, and worked on optimizing Bazel-based build systems
+              in large monorepos.
+            </p>
+            <br/>
+            <p>
+              I enjoy working on foundational tools where a well-designed
+              abstraction or performance improvement can make an entire
+              engineering organization more productive.
+            </p>
+            <br/>
+            <p>
+              I studied Computer Engineering at the University of Alberta.
+            </p>
             <br/>
             <p>A few things I believe:</p>
             <ul className="list-disc mx-6">
